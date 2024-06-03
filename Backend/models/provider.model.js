@@ -15,7 +15,11 @@ const providerSchema = new Schema({
     ref: 'Vehicle',
   }],
 
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  
   username: String,
   email: String,
   // contactInfo: {
