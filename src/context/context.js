@@ -11,11 +11,14 @@ export const UserContextProvider = ({ children }) => {
         initialUser ? JSON.parse(initialUser) : undefined
     );
     
+    const [MyVehicles, setMyVehicles] = useState(
+        user?.vehicles ? user.vehicles : [{}]);
+
     const [loader, setloader] = useState(false)
 
     return (
         <UserContext.Provider value={
-            { user, setUser, loader, setloader }}>
+            { user, setUser, loader, setloader, MyVehicles, setMyVehicles }}>
             {children}
         </UserContext.Provider>
     );

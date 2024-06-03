@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const providerModel = require("../models/provider.model")
 
+
 router.post("/", upload.array('images', 5), async (req, res, next) => {
 
     if (!req.files || req.files.length === 0) {
@@ -31,11 +32,12 @@ router.post("/", upload.array('images', 5), async (req, res, next) => {
                 blobStream.on('finish', async () => {
                     const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
                     await blob.makePublic();
-                    publicUrls.push(publicUrl);
-                    
+                    publicUrls.push(publicUrl); //working publicurls
+
                     resolve();
                 });
-
+                
+                console.log(publicUrls) // empty why 
                 blobStream.end(file.buffer);
             });
         })
@@ -53,7 +55,7 @@ router.post("/", upload.array('images', 5), async (req, res, next) => {
         provider.vehicles.push(vehicle._id);
         await provider.save();
 
-        res.status(200).json({ message: 'Vehicle added successfully' });
+        res.status(200).json({ message: 'Vehicle added successfully', url: publicUrls });
 
     } catch (err) {
 

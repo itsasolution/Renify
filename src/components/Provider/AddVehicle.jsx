@@ -3,31 +3,36 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/context";
+import { useNavigate } from "react-router-dom";
 
 const AddVehicle = () => {
-  const { user } = useContext(UserContext);
+  const { user, setMyVehicles, MyVehicles } = useContext(UserContext);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    // let formData = new FormData(); // Create a new FormData object
-    const formData = { ...data };
-    formData["PID"] = user._id;
-    formData["images"] = data.images[0];
+    // formData["images"] = data.images[0]; single images upload
 
-    // formData["images"]=[] // initialize first to use
+    const formData = new FormData(); // Create a new FormData object
+    formData.append("PID", user._id);
 
-    // for (let i = 0; i < data.images.length; i++) {
-    //   formData.images.push(data.images[i]) // add image like this only
-    // }
-    console.log(formData);
+    for (let i = 0; i < data.images.length; i++) {
+      formData.append("images", data.images[i]); // Add each image to formData
+    }
+    for (let key in data) {
+      if (key !== "images") {
+        formData.append(key, data[key]);
+      }
+    }
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/addvehicle",
+        // "http://localhost:4000/addvehicle",
+        "http://localhost:4000/ADDVEHICLES",
         formData,
         {
           headers: {
@@ -35,14 +40,18 @@ const AddVehicle = () => {
           },
         }
       );
-      console.log("Vehicle added successfully:", response.data);
+
+      console.log("Vehicle added successfully:", response.data.newVehicle); // object
+      if (response?.data?.newVehicle) {
+        setMyVehicles((prevList) => [...prevList, response.data.newVehicle]);
+        navigate("/myvehicles");
+      }
+
       toast.success("Vehicle added successfully");
     } catch (error) {
-      if (error.response.data.res)
-         toast.error(error.response.data.res);
-        
-        else toast.error("Error adding vehicle");
-        console.error("Error adding vehicle:", error);
+      if (error.response.data.res) toast.error(error.response.data.res);
+      else toast.error("Error adding vehicle");
+      console.error("Error adding vehicle:", error);
     }
   };
 

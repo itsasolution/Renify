@@ -66,7 +66,7 @@ export const Navbar = () => {
       ) : (
         <>
           <li>
-            <Link to={"/my-vehicles"} className="dark:focus:text-cyan-300">
+            <Link to={"/myvehicles"} className="dark:focus:text-cyan-300">
               My Vehilcles
             </Link>
           </li>

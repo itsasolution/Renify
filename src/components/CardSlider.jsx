@@ -52,7 +52,7 @@ const CardSlider = () => {
 
   return (
     <>
-      <Slider {...settings} className="p-10">
+      <Slider {...settings} className="m-10 ">
         {vehicles.map((data) => (
           <CarCard key={data?._id} data={data} />
         ))}

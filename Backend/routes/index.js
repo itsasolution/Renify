@@ -3,6 +3,8 @@ var router = express.Router();
 var vehilclesRouter = require('./vehilclesRouter');
 var providerRouter = require('./providerRouter');
 var addVehicle = require('./addVehicle');
+var addVehicles = require('./ADDVEHICLES');
+
 
 const { default: mongoose } = require('mongoose');
 
@@ -24,6 +26,7 @@ router.get("/", (req,res)=>{
 router.use('/vehicles', vehilclesRouter);
 router.use('/provider', providerRouter);
 router.use('/addvehicle',addVehicle );
+router.use('/ADDVEHICLES',addVehicles );
 
 
 module.exports = router;

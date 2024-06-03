@@ -30,7 +30,7 @@ function App() {
           <Route path="/myrides"
             element={user ? <MyRides /> : <Navigate to={"/login"} />} />
           <Route path='/addvehicle' element={<AddVehicle />} />
-          <Route path='/my-vehicles' element={user ? <MyVehicles /> : <Navigate to={"/provider-login"} />} />
+          <Route path='/myvehicles' element={user ? <MyVehicles /> : <Navigate to={"/provider-login"} />} />
         </Routes>
         <Footer />
       </BrowserRouter>
