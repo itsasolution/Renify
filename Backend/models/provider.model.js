@@ -19,8 +19,11 @@ const providerSchema = new Schema({
     type: String,
     required: true,
   },
-  
-  username: String,
+
+  username: {
+    type: String,
+    required: true,
+  },
   email: String,
   // contactInfo: {
   // phone: {
