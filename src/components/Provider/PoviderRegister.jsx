@@ -62,7 +62,7 @@ export const ProviderRegister = () => {
         <div className="flex md:h-screen md:gap-2 gap-10 flex-wrap items-center justify-center ">
           <div className="shrink-1 grow-0 basis-auto md:w-5/12 md:shrink-0 h-[300px] md:h-auto pl-3 md:pl-0">
             <h1 className="text-center text-xl ">Give Your Car/Bike On Rent</h1>
-            <img src="./provider.png" className="h-full" alt="" />
+            <img src="./join.png" className="h-full w-full" alt="join us" />
           </div>
           {/* Right column container */}
           <div className="mb-12 md:mb-0 md:w-[30%] w-72 lg:w-[30%] xl:w-[30%] ">

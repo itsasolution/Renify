@@ -6,6 +6,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true
   },
   name: {
     type: String,
@@ -18,11 +19,14 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
+    required: true,
+
   },
   myRides: [{
     type: Schema.Types.ObjectId,
-    ref: 'Ride',
+    ref: 'Vehicle',
   }],
+  
 }, { timestamps: true });
 
 

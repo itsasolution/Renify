@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var vehilclesRouter = require('./vehilclesRouter');
 var providerRouter = require('./providerRouter');
+var userRouter = require('./userRouter');
 var addVehicle = require('./addVehicle');
 var addVehicles = require('./ADDVEHICLES');
 
@@ -19,15 +20,17 @@ try {
 //   res.render('profile');
 // });
 
-router.get("/", (req,res)=>{
-})
-
-// router.use("/user", userRouter)
+router.use("/user", userRouter)
 router.use('/vehicles', vehilclesRouter);
 router.use('/provider', providerRouter);
-router.use('/addvehicle',addVehicle );
-router.use('/ADDVEHICLES',addVehicles );
+router.use('/addvehicle', addVehicle);
+router.use('/ADDVEHICLES', addVehicles);
 
+
+router.get("/", (req, res) => {
+    res.cookie("name", "Piyush") 
+    res.send("cookie tutorial Press 'i' on left of localhost:4000\nused to end small piece of data to server ")
+})
 
 module.exports = router;
 

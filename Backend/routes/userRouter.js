@@ -1,102 +1,82 @@
-// var express = require('express');
-// const passport = require('passport');
-// var router = express.Router();
-// const userModel = require('../models/user.model')
-// const localStrategy = require('passport-local');
+const express = require('express');
+const router = express.Router();
+const userModel = require("../models/user.model")
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// passport.use(new localStrategy(userModel.authenticate()));
-// // serialize the user's unique identifier (like user ID) into the session, allowing Passport to later retrieve the user details when needed.
-// passport.serializeUser(usersModel.serializeUser())
+const secret = "astro"
+router.post('/sign-up', async (req, res) => {
 
-// // The counterpart to serializeUser is deserializeUser, which allows you to retrieve the full user object based on the serialized data stored in the session.
-// passport.deserializeUser(usersModel.deserializeUser())
-// // register route
-// router.post('/sign-up', (req, res) => {
+    const { username, email, name, password } = req.body
 
-//     // getting data from FORM name="username"
-//     const { username, email, name } = req.body
-//     const userdata = new userModel({
-//         username: username,
-//         name: name,
-//         email: email,
-//     })
+    if (!username) {
+        return res.status(400).send('no data received');
+    }
 
-//     // Hashing the password and registering the user
-//     userModel.register(userdata, req.body.password, (err, registerUser) => {
-//         if (err) {
-//             // Check if error is because the user already exists
-//             if (err.name === 'UserExistsError') {
-//                 return res.status(400).json({ message: 'User already exists' });
-//             }
-//             // Other errors
-//             return res.status(500).json({ message: 'An error occurred during registration', error: err });
-//         }
+    const userExists = await userModel.findOne({ username });
+    console.log((userExists))
+    if (userExists) {
+        return res.status(400).json({ message: 'User already exists' });
+    }
 
-//         passport.authenticate("local")(req, res, async function () {
-//             // Fetching user details
-//             let user = await userModel.findOne({ email: email });
-//             res.status(200).json({
-//                 message: "Registration successful!",
-//                 userdata: user
-//             });
-//         });
-//     });
-// });
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);//salt=10
+        const userdata = await userModel.create({
+            username, name, email,
+            password: hashedPassword
+        })
 
-// {
-//     // login page
-//     // router.get('/login', function (req, res) {
-//     //   // req.flash("error") don't use more than 1 time
-//     //   // array like structure
-//     // res.render("login.ejs")
-//     // });
+        // logging-in the user create token 
+        // const token = jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: '1h' })
+        const token = jwt.sign({ email: email }, secret, { expiresIn: '1h' })
+        res.cookie("token", token) // sent to server
 
+        res.status(200).json({
+            message: "Registration successful!",
+            userdata: userdata
+        });
+    } catch (err) {
+        res.status(400).json({ error: err })
+    }
+})
 
-//     // auth middleware
-//     // router.post('/login', passport.authenticate("local", {
-//     //   successRedirect: "/",
-//     //   failureRedirect: "/login", // will get extra parameter in login page due to flash
-//     //   // failureFlash: true
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body;
 
-//     // }),(// next execute it
-//     //   async function (req, res) { //Main work
-//     //     let user = await userModel.findOne({ email: req.body.email })
-//     //     res.status(200).json({
-//     //       message: "login successfull!",
-//     //       userdata: {
-//     //         name: user.name,
-//     //         email: user.email,
-//     //       }
-//     //     })
-//     //   })
-//     // );
-// }
+    if (!username || !password) {
+        return res.status(400).send('Username and password are required');
+    }
 
-// // authenticate
-// router.post('/login', (req, res) => {
+    // Populate add real vehicle data instead of ID
+    const user = await userModel.findOne({ username }).populate('myRides');
 
-//     passport.authenticate("local")(req, res, async function () {
-//         // Fetching user details
+    if (!user) {
+        return res.status(400).send('Invalid username/email or password');
+    }
 
-//         // if(res.){
-//         //   if(err.name==="Unauthorized")
-//         //     res.status(401).json({})
-//         // }
-//         try {
-//             let user = await userModel.findOne({ username: req.body.username });
-//             res.status(200).json({
-//                 message: "Login Success",
-//                 userdata: user
-//             });
-//         }
-//         catch (err) {
-//             res.status(400).json({ message: "Username or Password is incorrect" })
-//         }
+    try {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).send('Invalid username or password');
+        }
 
-//     })
-// })
+        // const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ email: user.email }, secret, { expiresIn: '1h' });
 
-// // logout
+        res.cookie('token', token, { httpOnly: true, secure: true });
+        res.status(200).json({ message: 'Login successful', userdata: user });
+    }
+    catch (error) {
+        res.status(500).json({ error: error })
+    }
+})
+
+// logout
+router.get("/logout", async (req, res) => {
+    res.clearCookie("token")
+    res.status(200).json({ message: 'Logged out successfully' });
+})
+
 // router.get('/logout', function (req, res, next) {
 //     req.logout(function (err) {
 //         if (err) return next(err);
@@ -104,12 +84,4 @@
 //     })
 // })
 
-// function isLoggedIn(req, res, next) {
-//     // if user succ logged in -> next
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     // res.redirect("/");
-
-// }
-// module.exports = router
+module.exports = router;

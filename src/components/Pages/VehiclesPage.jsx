@@ -6,6 +6,7 @@ const VehiclesPage = () => {
   let [list, setList] = useState([]);
   let [filterList, setFilter] = useState([]);
   let [category, setType] = useState("all");
+  
 
   // filter function
   const filterdata = () => {
@@ -16,7 +17,6 @@ const VehiclesPage = () => {
     // console.log(filterList);
   };
 
-
   // fetching data
   useEffect(() => {
     const getitems = async () => {
@@ -25,20 +25,19 @@ const VehiclesPage = () => {
         setList(res.data);
         // call it here to get data in filterList
         console.log(res.data);
-        setFilter("all")
+        setFilter("all");
         filterdata();
-
       } catch {
         console.log("error");
       }
     };
     getitems();
   }, []);
-  
+
   useEffect(() => {
     filterdata();
-    console.log("filter useeffect called")
-  }, [category,list]);
+    console.log("filter useeffect called");
+  }, [category, list]);
 
   return (
     <>
@@ -56,7 +55,7 @@ const VehiclesPage = () => {
           role="button"
           className="btn bg-[#ffff97] shadow-md  w-28 text-lg hover:bg-[#fefe7a] hover:shadow-lg border-none  "
           onClick={() => {
-            setType("bike");
+            setType("Bike");
           }}
         >
           Bikes
@@ -65,7 +64,7 @@ const VehiclesPage = () => {
           role="button"
           className="btn w-28 bg-[#fece80] shadow-md text-lg hover:bg-[#ffbb4d] hover:shadow-lg border-none   "
           onClick={() => {
-            setType("car");
+            setType("Car");
           }}
         >
           Cars
@@ -74,7 +73,11 @@ const VehiclesPage = () => {
       {/* cards */}
       <div className="mt-15 grid grid-cols-2 mb-5 md:grid-cols-4 p-5 ">
         {filterList.map((item) => {
-          return <CarCard key={item._id} data={item} />;
+          return (
+            <div className="my-4">
+              <CarCard key={item._id} data={item} />
+            </div>
+          );
         })}
       </div>
     </>

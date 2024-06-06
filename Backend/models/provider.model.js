@@ -1,42 +1,47 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose
-const plm = require('passport-local-mongoose')
+// const plm = require('passport-local-mongoose')
 
 
 const providerSchema = new Schema({
-  vehicleId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Vehicle', // model name
-    // required: true,
-  },
 
-  vehicles: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Vehicle',
-  }],
+  username: {
+    type: String,
+    required: true,
+  },
 
   name: {
     type: String,
     required: true,
   },
 
-  username: {
+  email: {
+    type: String,
+    unique: true,
+    require: true
+  },
+  password: {
     type: String,
     required: true,
   },
-  email: String,
+
+  vehicles: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Vehicle', // model name
+  }],
   // contactInfo: {
   // phone: {
   //   type: String,
   //    required: true,
   // },
   // },
+
   address: {
     type: String,
     required: true,
   },
 }, { timestamps: true });
 
-providerSchema.plugin(plm)
+// providerSchema.plugin(plm)
 module.exports = mongoose.model('Provider', providerSchema);
 

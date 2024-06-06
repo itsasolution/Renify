@@ -50,7 +50,7 @@ export const Navbar = () => {
           Home
         </Link>
       </li>
-      {user?.vehicleId ? (
+      {user?.myRides ? (
         <>
           <li>
             <Link to={"/vehicles"} className="dark:focus:text-cyan-300">

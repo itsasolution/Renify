@@ -43,8 +43,8 @@ const CardSlider = () => {
         const res = await axios.get("http://localhost:4000/vehicles");
         // console.log(res.data);
         setVehicles(res.data);
-      } catch {
-        console.log("error");
+      } catch(err) {
+        console.log("error:",err);
       }
     };
     getitems();

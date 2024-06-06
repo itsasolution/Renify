@@ -48,10 +48,12 @@ export const LoginPage = ({ who }) => {
         navigate("/");
       }
     } catch (err) {
-      if (err.response.data === "Unauthorized") {
+      // if (err.response.data === "Unauthorized") {
+      if (err.response.data) {
         console.log("error:", err);
         toast.error("Invalid Username or Password");
-      } else {
+      } 
+      else {
         console.error("Unexpected error", err);
         toast.error("An unexpected error occurred. Please try again later.");
       }
@@ -66,7 +68,7 @@ export const LoginPage = ({ who }) => {
           {/* Left column container with background*/}
           <div className="flex h-full flex-wrap items-center justify-center gap-x-[40px] ">
             <div className="shrink-1 grow-0 basis-auto w-[80%] md: md:w-5/12  ">
-              <img src="./login.webp" className=" h-full" alt="" />
+              <img src="./login.avif" className=" h-full" alt="" />
             </div>
             {/* Right column container */}
             <div className="mb-12 md:mb-0 w-72 h-full mt-4 md:h-auto md:w-[30%] lg:w-[30%] xl:w-[30%] ">

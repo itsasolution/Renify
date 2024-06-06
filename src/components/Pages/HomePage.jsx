@@ -42,7 +42,7 @@ export const HomePage = () => {
 
       <div className="flex flex-col-reverse p-5 md:flex-row md:h-[70vh] md:mt-0  duration-300 dark:bg-blue-950 dark:text-white">
         <div className=" md:w-1/2 flex h-full flex-col px-3 pt-5 md:pt-0 md:h-full justify-center items-center">
-          <img src="./key.png" className="" alt="" />
+          <img src="./bike.png" className="" alt="" />
         </div>
         <div className=" md:w-1/2 h-full text-lg flex flex-col px-3 pt-5 md:pt-0 md:h-full justify-center items-center">
           <h1 className="w-full flex items-center font-bold text-2xl text-cyan-600  dark:text-teal-300">
@@ -113,7 +113,7 @@ export const HomePage = () => {
           </div>
         </div>
         <div className=" md:w-1/2 flex h-full flex-col px-3 pt-5 md:pt-0 md:h-full justify-center items-center">
-          <img src="./uploads/bike.png" className="" alt="" />
+          <img src="./car.png" className="" alt="" />
         </div>
 
       </div>
