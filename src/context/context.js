@@ -8,11 +8,10 @@ export const UserContextProvider = ({ children }) => {
     // State to hold user information
     const initialUser = localStorage.getItem("userdata")
     const [user, setUser] = useState(
-        initialUser ? JSON.parse(initialUser) : undefined
+        initialUser ? JSON.parse(initialUser) : null
     );
-    
-    const [MyVehicles, setMyVehicles] = useState(
-        user?.vehicles ? user.vehicles : [{}]);
+
+    const [MyVehicles, setMyVehicles] = useState([]);
 
     const [loader, setloader] = useState(false)
 

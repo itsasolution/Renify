@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import "./menu.css";
 
 function Menu({ nav }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,11 +24,11 @@ function Menu({ nav }) {
   }, []);
 
   return (
-    <div className="relative duration-300" ref={menuRef}>
+    <div className="relative md:hidden duration-300" ref={menuRef}>
       {/* Menu bars */}
-      <label className="btn btn-circle border-none no-animation swap swap-rotate bg-transparent dark:text-white">
+      <label className="btn btn-circle border-none no-animation swap swap-rotate bg-transparent dark:text-white text-black">
         {/* this hidden checkbox controls the state */}
-        <input onClick={toggleMenu} type="checkbox" id="checkbox"  />
+        <input onClick={toggleMenu} type="checkbox" id="checkbox" />
 
         {/* hamburger icon */}
         <svg
@@ -53,14 +54,14 @@ function Menu({ nav }) {
       </label>
 
       {/* Menu items */}
-      {isOpen && (
-        <ul
-          tabIndex="0"
-          className="absolute left-2 top-[55px]  font-semibold mt-3 z-[1] p-2 shadow-md rounded-box w-52 bg-white bg-opacity-65 dark:bg-blue-950 dark:bg-opacity-60 "
-        >
-          {nav}
-        </ul>
-      )}
+
+      <div
+        className={`nav absolute top-[55px] flex flex-col gap-3 h-screen font-semibold z-[1] p-3 pl-5 shadow-md rounded-box w-52 bg-white bg-opacity-65 dark:bg-blue-950 dark:bg-opacity-90 duration-300 transform  ${
+          isOpen ? "translate-x-[-10%] " : "translate-x-[-130%]"
+        }`}
+      >
+        {nav}
+      </div>
     </div>
   );
 }

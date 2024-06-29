@@ -2,3 +2,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.shado:hover{
+  box-shadow: 0 0 10px black ;
+
+}
+
+.scroll::-webkit-scrollbar{
+width: 2px;
+
+}
+
+
+.cardanime{
+  animation: card 1s;
+  }
+  @keyframes card {
+    from {
+      opacity: 0.2;
+      transform:scale(.9) translateY(40%) ;
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0%) rotateY(0deg);
+    }
+  }

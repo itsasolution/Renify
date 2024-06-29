@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import CarCard from "../CarCard";
+import CarCard from "../../CarCard";
 import axios from "axios";
 
 const VehiclesPage = () => {
   let [list, setList] = useState([]);
   let [filterList, setFilter] = useState([]);
   let [category, setType] = useState("all");
-  
 
   // filter function
   const filterdata = () => {
@@ -41,10 +40,10 @@ const VehiclesPage = () => {
 
   return (
     <>
-      <div className="flex justify-center text-xl gap-x-5 m-5  ">
+      <div className="flex text-white justify-center text-xl gap-x-5 m-5  ">
         <div
           role="button"
-          className="btn bg-[#fbe4ac] shadow-md  w-28 text-lg hover:bg-[#fce38c] hover:shadow-lg border-none  "
+          className="btn bg-[#ffdb80] text-black shadow-md  w-28 text-lg hover:bg-[#ffd641] hover:shadow-lg border-none  "
           onClick={() => {
             setType("all");
           }}
@@ -53,7 +52,7 @@ const VehiclesPage = () => {
         </div>
         <div
           role="button"
-          className="btn bg-[#ffff97] shadow-md  w-28 text-lg hover:bg-[#fefe7a] hover:shadow-lg border-none  "
+          className="btn bg-[#fafa5e] shadow-md text-black w-28 text-lg hover:bg-[#ffff42] hover:shadow-lg border-none  "
           onClick={() => {
             setType("Bike");
           }}
@@ -62,7 +61,7 @@ const VehiclesPage = () => {
         </div>
         <div
           role="button"
-          className="btn w-28 bg-[#fece80] shadow-md text-lg hover:bg-[#ffbb4d] hover:shadow-lg border-none   "
+          className="btn w-28 bg-[#fbba4f] shadow-md text-black text-lg hover:bg-[#fca820] hover:shadow-lg border-none   "
           onClick={() => {
             setType("Car");
           }}
@@ -71,10 +70,10 @@ const VehiclesPage = () => {
         </div>
       </div>
       {/* cards */}
-      <div className="mt-15 grid grid-cols-2 mb-5 md:grid-cols-4 p-5 ">
+      <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
         {filterList.map((item) => {
           return (
-            <div className="my-4">
+            <div className="my-4 cardanime">
               <CarCard key={item._id} data={item} />
             </div>
           );

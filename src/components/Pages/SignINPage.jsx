@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/context";
 import toast from "react-hot-toast";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const SignINPage = () => {
   const { setUser } = useContext(UserContext);
@@ -54,10 +55,10 @@ export const SignINPage = () => {
 
   return (
     <>
-      <div className="absolute top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div>
+      {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div> */}
       <section className=" h-[calc[100vh-50px]] opacityanime">
         {/* Left column container with background*/}
-        <div className="flex md:h-screen flex-wrap items-center justify-center ">
+        <div className="flex md:h-screen flex-wrap items-center justify-center gap-x-[40px] ">
           <div className="shrink-1 grow-0 basis-auto md:w-5/12 md:shrink-0 h-[300px] md:h-auto pl-2 md:pl-0">
             <img src="./login.webp" className="h-full" alt="" />
           </div>
@@ -116,59 +117,84 @@ export const SignINPage = () => {
                 <p className="mx-4 mb-0 text-center font-semibold ">Or</p>
               </div>
               {/* Username */}
-              <div className="relative mb-6">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
                   {...register("username", {
                     required: { value: true, message: "UserName is required" },
                   })}
-                  className="py-2 w-full outline-none border-b-2 border-slate-300 duration-200 focus:border-slate-700  dark:focus:border-slate-100"
-                  placeholder="UserName"
+                  placeholder=""
+                  className="block py-2.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 />
+                <label
+                  htmlFor="float"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Username
+                </label>
                 {errors.username && (
                   <span className="text-red-600">{errors.name.message}</span>
                 )}
               </div>
               {/*  name*/}
-              <div className="relative mb-6">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
                   {...register("name", {
                     required: { value: true, message: "Name is required" },
                   })}
-                  className="py-2 w-full outline-none border-b-2 border-slate-300 duration-200 focus:border-slate-700  dark:focus:border-slate-100"
-                  placeholder="Name"
+                  placeholder=""
+                  className="block py-2.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 />
+                <label
+                  htmlFor="float"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Name
+                </label>
                 {errors.name && (
                   <span className="text-red-600">{errors.name.message}</span>
                 )}
               </div>
 
               {/* Email input */}
-              <div className="relative mb-6">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="email"
                   {...register("email", {
                     required: { value: true, message: "email is required" },
                   })}
-                  className="py-2 w-full outline-none border-b-2 border-slate-300 duration-200 focus:border-slate-700 dark:focus:border-slate-100"
-                  placeholder="Email"
+                  className="block py-2.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=""
                 />
+                <label
+                  htmlFor="float"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Email
+                </label>
                 {errors.email && (
                   <span className="text-red-600">{errors.email.message}</span>
                 )}
               </div>
 
               {/* Password input */}
-              <div className="relative mb-10">
+              <div className="relative z-0 w-full mb-5 group0">
                 <input
-                  type="password"
+                  // type="password"
+                  type="text"
                   {...register("password", {
                     required: { value: true, message: "Enter password" },
                   })}
-                  placeholder="Password"
-                  className="mb-2 py-2 w-full outline-none border-b-2 border-slate-300 duration-200 focus:border-slate-700 dark:focus:border-slate-100"
+                  placeholder=""
+                  className="block py-2.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 />
+                <label
+                  htmlFor="float"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  password
+                </label>
                 {errors.password && (
                   <span className="text-red-600">
                     {errors.password.message}
@@ -188,14 +214,14 @@ export const SignINPage = () => {
                       : ""
                   }`}
                 >
-                  Register
+                  {isSubmitting ? <CircularProgress size={24} /> : "Register"}
                 </button>
                 {/* Register link */}
                 <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                   Have an account?
                   <Link
-                    to={"/login"}
-                    className="text-danger transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
+                    to={"/user-login"}
+                    className=" transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
                   >
                     &nbsp;Login
                   </Link>

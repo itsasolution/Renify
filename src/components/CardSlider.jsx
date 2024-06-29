@@ -15,7 +15,7 @@ const CardSlider = () => {
     speed: 1500,
     swipeToSlide: true,
     autoplaySpeed: 3000,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     responsive: [
       {
@@ -27,6 +27,7 @@ const CardSlider = () => {
           dots: true,
         },
       },
+     
       {
         breakpoint: 576,
         settings: {
@@ -52,59 +53,11 @@ const CardSlider = () => {
 
   return (
     <>
-      <Slider {...settings} className="m-10 ">
+      <Slider {...settings} className="m-10 h-full">
         {vehicles.map((data) => (
           <CarCard key={data?._id} data={data} />
         ))}
       </Slider>
-      
-      {/* <Slider {...settings}>
-        <div className="py-4 px-3 bg-slate-300">
-          <p className="section__description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-            magni explicabo molestias recusandae repudiandae, dolor, sapiente
-            placeat
-          </p>
-          <div className="mt-3 flex items-center gap-4">
-            <img src="./banner.jpg" alt="" className="w-52 h-52 rounded-full" />
-
-            <div>
-              <h6 className="mb-0 mt-3">Jhon Doe</h6>
-              <p className="section__description">Customer</p>
-            </div>
-          </div>
-        </div>
-        <div className="py-4 px-3">
-          <p className="section__description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-            magni explicabo molestias recusandae repudiandae, dolor, sapiente
-            placeat
-          </p>
-          <div className="mt-3 flex items-center gap-4">
-            <img src="./banner.jpg" alt="" className="w-52 h-52 rounded-full" />
-
-            <div>
-              <h6 className="mb-0 mt-3">Jhon Doe</h6>
-              <p className="section__description">Customer</p>
-            </div>
-          </div>
-        </div>
-        <div className="py-4 px-3">
-          <p className="section__description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-            magni explicabo molestias recusandae repudiandae, dolor, sapiente
-            placeat
-          </p>
-          <div className="mt-3 flex-col items-center gap-4">
-            <img src="./banner.jpg" alt="" className="w-52 h-52 rounded-full" />
-
-            <div>
-              <h6 className="mb-0 mt-3">Jhon Doe</h6>
-              <p className="section__description">Customer</p>
-            </div>
-          </div>
-        </div>
-      </Slider> */}
     </>
   );
 };

@@ -10,12 +10,12 @@ export const Navbar = () => {
 
   const logout = async () => {
     try {
-      // let res = await axios.get("http://localhost:4000/user/logout");
-      let res = await axios.get("http://localhost:4000/provider/logout");
+      let res = await axios.get("http://localhost:4000/user/logout");
+      // let res = await axios.get("http://localhost:4000/provider/logout");
       if (res.data) {
         console.log(res.data);
         localStorage.removeItem("userdata");
-        setUser(undefined);
+        setUser(null);
         toast.success(res.data.message);
         window.location.reload();
       }
@@ -43,47 +43,39 @@ export const Navbar = () => {
   }, [theme]);
 
   // navbar
+  const navcls =
+    "dark:focus:text-cyan-400 duration-300 dark:focus:bg-blue-800 focus:bg-slate-200 focus:border-b-2 border-blue-600  p-1 px-2 rounded-md";
   const nav = (
     <>
-      <li>
-        <Link to={"/"} className="dark:focus:text-cyan-300">
-          Home
-        </Link>
-      </li>
-      {user?.myRides ? (
+      <Link to={"/"} className={navcls}>
+        Home
+      </Link>
+      {user?.vehicles ? ( // provider.vehicle
         <>
-          <li>
-            <Link to={"/vehicles"} className="dark:focus:text-cyan-300">
-              Vehilcles
-            </Link>
-          </li>
-          <li>
-            <Link to={"/myrides"} className="dark:focus:text-cyan-300">
-              My Rides
-            </Link>
-          </li>
+          <Link to={"/myvehicles"} className={navcls}>
+            My Vehilcles
+          </Link>
+          <Link to={"/addvehicle"} className={navcls}>
+            Add Vehicle
+          </Link>
         </>
       ) : (
         <>
-          <li>
-            <Link to={"/myvehicles"} className="dark:focus:text-cyan-300">
-              My Vehilcles
-            </Link>
-          </li>
-          <li>
-            <Link to={"/addvehicle"} className="dark:focus:text-cyan-300">
-              Add Vehicle
-            </Link>
-          </li>
+          <Link to={"/vehicles"} className={navcls}>
+            Vehilcles
+          </Link>
+          <Link to={"/myrides"} className={navcls}>
+            My Rides
+          </Link>
         </>
       )}
-      <li>
-        <Link className="dark:focus:text-cyan-300">Contact</Link>
-      </li>
+      <Link to={"/contact"} className={navcls}>
+        Contact
+      </Link>
       {/* Theme controller */}
       <label
         title="Change Theme"
-        className="grid justify-between ml-[18px] text-[16px] md:ml-0 md:p-0 md:items-center swap swap-rotate mr-4"
+        className="grid justify-between text-[16px] md:ml-0 md:p-0 md:items-center swap swap-rotate mr-4"
       >
         <span className=" md:hidden text-[15px] font-medium">Theme</span>
         {/* this hidden checkbox controls the state */}
@@ -126,13 +118,11 @@ export const Navbar = () => {
   return (
     <>
       <div
-        className={`navbar opacityanime z-10 w-full min-h-[50px] h-[55px] bg-transparent backdrop-blur-sm  sticky top-0 shadow-md  dark:text-white`}
+        className={`navbar nav z-10 w-full min-h-[50px] h-[55px] bg-transparent backdrop-blur-sm sticky top-0 shadow-md  dark:text-white`}
       >
         <div className="navbar">
           {/* hamburger menu */}
-          <div className="md:hidden">
-            <Menu nav={nav} />
-          </div>
+          <Menu nav={nav} />
 
           {/* LOGO */}
           <Link
@@ -140,33 +130,44 @@ export const Navbar = () => {
             className="btn btn-ghost hover:bg-transparent no-animation text-xl"
           >
             <span className="h-7 flex items-center logoanime">
-              <img src="./logo1r.png" className="h-full w-full" alt="" />
+              {/* <img src="./logo.png" className="h-full w-full" alt="" /> */}
+              <img
+                src={`${process.env.PUBLIC_URL}/logo.png`}
+                className="h-full w-full"
+                alt=""
+              />
             </span>
             Renify
           </Link>
         </div>
-        <div className="navbar-center hidden md:flex">
-          <ul className="menu menu-horizontal font-semibold text-[16px] px-1">
-            {nav}
-          </ul>
+        <div className=" hidden font-semibold md:flex justify-between max-w-[500px] md:min-w-[450px] lg:gap-3 w-[60%] ">
+          {nav}
         </div>
 
-        <div className="flex-none ">
-          <div className="form-control">
+        <div className="flex-none">
+        <div className="relative md:block hidden">
             <input
               type="text"
               placeholder="Search"
-              className="input h-10 rounded-full w-24 md:w-[85%] hidden md:block input-bordered bg-slate-50 dark:text-blue-950 focus:outline-none focus:shadow "
+              className=" text-center h-9 shadow-sm rounded-full w-40 mx-2 hidden md:block input-bordered bg-slate-100 dark:text-blue-950 focus:outline-none focus:shadow "
             />
+            <span className="absolute top-1 left-3">
+              <lord-icon
+                src="https://cdn.lordicon.com/unukghxb.json"
+                trigger="hover"
+                style={{ width: "25px", height: "30px" }}
+              ></lord-icon>
+            </span>
           </div>
 
+          {/* user info */}
           <div className="dropdown dropdown-end ">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost no-animation btn-circle avatar"
             >
-              <div className="w-10 p-1 rounded-full bg-slate-200">
+              <div className="w-10 p-1 rounded-full shadow-md bg-slate-200">
                 {/* <img alt="Profile" src="./profile.jpg" /> */}
                 <lord-icon
                   src="https://cdn.lordicon.com/bgebyztw.json"
