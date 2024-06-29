@@ -1,6 +1,6 @@
 {
-  "name": "myapp",
-  "version": "0.0.0",
+  "name": "renify",
+  "version": "1.0",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www"
@@ -32,7 +32,6 @@
     "passport-local-mongoose": "^8.0.0",
     "sharp": "^0.33.4"
   },
-  "main": "app.js",
   "keywords": [],
   "author": "",
   "license": "ISC",

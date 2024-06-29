@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const plm = require('passport-local-mongoose')
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -20,15 +19,23 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-
   },
   myRides: [{
     type: Schema.Types.ObjectId,
-    ref: 'Vehicle',
+    ref: 'Booking',
   }],
-  
+
+  contact: {
+    address: String,
+    mobileNumber: Number,
+  },
+
+  documents: {
+    aadharNumber: Number,
+    licenseNumber: String
+  }
+
 }, { timestamps: true });
 
 
-userSchema.plugin(plm)
 module.exports = mongoose.model("user", userSchema)

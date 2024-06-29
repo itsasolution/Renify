@@ -24,7 +24,11 @@ router.post('/', (req, res) => {
             return res.status(400).send({ message: 'No files uploaded' });
         }
 
+
         try {
+            // finding provider
+            const provider = await providerModel.findOne({ _id: req.body.PID });
+
             const uploadPromises = req.files.map(async (file) => {
                 // Resize image using Sharp
                 const resizedImageBuffer = await sharp(file.buffer)
@@ -32,7 +36,7 @@ router.post('/', (req, res) => {
                     .toBuffer();
 
                 // Create a file name
-                const fileName = `Renify/${Date.now()}-${file.originalname}`;
+                const fileName = `Renify/${provider.username}/${Date.now()}-${file.originalname}`;
 
                 // Create a file in Firebase Storage and upload the resized image
                 const fileRef = bucket.file(fileName);
@@ -45,14 +49,12 @@ router.post('/', (req, res) => {
                 await fileRef.makePublic();
 
                 // return { fileName, publicUrl };
-                return publicUrl ;
+                return publicUrl;
             });
 
             const ImageList = await Promise.all(uploadPromises);
 
-            const { PID, type, brand, model, registrationNumber, rentPerDay, rentPerHour } = req.body;
-
-            const provider = await providerModel.findOne({ _id: PID });
+            const { type, brand, model, registrationNumber, rentPerDay, rentPerHour } = req.body;
 
             const vehicle = await vehiclesModel.create({
                 providerId: provider._id,
@@ -63,13 +65,16 @@ router.post('/', (req, res) => {
             provider.vehicles.push(vehicle._id);
             await provider.save();
 
-            res.status(200).json({ message: 'Vehicle added successfully', 
+            // created
+            res.status(201).json({ 
+                message: 'Vehicle added successfully',
                 newVehicle: vehicle
-             });
+            });
 
         } catch (error) {
+            // invalid data
             if (error.code === 11000)
-                res.status(400).json({ res: "Registration number is already registered" })
+                res.status(422).json({ res: "Registration number is already used" })
 
             else
                 res.status(500).send({ message: error.message });

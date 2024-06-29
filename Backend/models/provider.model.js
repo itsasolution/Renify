@@ -7,7 +7,7 @@ const providerSchema = new Schema({
 
   username: {
     type: String,
-    required: true,
+    unique:true
   },
 
   name: {
@@ -17,7 +17,7 @@ const providerSchema = new Schema({
 
   email: {
     type: String,
-    unique: true,
+    // unique: true,
     require: true
   },
   password: {
@@ -29,17 +29,17 @@ const providerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Vehicle', // model name
   }],
-  // contactInfo: {
-  // phone: {
-  //   type: String,
-  //    required: true,
-  // },
-  // },
 
-  address: {
-    type: String,
-    required: true,
+  contact: {
+    address: String,
+    mobileNumber: Number,
   },
+
+  documents: {
+    aadharNumber: Number,
+    licenseNumberPlate: String
+  }
+
 }, { timestamps: true });
 
 // providerSchema.plugin(plm)
