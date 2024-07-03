@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../context/context";
-import CarCard from "../CarCard";
+import CarCard from "../social media/CarCard";
 
 export const MyRides = () => {
   const { user } = useContext(UserContext);

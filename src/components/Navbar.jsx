@@ -45,6 +45,8 @@ export const Navbar = () => {
   // navbar
   const navcls =
     "dark:focus:text-cyan-400 duration-300 dark:focus:bg-blue-800 focus:bg-slate-200 focus:border-b-2 border-blue-600  p-1 px-2 rounded-md";
+
+  // nav items
   const nav = (
     <>
       <Link to={"/"} className={navcls}>
@@ -75,9 +77,9 @@ export const Navbar = () => {
       {/* Theme controller */}
       <label
         title="Change Theme"
-        className="grid justify-between text-[16px] md:ml-0 md:p-0 md:items-center swap swap-rotate mr-4"
+        className="relative grid justify-between text-[16px] md:ml-0 md:p-0 md:items-center swap swap-rotate mr-4"
       >
-        <span className=" md:hidden text-[15px] font-medium">Theme</span>
+        <span className=" md:hidden text-[15px] font-semibold">Theme</span>
         {/* this hidden checkbox controls the state */}
         <input
           type="checkbox"
@@ -104,7 +106,7 @@ export const Navbar = () => {
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
           <svg
-            className="fill-current w-8 h-7 float-right"
+            className="fill-current w-7 h-7 float-right"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -134,18 +136,18 @@ export const Navbar = () => {
               <img
                 src={`${process.env.PUBLIC_URL}/logo.png`}
                 className="h-full w-full"
-                alt=""
+                alt="logo"
               />
             </span>
             Renify
           </Link>
         </div>
-        <div className=" hidden font-semibold md:flex justify-between max-w-[500px] md:min-w-[450px] lg:gap-3 w-[60%] ">
+        <div className="hidden font-semibold md:flex justify-between max-w-[500px] md:min-w-[450px] lg:gap-3 w-[60%] ">
           {nav}
         </div>
 
         <div className="flex-none">
-        <div className="relative md:block hidden">
+          <div className="relative md:block hidden">
             <input
               type="text"
               placeholder="Search"
@@ -187,19 +189,20 @@ export const Navbar = () => {
               <p className="text-center py-1 ">{user?.name}</p>
               <p className="text-center py-1 ">{user?.email}</p>
               {user && (
-                <button
+               <> <button
                   onClick={() => logout()}
                   className=" bg-amber-400 my-1 py-1.5 mx-5 duration-200 hover:rounded rounded-full hover:bg-slate-200 dark:hover:text-black "
                 >
                   Logout
                 </button>
-              )}
+              
               <li>
-                <a href="/#" className="justify-between">
+                <Link to={"/profile"} className="justify-between">
                   Profile
                   <span className="badge">New</span>
-                </a>
-              </li>
+                </Link>
+              </li></>
+              )}
               {!user && (
                 <>
                   <li>

@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import {  useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/context";
 import toast from "react-hot-toast";
-import FormTemplate from "../Pages/FormTemplate/FormTemplate";
+import FormTemplate from "../FormTemplate/FormTemplate";
 
 export const ProviderRegister = () => {
   const { setUser } = useContext(UserContext);

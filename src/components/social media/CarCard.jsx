@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const CarCard = ({ data }) => {
   const { brand, rentPerHour, rentPerDay, location, model, images, _id } = data;
   return (
-    <div className="shadow-md shado rounded-xl m-2 h-full overflow-hidden bg-[#e4f9fd] dark:bg-[#003d5f] hover:shadow-xl duration-200 hover:scale-[1.015] dark:hover:outline-green-400 dark:outline dark:outline-2  ">
+    <div className="shadow-[0_1px_10px_0px_rgba(0,0,0,0.3)] rounded-xl m-2 h-full overflow-hidden bg-[#e4f9fd] dark:bg-[#003d5f] hover:shadow-xl duration-200 hover:scale-[1.015] hover:-translate-y-1 dark:hover:outline-green-400 dark:outline dark:outline-2  ">
       <a href={`/vehicledetails/${_id}`} target="_blank" rel="noreferrer">
         <div className="h-60 w-full">
           <img src={images[0]} alt={model} className="h-full w-full" />

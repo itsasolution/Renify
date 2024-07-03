@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CarCard from "./CarCard";
+import CarCard from "./social media/CarCard";
 import axios from "axios";
 
 const CardSlider = () => {
@@ -21,7 +21,7 @@ const CardSlider = () => {
       {
         breakpoint: 992,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
           infinite: true,
           dots: true,
@@ -53,7 +53,7 @@ const CardSlider = () => {
 
   return (
     <>
-      <Slider {...settings} className="m-10 h-full">
+      <Slider {...settings} className="m-10 ">
         {vehicles.map((data) => (
           <CarCard key={data?._id} data={data} />
         ))}

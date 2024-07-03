@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 
 const DateTimePicker = ({ getDate }) => {
   const [startDate, setStartDate] = useState(null);
@@ -38,13 +37,8 @@ const DateTimePicker = ({ getDate }) => {
       getDate(dates, showDate);
 
       console.log(`Journey time: ${days},day ${hours}hours, ${min}mins`);
-
-      // Add your API call logic here
-      // axios.post('/api/your-endpoint', data)
-      //   .then(response => console.log(response))
-      //   .catch(error => console.error(error));
     } else {
-      alert("Please select both start and end dates.");
+      // alert("Please select both start and end dates.");
     }
   };
 

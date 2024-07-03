@@ -1,12 +1,12 @@
 import React from "react";
-import CardSlider from "../CardSlider";
-import { ProviderRegister } from "../Provider/PoviderRegister";
+import CardSlider from "../../CardSlider";
+import { ProviderRegister } from "../../Provider/PoviderRegister";
 // import banner from "../../public/hero.png"
 
 import "./Home.css";
 import "@mui/material/styles";
 // import DatePickerOne from "../Date and time picker/DatePickerOne";
-import DateTimeSchedular from "../Date and time picker/DateTimeSchedular";
+import DateTimeSchedular from "../../Date and time picker/DateTimeSchedular";
 import { Link } from "react-router-dom";
 
 export const HomePage = () => {
@@ -44,7 +44,7 @@ export const HomePage = () => {
           </div>
         </div>
 
-        <DateTimeSchedular />
+        {/* <DateTimeSchedular /> */}
       </div>
 
       <CardSlider />

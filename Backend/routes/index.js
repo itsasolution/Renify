@@ -12,7 +12,7 @@ const { default: mongoose } = require('mongoose');
 try {
     mongoose.connect("mongodb://127.0.0.1:27017/Renify")
 } catch (err) {
-    alert("dataBase error" + err)
+    console.log("dataBase error" + err)
 }
 
 // first it will check isloggedin middelware
@@ -23,7 +23,7 @@ try {
 router.use("/user", userRouter)
 router.use('/vehicles', vehilclesRouter);
 router.use('/provider', providerRouter);
-router.use('/addvehicle', addVehicle);
+// router.use('/addvehicle', addVehicle);
 router.use('/ADDVEHICLES', addVehicles);
 
 

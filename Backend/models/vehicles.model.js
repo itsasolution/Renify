@@ -13,6 +13,7 @@ const vehicleSchema = new mongoose.Schema({
   }]
   ,
   images: [String],
+  
   type: {
     type: String,
     required: true,
@@ -48,16 +49,7 @@ const vehicleSchema = new mongoose.Schema({
     type: String,
     // required: true,
   }
-  ,
-  bookingInfo: {
-    booked: {
-      type: Boolean,
-      default: false
-    },
-    bookingTime: {
-      type: Date,  //bookingTime: new Date('2024-06-15T10:30:00'), 
-    }
-  }
+
 }, { timestamps: true });
 
 

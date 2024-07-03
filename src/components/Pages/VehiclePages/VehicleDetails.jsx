@@ -19,8 +19,8 @@ export const VehicleDetails = () => {
   const { user } = useContext(UserContext);
 
   const [vehicle, setVehicle] = useState();
+  const [bookingData, setBookingData] = useState();
   const [image, setImage] = useState("");
-  const [booked, setBooked] = useState(false);
 
   const { id } = useParams();
   useEffect(() => {
@@ -37,6 +37,12 @@ export const VehicleDetails = () => {
         console.log(err);
         toast.error(err.response?.data);
       });
+
+    // booking status
+    if (user._id) {
+    // user.populate("Booking").myRides[0].populate("vehicle")
+    // myvehicle[arr].populate(user/vehicle).vehicleID.bookingDetails
+    }
   }, []);
 
   const [dateData, setDateData] = useState(undefined);
@@ -60,7 +66,7 @@ export const VehicleDetails = () => {
         .post("http://localhost:4000/vehicles/book", { ...data })
         .then((res) => {
           if (res.data) {
-            console.log(res.data.message);
+            console.log(res.data);
             // console.log(res);
             toast.success("Vehicle Booked");
           }
@@ -108,10 +114,8 @@ export const VehicleDetails = () => {
 
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 mt-5 ">
         {/* images section */}
-        {/* <div className=" flex md:gap-1 md:flex-row flex-col-reverse"> */}
         <div className="md:mx-5 m-2 flex gap-1 md:gap-2 flex-col-reverse">
           {/* small boxs */}
-          {/* <div className="flex md:flex-col items-center md:w-32 w-full scroll overflow-x-scroll"> */}
           <div className="flex items-center w-full scroll overflow-x-scroll  ">
             {vehicle?.images?.map((img, index) => {
               return (
@@ -120,11 +124,7 @@ export const VehicleDetails = () => {
                   key={index}
                   className="shrink-0  md:m-1.5 bg-no-repeat m-1 h-20 w-20 overflow-hidden rounded-lg hover:outline-green-400 hover:outline-2 outline-1 dark:outline shadow-md "
                 >
-                  <img
-                    className=" h-full w-full"
-                    src={`${img}`}
-                    alt="img"
-                  />
+                  <img className=" h-full w-full" src={`${img}`} alt="img" />
                 </button>
               );
             })}
@@ -216,9 +216,9 @@ export const VehicleDetails = () => {
         </div>
       </div>
 
-<div className="my-28">
-      <CardSlider />
-</div>
+      <div className="my-28">
+        <CardSlider />
+      </div>
     </div>
   );
 };

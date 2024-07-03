@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../context/context";
-import CarCard from "../CarCard";
+import CarCard from "../social media/CarCard";
 import axios from "axios";
 
 export const MyVehicles = () => {

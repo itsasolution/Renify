@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CarCard from "../../CarCard";
+import CarCard from "../../social media/CarCard";
 import axios from "axios";
 
 const VehiclesPage = () => {
@@ -9,9 +9,18 @@ const VehiclesPage = () => {
 
   // filter function
   const filterdata = () => {
-    if (category === "all") setFilter(list);
-    else {
-      setFilter(list.filter((item) => item.type === category));
+    if (category === "all") {
+      setFilter(list.filter((vehicle) => vehicle.availability === true));
+    }
+     else if (category === "booked") {
+      setFilter(list.filter((vehicle) => vehicle.availability === false));
+    }
+     else {
+      setFilter(
+        list.filter(
+          (item) => item.type === category && item.availability === true
+        )
+      );
     }
     // console.log(filterList);
   };
@@ -24,7 +33,6 @@ const VehiclesPage = () => {
         setList(res.data);
         // call it here to get data in filterList
         console.log(res.data);
-        setFilter("all");
         filterdata();
       } catch {
         console.log("error");
@@ -67,6 +75,15 @@ const VehiclesPage = () => {
           }}
         >
           Cars
+        </div>
+        <div
+          role="button"
+          className="btn bg-[#fcfc27] shadow-md text-black w-28 text-lg hover:bg-[#ffff42] hover:shadow-lg border-none  "
+          onClick={() => {
+            setType("booked");
+          }}
+        >
+          Booked
         </div>
       </div>
       {/* cards */}
