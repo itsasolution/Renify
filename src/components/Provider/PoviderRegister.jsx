@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext } from "react";
-import {  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/context";
 import toast from "react-hot-toast";
 import FormTemplate from "../FormTemplate/FormTemplate";
@@ -8,7 +8,6 @@ import FormTemplate from "../FormTemplate/FormTemplate";
 export const ProviderRegister = () => {
   const { setUser } = useContext(UserContext);
   const fields = ["username", "name", "email", "password", "address"];
-
 
   const navigate = useNavigate();
 
@@ -63,6 +62,15 @@ export const ProviderRegister = () => {
             {/*Sign in section*/}
 
             <FormTemplate fields={fields} btnType="Register" submit={submit} />
+          <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+            Have an account?
+            <Link
+              to={"/user-login"}
+              className=" transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
+            >
+              &nbsp;Login
+            </Link>
+          </p>
           </div>
         </div>
       </section>

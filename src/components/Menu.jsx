@@ -54,10 +54,9 @@ function Menu({ nav }) {
       </label>
 
       {/* Menu items */}
-
       <div
-        className={`nav absolute top-[55px] flex flex-col gap-3 h-screen font-semibold z-[1] p-3 pl-5 shadow-md rounded-box w-52 bg-white bg-opacity-65 dark:bg-blue-950 dark:bg-opacity-90 duration-300 transform  ${
-          isOpen ? "translate-x-[-10%] " : "translate-x-[-130%]"
+        className={`nav absolute top-[53px] overflow-scroll flex flex-col gap-3 h-screen font-semibold z-10 p-3 pl-5 shadow-md rounded-box w-56 bg-slate-100 dark:bg-slate-950/95 duration-300 transform  ${
+          isOpen ? "translate-x-[-10%] " : "translate-x-[-130%] opacity-0"
         }`}
       >
         {nav}

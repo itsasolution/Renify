@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/context";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import CarBikeCard from "../CarBikeCard";
+import ModelRed from "../Helper model/ModelRed";
 
 const ProfilePage = () => {
   const { user, setUser } = useContext(UserContext);
@@ -31,38 +33,66 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="text-center text-xl font-semibold mt-5">User Profile</div>
+      <div className="text-center text-xl font-semibold mt-5 mx-32 border-blue-500">
+        User Profile
+      </div>
+      <div className="group container mx-auto mt-8 px-5">
+        <div className=" relative flex flex-col  min-w-0 break-words overflow-hidden w-full mb-6 shadow-xl rounded-lg ">
+          {/* bg-expand */}
+          <span className="absolute dark:bg-transparent bg-gradient-to-br from-cyan-500/80 to-cyan-300/60 shadow-md m  pointer-events-none left-[48.5%] top-[40%] z-0 h-12 w-12 rounded-full duration-500 group-hover:scale-[22] "></span>
+          <span className="absolute dark:bg-transparent bg-gradient-to-b from-cyan-500/80 to-cyan-300/60 shadow-md md:block hidden pointer-events-none left-[48.5%] top-[40%] z-0 h-12 w-12 rounded-full  duration-300 group-hover:scale-[25]  "></span>
 
-      <div className="relative flex min-h-screen flex-col justify-center overflow-hidden">
-        <div className="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
-          {/* main bg expand */}
-          <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-sky-500 transition-all duration-300 group-hover:scale-[10]"></span>
-          <div className="relative z-10 mx-auto max-w-md ">
-            <span className="grid h-20 w-20 place-items-center shadow-md rounded-full bg-sky-500 transition-all duration-300 group-hover:bg-sky-400">
-              Hii..
-            </span>
-            <div className="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
-              <p>
-                Perfect for learning how the framework works, prototyping a new
-                idea, or creating a demo to share online.
-              </p>
+          <div className="z-10 ">
+            <section className="h-42 flex pt-3 border-b bg-slate-800/50 group-hover:bg-transparent duration-500 dark:bg-transparent dark:bg-gradient-to-b from-cyan-800/50  items-center justify-center ">
+              <img
+                className="h-full"
+                src={`${process.env.PUBLIC_URL}/logo.png`}
+                // src={`${process.env.PUBLIC_URL}/bmw.jpg`}
+                alt="sdf"
+              />
+            </section>
+
+            <div className=" h-20 flex flex-wrap justify-center">
+              <div className=" w-full lg:w-3/12 lg:order-2 flex justify-center ">
+                {/* profile img */}
+                <img
+                  alt="profile"
+                  className=" shadow-xl rounded-full h-36 w-36  "
+                  src={`${process.env.PUBLIC_URL}/profile.webp`}
+                />
+              </div>
             </div>
-            <span
-              className="m-10 bg-rose-500 rounded-md p-1 text-xl"
-              onClick={() => deleteUser()}
-            >
-              Delete user
-            </span>
+            {/* <hr className="w-full my-6 bg-slate-500" /> */}
+            <div className="text-center mt-14 group-hover:text-white">
+              <h3 className="text-4xl font-semibold leading-normal text-blueGray-700 mb-2">
+                Piyush
+              </h3>
+              <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400">
+                  Indore INDIA
+                </i>
+              </div>
+            </div>
+            <div className="flex flex-wrap justify-center mt-10 py-10  text-center">
+              <div className="w-full lg:w-9/12 px-4">
+                {/* <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
+                  An artist of considerable range, Piyush the name taken by
+                  Melbourne-raised, Brooklyn-based Nick Murphy writes, performs
+                  and records all of his own music, giving it a warm, intimate
+                  feel with a solid groove structure. An artist of considerable
+                  range.
+                </p> */}
 
-            <div className="pt-5 text-base font-semibold leading-7">
-              <p>
-                <a
-                  href="/"
-                  className="text-sky-500 transition-all duration-300 group-hover:text-white"
-                >
-                  Read the docs &rarr;
-                </a>
-              </p>
+                {/* Model for delete */}
+                <ModelRed
+                  btnName="Delete Account"
+                  heading="DELETE ACCOUNT !"
+                  message="Are You Sure want Delete Your Account"
+                  actionName="Delete"
+                  fn={deleteUser}
+                />
+
+              </div>
             </div>
           </div>
         </div>

@@ -59,8 +59,8 @@ export const SignINPage = () => {
       <section className=" h-[calc[100vh-50px]] opacityanime">
         {/* Left column container with background*/}
         <div className="flex md:h-screen flex-wrap items-center justify-center gap-x-[40px] ">
-          <div className="shrink-1 grow-0 basis-auto md:w-5/12 md:shrink-0 h-[300px] md:h-auto pl-2 md:pl-0">
-            <img src="./login.webp" className="h-full" alt="" />
+          <div className="shrink-1 grow-0 basis-auto md:w-5/12 md:shrink-0 h-[300px] md:h-[450px] pl-2 md:pl-0">
+            <img src="./login.png" className="h-full" alt="" />
           </div>
           {/* Right column container */}
           <div className="mb-12 md:mb-0 md:w-[30%] w-72 lg:w-[30%] xl:w-[30%] ">

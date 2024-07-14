@@ -20,7 +20,7 @@ export const MyRides = () => {
         <div className="flex flex-col items-center h-[calc(100vh-60px)]  justify-center">
           <div className="">
             <lord-icon
-              src="https://cdn.lordicon.com/sxhxuxgx.json"
+              src="https://cdn.lordicon.com/mirdbprd.json"
               trigger="loop"
               style={{ width: "100px", height: "100px" }}
             ></lord-icon>

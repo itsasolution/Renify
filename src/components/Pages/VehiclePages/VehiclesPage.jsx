@@ -11,11 +11,9 @@ const VehiclesPage = () => {
   const filterdata = () => {
     if (category === "all") {
       setFilter(list.filter((vehicle) => vehicle.availability === true));
-    }
-     else if (category === "booked") {
+    } else if (category === "booked") {
       setFilter(list.filter((vehicle) => vehicle.availability === false));
-    }
-     else {
+    } else {
       setFilter(
         list.filter(
           (item) => item.type === category && item.availability === true
@@ -87,15 +85,19 @@ const VehiclesPage = () => {
         </div>
       </div>
       {/* cards */}
-      <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
-        {filterList.map((item) => {
-          return (
-            <div className="my-4 cardanime">
-              <CarCard key={item._id} data={item} />
-            </div>
-          );
-        })}
-      </div>
+      {filterList.length > 0 ? (
+        <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
+          {filterList.map((item) => {
+            return (
+              <div className="my-4 cardanime">
+                <CarCard key={item._id} data={item} />
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex h-[50vh] font-semibold text-xl items-center justify-center">No vehicle Found !</div>
+      )}
     </>
   );
 };

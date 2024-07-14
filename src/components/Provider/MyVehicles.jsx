@@ -32,11 +32,14 @@ export const MyVehicles = () => {
         </div>
       ) : (
         <div className="flex flex-col w-full items-center h-[calc(100vh-60px)] justify-center">
-          <lord-icon
-            src="https://cdn.lordicon.com/sxhxuxgx.json"
+          
+          <div className="hover:scale-125 duration-300 " >
+            <lord-icon
+            src="https://cdn.lordicon.com/mirdbprd.json"
             trigger="loop"
             style={{ width: "100px", height: "100px" }}
-          ></lord-icon>
+            ></lord-icon>
+            </div>
           <h2 className="text-2xl text-center">
             You don't have added any Vehicle yet yet
           </h2>

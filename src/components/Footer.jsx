@@ -4,7 +4,8 @@ function Footer() {
   return (
     <div>
       <hr />
-      <footer className="footer footer-center p-10 gap-3 rounded bg-blue-950 dark:bg-slate-900 text-white">
+      {/* <footer className="footer footer-center p-10 gap-3  bg-blue-950 dark:bg-gradient-[linear-gradient(0deg, rgba(34,193,195,1), rgba(253,187,45,1))] text-white"> */}
+      <footer className="footer  footer-center p-10 gap-3  bg-gradient-to-b from-slate-900 to-slate-950 text-white">
         <nav className="grid grid-flow-col gap-4">
           <a href="/#" className="p-1 duration-200 hover:-translate-y-1">
             About us
