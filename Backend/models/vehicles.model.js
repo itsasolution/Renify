@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { stringify } = require('postcss');
 
 const vehicleSchema = new mongoose.Schema({
   providerId: {
@@ -12,14 +13,15 @@ const vehicleSchema = new mongoose.Schema({
     ref: 'Booking'
   }]
   ,
+
   images: [String],
-  
+
   type: {
     type: String,
     required: true,
-    enum: ['Car', 'Bike'],
+    enum: ['car', 'bike'],
   },
-  rating: Number,
+
   brand: {
     type: String,
     required: true,
@@ -47,9 +49,16 @@ const vehicleSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    // required: true,
-  }
-
+  },
+  overallRating: Number,
+  reviews: [
+    {
+      // user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+      user: String,
+      date: Date,
+      rating: { type: Number, default: 0, min: 1, max: 5 },
+      text: String,
+    }]
 }, { timestamps: true });
 
 

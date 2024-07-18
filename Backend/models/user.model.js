@@ -7,6 +7,7 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
+  avatar: String,
   name: {
     type: String,
     required: true,
@@ -25,10 +26,8 @@ const userSchema = new Schema({
     ref: 'Booking',
   }],
 
-  contact: {
-    address: String,
-    mobileNumber: Number,
-  },
+  address: String,
+  mobileNumber: Number,
 
   documents: {
     aadharNumber: Number,

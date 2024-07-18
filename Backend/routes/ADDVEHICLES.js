@@ -66,7 +66,7 @@ router.post('/', (req, res) => {
             await provider.save();
 
             // created
-            res.status(201).json({ 
+            res.status(201).json({
                 message: 'Vehicle added successfully',
                 newVehicle: vehicle
             });

@@ -1,6 +1,8 @@
 const userModel = require("../models/user.model");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const multer = require("multer");
+const bucket = require("../utils/firebase");
 require("dotenv").config();
 
 // Utility function to remove spaces from a string
@@ -31,6 +33,7 @@ const signup = async (req, res) => {
         res.cookie("token", token, { httpOnly: true, secure: true });
 
         res.status(200).json({ message: "Registration successful!", userdata });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -86,7 +89,70 @@ const DeleteUser = async (req, res) => {
     }
 
 }
+// in user route file multer setup 
+const updateUser = async (req, res) => {
+
+    if (!req.params.uid)
+        return res.status(400).json({ err: "user id missing" })
+
+    // console.log(req.body);
+    let publicUrl;
+    let update = { ...req.body }
+
+
+    const uploadFile = async () => {
+        return new Promise((resolve, reject) => {
+            if (req.file) {
+                try {
+                    const fileName = `Renify/Avatars/${Date.now()}-${req.file.originalname}`;
+
+                    const blob = bucket.file(fileName);
+                    const blobStream = blob.createWriteStream({
+                        metadata: {
+                            contentType: req.file.mimetype
+                        }
+                    });
+
+                    blobStream.on('error', (err) => {
+                        console.log("blob err")
+                        res.status(500).send(err);
+                    });
+
+                    blobStream.on('finish', async () => {
+                        await blob.makePublic();
+                        publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+                        resolve();
+                    });
+
+                    blobStream.end(req.file.buffer);
+                }
+                catch (error) {
+                    reject(error);
+                }
+            }
+        })
+    }
+
+    try {
+        await uploadFile();
+
+        // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
+        if (publicUrl) update["avatar"] = publicUrl;
+        
+        const user = await userModel.findByIdAndUpdate(req.params.uid, update, { new: true }); // new return updated user details
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        await user.save();
+
+        res.status(200).json({ user }); // always use that fu***ng  json to send objs
+    }
+    catch (err) {
+        res.status(300).send(err);
+    }
+
+}
 
 module.exports = {
-    login, signup, DeleteUser
+    login, signup, DeleteUser, updateUser
 }

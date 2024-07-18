@@ -71,7 +71,7 @@ export const LoginPage = ({ who }) => {
               <img src="./login2.png" className=" h-full " alt="" />
             </div>
             {/* Right column container */}
-            <div className="mb-12 md:mb-0 w-72 h-full mt-4 md:h-auto md:w-[30%] lg:w-[30%] xl:w-[30%] ">
+            <div className="mb-12 md:mb-0 w-72 h-full mt-4 md:h-auto md:w-[30%] lg:w-[30%] xl:w-[30%] bg-white rounded-lg shadow-md sm:max-w-md dark:bg-gray-800/80 border dark:border-gray-700 p-10 ">
               <form onSubmit={handleSubmit(submit)}>
                 {/*Sign in section*/}
                 <div className="flex flex-row items-center justify-center lg:justify-start">
@@ -130,7 +130,7 @@ export const LoginPage = ({ who }) => {
                     {...register("credential", { required: true })}
                     type="text"
                     // className="py-2 w-full outline-none border-b-2  border-slate-300 duration-200 focus:border-slate-700 dark:focus:border-white"
-                    className="block py-2.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=""
                   />{" "}
                   <label

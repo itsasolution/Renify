@@ -1,12 +1,58 @@
 const VehicleModel = require("../models/vehicles.model");
 
+const OverallRating = async (vehicle) => {
+    try {
+        const reviews = vehicle?.reviews;
+        const totalReviews = reviews?.length;
+
+        if (totalReviews === 0) {
+            return 0; // No reviews, so overall rating is 0
+        }
+
+        let sum = 0;
+        reviews.forEach(review => {
+            sum += review.rating;
+            return sum;
+        })
+        let overallRating = sum / totalReviews;
+        overallRating = overallRating.toFixed(1);
+
+        console.log(overallRating)
+
+        return overallRating;
+    } catch (error) {
+        console.error('Error calculating overall rating:', error);
+    }
+}
+
+const addReview = async (req, res) => {
+
+    try {
+        const vehicle = await VehicleModel.findById(req.params.vid);
+
+        let overall = await OverallRating(vehicle);
+        vehicle.overallRating = overall;
+        vehicle.reviews.push(req.body)// arr.push({obj})
+
+        await vehicle.save();
+        res.status(201).json(vehicle);
+
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
 async function findvehicle(req, res) {
     try {
-        const vehicle = await VehicleModel.findOne({ _id: req.body.id });
+        // console.log(req.params.vid)
+        const vehicle = await VehicleModel.findOne({ _id: req.params.vid })?.populate("providerId");
         if (!vehicle)
             res.status(404).json("No such a vehicle available")
 
-        vehicle.populate()
+        let overallRating = await OverallRating(vehicle)
+        vehicle.overallRating = overallRating;
+
         res.status(200).json(vehicle) // object
     }
     catch (err) {
@@ -27,5 +73,5 @@ const getAllVehicles = async (req, res) => {
 
 
 module.exports = {
-    findvehicle, getAllVehicles
+    findvehicle, getAllVehicles, addReview
 }

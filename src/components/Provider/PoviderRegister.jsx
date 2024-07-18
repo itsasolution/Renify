@@ -7,15 +7,21 @@ import FormTemplate from "../FormTemplate/FormTemplate";
 
 export const ProviderRegister = () => {
   const { setUser } = useContext(UserContext);
-  const fields = ["username", "name", "email", "password", "address"];
+  const fields = ["Username", "Name", "Email", "Password", "Address"];
 
   const navigate = useNavigate();
 
   // making request
   const submit = async (data) => {
-    const { username, name, email, password, address } = data;
+    const { Username, Name, Email, Password, Address } = data;
 
-    const providerInfo = { username, name, email, password, address };
+    const providerInfo = {
+      username: Username,
+      name: Name,
+      email: Email,
+      password: Password,
+      address: Address,
+    };
 
     try {
       const res = await axios.post(
@@ -58,19 +64,19 @@ export const ProviderRegister = () => {
             />
           </div>
           {/* Right column container */}
-          <div className="mb-12 md:mb-0 md:w-[30%] w-full lg:w-[30%] xl:w-[30%] ">
+          <div className="mb-12 md:mb-0 md:w-[30%] w-full lg:w-[30%] xl:w-[30%] bg-white rounded-lg shadow-md sm:max-w-md dark:bg-gray-800/80 border dark:border-gray-700 px-8 pb-6">
             {/*Sign in section*/}
 
             <FormTemplate fields={fields} btnType="Register" submit={submit} />
-          <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-            Have an account?
-            <Link
-              to={"/user-login"}
-              className=" transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
-            >
-              &nbsp;Login
-            </Link>
-          </p>
+            <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+              Have an account?
+              <Link
+                to={"/user-login"}
+                className=" transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
+              >
+                &nbsp;Login
+              </Link>
+            </p>
           </div>
         </div>
       </section>

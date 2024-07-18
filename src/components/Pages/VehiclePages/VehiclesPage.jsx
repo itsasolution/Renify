@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CarCard from "../../social media/CarCard";
 import axios from "axios";
+import { Pagination } from "@mui/material";
+import LocationFinder from "../../LocationFinder";
 
 const VehiclesPage = () => {
   let [list, setList] = useState([]);
@@ -46,7 +48,7 @@ const VehiclesPage = () => {
 
   return (
     <>
-      <div className="flex text-white justify-center text-xl gap-x-5 m-5  ">
+      <div className="flex text-white justify-center shrink fle text-xl gap-x-5 m-5  ">
         <div
           role="button"
           className="btn bg-[#ffdb80] text-black shadow-md  w-28 text-lg hover:bg-[#ffd641] hover:shadow-lg border-none  "
@@ -84,6 +86,9 @@ const VehiclesPage = () => {
           Booked
         </div>
       </div>
+
+<LocationFinder/>
+
       {/* cards */}
       {filterList.length > 0 ? (
         <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
@@ -96,8 +101,20 @@ const VehiclesPage = () => {
           })}
         </div>
       ) : (
-        <div className="flex h-[50vh] font-semibold text-xl items-center justify-center">No vehicle Found !</div>
+        <div className="flex h-[50vh] font-semibold text-xl items-center justify-center">
+          No vehicle Found !
+        </div>
       )}
+      <div className=" grid place-items-center m-4 ">
+        <Pagination
+          count={10}
+          variant="outlined"
+          size="large"
+          color="primary"
+          // shape="rounded"
+          className=""
+        />
+      </div>
     </>
   );
 };

@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { IoMdStar } from "react-icons/io";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaPinterest,
-  FaInstagram,
-} from "react-icons/fa";
 import axios from "axios";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
@@ -14,34 +7,38 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/context";
 import DateTimeSchedular from "../../Date and time picker/DateTimeSchedular";
 import CardSlider from "../../CardSlider";
+import ImageSection from "./ImageSection";
+import { Rating } from "@mui/material";
+import Reveiws from "./Reveiws";
+import ReviewForm from "./ReviewForm";
 
 export const VehicleDetails = () => {
   const { user } = useContext(UserContext);
 
+  const [image, setImage] = useState("");
   const [vehicle, setVehicle] = useState();
   const [bookingData, setBookingData] = useState();
-  const [image, setImage] = useState("");
 
   const { id } = useParams();
   useEffect(() => {
     axios
-      .post("http://localhost:4000/vehicles/findvehicle", { id })
+      .get(`http://localhost:4000/vehicles/findvehicle/${id}`)
       .then((res) => {
         if (res) {
-          // console.log(res.data);
+          console.log(res.data);
           setVehicle(res.data);
           setImage(res.data.images[0]);
         }
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response?.data);
+        toast.error(err?.response?.data);
       });
 
     // booking status
-    if (user._id) {
-    // user.populate("Booking").myRides[0].populate("vehicle")
-    // myvehicle[arr].populate(user/vehicle).vehicleID.bookingDetails
+    if (user?._id) {
+      // user.populate("Booking").myRides[0].populate("vehicle")
+      // myvehicle[arr].populate(user/vehicle).vehicleID.bookingDetails
     }
   }, []);
 
@@ -57,7 +54,7 @@ export const VehicleDetails = () => {
   const Bookeride = () => {
     if (dateData) {
       const data = {
-        id: id,
+        id: id, //vehicle
         userId: user._id,
         ...dateData, // spreading datedata
       };
@@ -81,105 +78,135 @@ export const VehicleDetails = () => {
     }
   };
 
-  const [backgroundPosition, setBackgroundPosition] = useState("center");
-  const [backSize, setbackSize] = useState("cover");
-
-  const changeImage = (index) => {
-    setImage(vehicle?.images[index]);
-  };
-
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
-    setBackgroundPosition(`${x}% ${y}%`);
-    setbackSize("200%");
-  };
-
-  const handleLeave = (e) => {
-    setBackgroundPosition(`center`);
-    setbackSize("cover");
-  };
-  const iconsClass =
-    "shadow-md  w-7 h-7 p-1 mx-1 rounded-full hover:bg-green-500 duration-100 hover:fill-white dark:fill-white";
-
   return (
     // <div className="md:h-[calc(100vh-55px)]  ">
-    <div className="">
+    <>
       <Link to={"/vehicles"}>
-        <div className="flex items-center  font-semibold m-2 w-14 justify-between">
-          <IoIosArrowBack /> Back
+        <div className="hidden md:flex items-center group font-semibold m-2 w-14 justify-between">
+          <IoIosArrowBack className="group-hover:translate-x-1 duration-300" />{" "}
+          Back
         </div>
       </Link>
 
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-6 mt-5 ">
+      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-6 mt-5">
         {/* images section */}
-        <div className="md:mx-5 m-2 flex gap-1 md:gap-2 flex-col-reverse">
-          {/* small boxs */}
-          <div className="flex items-center w-full scroll overflow-x-scroll  ">
-            {vehicle?.images?.map((img, index) => {
-              return (
-                <button
-                  onClick={() => changeImage(index)}
-                  key={index}
-                  className="shrink-0  md:m-1.5 bg-no-repeat m-1 h-20 w-20 overflow-hidden rounded-lg hover:outline-green-400 hover:outline-2 outline-1 dark:outline shadow-md "
-                >
-                  <img className=" h-full w-full" src={`${img}`} alt="img" />
-                </button>
-              );
-            })}
-          </div>
-          <div className=" w-full md:h-[80%] h-72 ">
-            <div
-              className="image-container rounded-xl shadow-md   h-full p-1 w-full overflow-hidden bg-no-repeat"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleLeave}
-              style={{
-                backgroundImage: `url(${image})`,
-                backgroundPosition: backgroundPosition,
-                backgroundSize: backSize,
-              }}
-            >
-              {/* <img
-                className="image h-full w-full opacity-0"
-                src={`${image}`}
-                alt="img"
-              /> */}
-            </div>
-          </div>
-        </div>
+        <ImageSection vehicle={vehicle} setImage={setImage} image={image} />
 
         <div className="">
-          <div className="m-2">
-            <h1 className="text-3xl my-2 font-semibold">{vehicle?.model}</h1>
-            <h1 className="text-2xl text-slate-400 my-2 font-semibold">
-              {vehicle?.brand}
-            </h1>
-            <span className="flex">
-              <span className="flex">
-                <IoMdStar className="fill-yellow-300" />
-                <IoMdStar className="fill-yellow-300" />
-                <IoMdStar className="fill-yellow-300" />
-                <IoMdStar className="fill-yellow-300" />
-                <IoMdStar className="fill-slate-200" />
-              </span>
-              4 reviews
-            </span>
-            {/* price */}
-            <span className="text-lg pt-1">
-              <span className="font-semibold">
-                Rent/hour:
-                <span className=""> ₹ {vehicle?.rentPerHour}</span>
-              </span>
-              <div className="my-1">
-                <span className="font-semibold">
-                  Rent/Day:
-                  <span> ₹ {vehicle?.rentPerDay}</span>
-                </span>
-              </div>
-            </span>
-          </div>
+          <div className="m-2 grid grid-cols-2  ">
+            <div className="">
+              <h1 className="text-3xl my-2 font-semibold">{vehicle?.model}</h1>
+              <h1 className="text-2xl text-slate-500 my-2 font-semibold">
+                {vehicle?.brand}
+              </h1>
+              <span className="">
+                <span className="mx-1 flex items-center">
+                  {/* <Rating
+                    value={vehicle?.overallRating}
+                    sx={{ fontSize: "20px" }}
+                    readOnly
+                    /> */}
 
+                  <div className="flex items-center mb-1 space-x-1 ">
+                    <span className="mr-1">{vehicle?.overallRating}</span>
+                    {Array.from({ length: vehicle?.overallRating }).map(
+                      (_, i) => (
+                        <svg
+                          key={i}
+                          className="w-4 h-4 text-yellow-300"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 22 20"
+                        >
+                          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                      )
+                    )}
+                    {Array.from({ length: 5 - vehicle?.overallRating }).map(
+                      (_, i) => (
+                        <svg
+                          key={i}
+                          className="w-4 h-4 text-gray-300 dark:text-gray-500"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 22 20"
+                        >
+                          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                      )
+                    )}
+                  </div>
+                  {/* <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+                    <svg
+                      className="w-4 h-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg
+                      className="w-4 h-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg
+                      className="w-4 h-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg
+                      className="w-4 h-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg
+                      className="w-4 h-4 text-gray-300 dark:text-gray-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                  </div> */}
+                </span>
+                <div>{vehicle?.reviews?.length} reviews</div>
+              </span>
+              {/* price */}
+              <span className="text-lg pt-1">
+                <span className="font-semibold">
+                  Rent/hour:
+                  <span className=""> ₹ {vehicle?.rentPerHour}</span>
+                </span>
+                <div className="my-1">
+                  <span className="font-semibold">
+                    Rent/Day:
+                    <span> ₹ {vehicle?.rentPerDay}</span>
+                  </span>
+                </div>
+              </span>
+            </div>
+            <div className="flex flex-col font-semibold mt-[90px] md:mt-24 mx-1 text-lg ">
+              <span>Owner : {vehicle?.providerId?.name}</span>
+              <span>Location : {vehicle?.location}</span>
+            </div>
+          </div>
           <div className="flex flex-col items-center">
             <DateTimeSchedular getDate={getDate} />
 
@@ -198,27 +225,15 @@ export const VehicleDetails = () => {
               </Link>
             )}
           </div>
-          <span>{vehicle?.type}</span>
-          <div className="my-2">
-            <span className="font-semibold">Availability: </span>
-            <div className="flex text-slate-600 my-3 text-xl">
-              Connect With Us:
-              <div className="flex ml-5 ">
-                <FaFacebookF
-                  className={`${iconsClass} bg-green-500 fill-white`}
-                />
-                <FaTwitter className={iconsClass} />
-                <FaPinterest className={iconsClass} />
-                <FaInstagram className={iconsClass} />
-              </div>
-            </div>
-          </div>
         </div>
       </div>
+
+      <Reveiws reviews={vehicle?.reviews} />
+      <ReviewForm user={user} vid={id} />
 
       <div className="my-28">
         <CardSlider />
       </div>
-    </div>
+    </>
   );
 };

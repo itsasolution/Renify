@@ -1,20 +1,16 @@
 const express = require('express');
-const { login, signup, DeleteUser } = require('../Controllers/user.controller');
+const { login, signup, DeleteUser, updateUser } = require('../Controllers/user.controller');
+const upload = require('../utils/multer');
 const router = express.Router();
+
 
 router.route('/id/:uid').get((req, res) => {
     console.log("get request")
     res.send("get user")
 
-}).post((req, res) => {
-    console.log("post request")
-    res.send("post user")
-
-}).delete(DeleteUser)// cant send headers so use params
-    .patch((req, res) => {
-        // update user
-        res.send("Update User")
-    })
+})
+    .delete(DeleteUser)// cant send headers so use params
+    .patch(upload.single('avatar'), updateUser)// update user/ middleare for file
 
 
 // Middleware to handle user registration

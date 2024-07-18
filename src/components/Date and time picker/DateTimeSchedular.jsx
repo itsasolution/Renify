@@ -42,15 +42,16 @@ const DateTimePicker = ({ getDate }) => {
     }
   };
 
-  const cls = "h-10 bg-cyan-400 text-white rounded-md p-3 my-1 shadow-md ";
+  const cls =
+    "h-10 bg-slate-500/80 placeholder:text-white text-white rounded-md p-3 my-1 shadow-md ";
 
   return (
-    <div className="flex flex-col mb-5 md:mt-0 mt-8 gap-3 justify-center  p-3 items-center ">
+    <div className="flex flex-col mb-5 md:mt-0 mt-1 gap-3 justify-center p-3 items-center ">
       <h2 className="text-center font-semibold text-xl border-cyan-400 border-b-4 ">
         Select Rental Dates
       </h2>
       <div className="flex md:flex-row flex-col font-semibold gap-4 mt-4 justify-center items-center ">
-        <span className="flex flex-col items-center">
+        <span className="flex gap-3 md:gap-0 md:flex-col items-center">
           Select Start Date
           <DatePicker
             className={cls}
@@ -63,8 +64,8 @@ const DateTimePicker = ({ getDate }) => {
             placeholderText="Select Start Date"
           />
         </span>
-        <span className="flex flex-col items-center">
-          Select End Date
+        <span className="flex gap-5 md:gap-0 md:flex-col items-center">
+          Select End Date 
           <DatePicker
             className={cls}
             selected={endDate}
@@ -77,14 +78,6 @@ const DateTimePicker = ({ getDate }) => {
           />
         </span>
       </div>
-      {/* <div className="w-full grid place-items-center ">
-        <button
-          className=" btn w-40 rounded-full text-white text-lg bg-cyan-400  btn-ghost shadow-md "
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-      </div> */}
     </div>
   );
 };

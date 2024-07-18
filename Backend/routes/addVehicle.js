@@ -37,6 +37,7 @@ router.post("/", upload.array('images', 5), async (req, res, next) => {
                     resolve();
                 });
                 
+                // all promises not resolved
                 console.log(publicUrls) // empty why 
                 blobStream.end(file.buffer);
             });

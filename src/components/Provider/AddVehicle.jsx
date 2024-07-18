@@ -6,6 +6,7 @@ import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import { PiMotorcycleFill } from "react-icons/pi";
 import { PiCarProfile } from "react-icons/pi";
+import { LoadingButton } from "@mui/lab";
 const AddVehicle = () => {
   const { user, setMyVehicles } = useContext(UserContext);
   const {
@@ -62,7 +63,6 @@ const AddVehicle = () => {
     "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer";
   const errorClass = "text-sm text-red-500 absolute right-0 top-3";
 
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -72,7 +72,7 @@ const AddVehicle = () => {
         Add Vehicle
       </h1>
 
-      {/* radio */}
+      {/* radio vehicle type */}
       <div className="mb-4 relative">
         <label>Vehicle Type</label>
         <div className=" my-2 flex flex-col gap-1 ">
@@ -80,7 +80,7 @@ const AddVehicle = () => {
             <input
               className="radio radio-error h-5 w-5"
               type="radio"
-              value="Car"
+              value="car"
               id="car"
               {...register("type", { required: "Type is required" })}
             />
@@ -96,7 +96,7 @@ const AddVehicle = () => {
             <input
               className="radio radio-info h-5 w-5"
               type="radio"
-              value="Bike"
+              value="bike"
               id="bike"
               {...register("type", { required: "Type is required" })}
             />
@@ -120,7 +120,6 @@ const AddVehicle = () => {
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="text"
-          id="floating_email"
           {...register("brand", { required: "Brand is required" })}
           className={inputClass}
           placeholder=" "
@@ -171,9 +170,7 @@ const AddVehicle = () => {
           className={inputClass}
           placeholder=""
         />
-        <label htmlFor="floating_last_name" className={labelClass}>
-          Location
-        </label>
+        <label className={labelClass}>Location</label>
         {errors.location && (
           <p className={errorClass}>{errors.location.message}</p>
         )}
@@ -203,9 +200,7 @@ const AddVehicle = () => {
             className={inputClass}
             placeholder=" "
           />
-          <label htmlFor="floating_last_name" className={labelClass}>
-            Rent Per Hour
-          </label>
+          <label className={labelClass}>Rent Per Hour</label>
           {errors.rentPerHour && (
             <p className={errorClass}>{errors.rentPerHour.message}</p>
           )}
@@ -217,7 +212,7 @@ const AddVehicle = () => {
           trigger="hover"
           stroke="regular"
           colors="primary:#121331,secondary:#08a88a,tertiary:#4bb3fd,quaternary:#ffc738,quinary:#eee966,senary:#ffffff,septenary:#f9c9c0"
-          style={{ width: "60px", height: "60px"}}
+          style={{ width: "60px", height: "60px" }}
         ></lord-icon>
 
         <input
@@ -233,23 +228,30 @@ const AddVehicle = () => {
           <p className="text-sm mx-1 text-red-500 ">{errors.images.message}</p>
         )}
       </div>
-      <button
+      {/* <button
         type="submit"
         disabled={isSubmitting}
-        className={`group text-white w-full btn text-lg btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-4 px-5
+        className={`text-white w-full btn text-lg btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-4 px-5
           ${isSubmitting} ? "cursor-not-allowed":""`}
+      > */}
+      <LoadingButton
+        color="primary"
+        className="w-full text-xl focus:bg-sky-500"
+        type="submit"
+        loading={isSubmitting}
+        loadingPosition="start"
+        variant="contained"
       >
-        Add
+        <span>ADD</span>
+
         <lord-icon
           src="https://cdn.lordicon.com/jgnvfzqg.json"
           trigger="hover"
           colors="primary:#30c9e8"
-          className="bg-red-200"
         ></lord-icon>
-      </button>
+      </LoadingButton>
+      {/* </button> */}
     </form>
-
-
   );
 };
 
