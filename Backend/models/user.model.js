@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
+  role: {
+    type: String,
+    default: "user"
+  },
   username: {
     type: String,
     required: true,

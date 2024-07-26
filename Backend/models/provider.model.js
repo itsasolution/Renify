@@ -4,10 +4,14 @@ const { Schema } = mongoose
 
 
 const providerSchema = new Schema({
-
+  avatar: String,
+  role: {
+    type: String,
+    default: "provider"
+  },
   username: {
     type: String,
-    unique:true
+    unique: true
   },
 
   name: {
@@ -30,10 +34,8 @@ const providerSchema = new Schema({
     ref: 'Vehicle', // model name
   }],
 
-  contact: {
-    address: String,
-    mobileNumber: Number,
-  },
+  address: String,
+  mobileNumber: Number,
 
   documents: {
     aadharNumber: Number,

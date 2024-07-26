@@ -6,11 +6,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const Navbar = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser,url } = useContext(UserContext);
 
   const logout = async () => {
     try {
-      let res = await axios.get("http://localhost:4000/user/logout");
+      let res = await axios.get(`${url}/user/logout`);
       // let res = await axios.get("http://localhost:4000/provider/logout");
       if (res.data) {
         console.log(res.data);
@@ -26,7 +26,7 @@ export const Navbar = () => {
 
   // theme
   const [theme, setTheme] = useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "dark"
   );
   const element = document.documentElement;
   // console.log(element);

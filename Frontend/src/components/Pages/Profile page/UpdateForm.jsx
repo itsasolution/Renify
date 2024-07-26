@@ -32,6 +32,7 @@ const UpdateForm = ({ user, updateDetails, loader }) => {
     }
     // console.log(updateInfo);
     if (!has) toast.error("Update at least on detail !");
+    
     else updateDetails(updateInfo);
   };
 

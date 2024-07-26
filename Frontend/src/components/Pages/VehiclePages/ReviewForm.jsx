@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import { alertClasses, Rating } from "@mui/material";
+import { Rating } from "@mui/material";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { UserContext } from "../../../context/context";
 
 const ReviewForm = ({ user, vid }) => {
   const [rating, setRating] = useState(1);
   const { register, handleSubmit, reset } = useForm();
-
+  const { url } = useContext(UserContext);
+  
   const submit = async (data) => {
     const newReview = {
-    //   user: user._id,
+      //   user: user._id,
       user: user.name,
       date: new Date().toISOString(),
       text: data.text,
@@ -20,7 +22,7 @@ const ReviewForm = ({ user, vid }) => {
 
     try {
       axios
-        .post(`http://localhost:4000/vehicles/addreview/${vid}`, newReview)
+        .post(`${url}/vehicles/addreview/${vid}`, newReview)
         .then((res) => {
           console.log(res);
           toast.success("Review Added");
@@ -30,8 +32,8 @@ const ReviewForm = ({ user, vid }) => {
           console.log(err);
         });
 
-        window.location.reload();
-        reset(); // Reset the form after successful submission
+      window.location.reload();
+      reset(); // Reset the form after successful submission
     } catch (error) {
       console.error("Error submitting review", error);
     }

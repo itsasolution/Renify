@@ -121,7 +121,7 @@ const updateUser = async (req, res) => {
                     blobStream.on('finish', async () => {
                         await blob.makePublic();
                         publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-                        resolve();
+                        resolve(publicUrl);
                     });
 
                     blobStream.end(req.file.buffer);
@@ -138,7 +138,8 @@ const updateUser = async (req, res) => {
 
         // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;
-        
+        console.log(update)
+
         const user = await userModel.findByIdAndUpdate(req.params.uid, update, { new: true }); // new return updated user details
         if (!user) {
             return res.status(404).send('User not found');

@@ -9,7 +9,7 @@ const DateTimePicker = ({ getDate }) => {
   const handleStartDateChange = (date) => {
     setStartDate(date);
     if (date >= endDate) {
-      setEndDate(null);
+      setEndDate(null); 
     }
   };
 

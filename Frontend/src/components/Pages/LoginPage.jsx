@@ -10,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export const LoginPage = ({ who }) => {
   //  user info
-  const { setUser } = useContext(UserContext);
+  const { setUser,url } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -33,8 +33,8 @@ export const LoginPage = ({ who }) => {
     try {
       const res = await axios.post(
         who === "user"
-          ? "http://localhost:4000/user/login"
-          : "http://localhost:4000/provider/login",
+          ? `${url}/user/login`
+          : `${url}/provider/login`,
 
         userInfo
         // { withCredentials: true } // Include cookies in the request
@@ -66,16 +66,16 @@ export const LoginPage = ({ who }) => {
       <section className="h-screen opacityanime ">
         <div className="h-full">
           {/* Left column container with background*/}
-          <div className="flex h-full flex-wrap items-center justify-center gap-x-[40px] ">
-            <div className="shrink-1 basis-auto w-[80%] md:w-5/12  ">
-              <img src="./login2.png" className=" h-full " alt="" />
+          <div className="flex md:h-full flex-wrap items-center justify-center gap-x-[40px] ">
+            <div className="shrink-1 basis-auto w-[70%] md:w-5/12  ">
+              <img src="./login2.png" className=" h-full md:w-[90%] " alt="" />
             </div>
             {/* Right column container */}
-            <div className="mb-12 md:mb-0 w-72 h-full mt-4 md:h-auto md:w-[30%] lg:w-[30%] xl:w-[30%] bg-white rounded-lg shadow-md sm:max-w-md dark:bg-gray-800/80 border dark:border-gray-700 p-10 ">
+            <div className="mb-12 md:mb-0 w-full m-5 md:w-[30%] max-w-[410px] h-[25em] bg-white/80 md:p-10 p-6 rounded-lg shadow-md dark:bg-gray-900 border dark:border-gray-800  ">
               <form onSubmit={handleSubmit(submit)}>
                 {/*Sign in section*/}
                 <div className="flex flex-row items-center justify-center lg:justify-start">
-                  <p className="mb-0 me-4 text-lg">Login with</p>
+                  <p className="mb-0 me-4 text-lg hidden md:block ">Login with</p>
                   {/* Facebook */}
                   <button className="mx-1 inline-block h-9 w-9 rounded-full fill-white p-2 bg-blue-600 hover:bg-transparent hover:border border-blue-600 hover:fill-blue-700 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
                     <span className="[&>svg]:mx-auto [&>svg]:h-3.5 [&>svg]:w-3.5">
@@ -120,8 +120,8 @@ export const LoginPage = ({ who }) => {
                     </span>
                   </button>
                 </div>
-                <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500">
-                  <p className="mx-4 mb-0 text-center font-semibold ">Or</p>
+                <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500">
+                  <p className="mx-4 text-center font-semibold ">Or</p>
                 </div>
 
                 {/* credential input */}
@@ -179,14 +179,14 @@ export const LoginPage = ({ who }) => {
                 <div className="text-center lg:text-left">
                   <button
                     disabled={isSubmitting}
-                    className={`inline-block w-full rounded px-7 py-2 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
+                    className={`inline-block mt-5 w-full rounded px-7 py-2 font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
                    ${isSubmitting ? "cursor-not-allowed" : ""}`}
                   >
-                    {isSubmitting ? <CircularProgress size={24} /> : "Log-in"}
+                    {isSubmitting ? <CircularProgress size={24} /> : "Login"}
                   </button>
 
                   {/* Register link */}
-                  <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                  <p className="mb-0 mt-3 pt-1 text-sm font-semibold">
                     Create Account?
                     <Link
                       to={who === "user" ? "/sign-in" : "/provider-sign-in"}

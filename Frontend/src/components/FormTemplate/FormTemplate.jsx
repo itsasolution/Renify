@@ -20,7 +20,7 @@ const FormTemplate = ({ fields, btnType, submit }) => {
     <>
       <form
         onSubmit={handleSubmit(submit)}
-        className="max-w-[500px] m-8 md:mx-auto overflow-hidden"
+        className="max-w-[410px] m-5 md:mx-2 "
       >
         <div className="flex flex-row items-center justify-center lg:justify-start">
           <p className="mb-0 me-4 text-lg">Sign up with</p>
@@ -86,7 +86,7 @@ const FormTemplate = ({ fields, btnType, submit }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`inline-block w-full rounded px-7 py-2 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
+            className={`inline-block w-full rounded px-7 py-2 my-2 font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
             ${isSubmitting ? "cursor-not-allowed dark:hover:bg-cyan-200" : ""}`}
           >
             {isSubmitting ? <CircularProgress size={24} /> : btnType}

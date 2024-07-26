@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import { PiMotorcycleFill } from "react-icons/pi";
 import { PiCarProfile } from "react-icons/pi";
 import { LoadingButton } from "@mui/lab";
+import { CircularProgress } from "@mui/material";
 const AddVehicle = () => {
-  const { user, setMyVehicles } = useContext(UserContext);
+  const { user, setMyVehicles, url } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -33,8 +34,8 @@ const AddVehicle = () => {
 
     try {
       const response = await axios.post(
-        // "http://localhost:4000/addvehicle",
-        "http://localhost:4000/ADDVEHICLES",
+        // `${url}/addvehicle`,
+        `${url}/ADDVEHICLES`,
         formData,
         {
           headers: {
@@ -206,14 +207,16 @@ const AddVehicle = () => {
           )}
         </div>
       </div>
-      <div className="relative flex items-center z-0 w-full mb-5 group">
-        <lord-icon
-          src="https://cdn.lordicon.com/rehjpyyh.json"
-          trigger="hover"
-          stroke="regular"
-          colors="primary:#121331,secondary:#08a88a,tertiary:#4bb3fd,quaternary:#ffc738,quinary:#eee966,senary:#ffffff,septenary:#f9c9c0"
-          style={{ width: "60px", height: "60px" }}
-        ></lord-icon>
+      <div className="relative flex items-center  z-0 w-full mb-5 group">
+        <div className=" ">
+          <lord-icon
+            src="https://cdn.lordicon.com/rehjpyyh.json"
+            trigger="hover"
+            stroke="regular"
+            // colors="primary:#121331,secondary:#08a88a,tertiary:#4bb3fd,quaternary:#ffc738,quinary:#eee966,senary:#ffffff,septenary:#f9c9c0"
+            style={{ width: "60px", height: "60px" }}
+          ></lord-icon>
+        </div>
 
         <input
           {...register("images", {
@@ -228,29 +231,24 @@ const AddVehicle = () => {
           <p className="text-sm mx-1 text-red-500 ">{errors.images.message}</p>
         )}
       </div>
-      {/* <button
+      <button
         type="submit"
         disabled={isSubmitting}
         className={`text-white w-full btn text-lg btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-4 px-5
           ${isSubmitting} ? "cursor-not-allowed":""`}
-      > */}
-      <LoadingButton
-        color="primary"
-        className="w-full text-xl focus:bg-sky-500"
-        type="submit"
-        loading={isSubmitting}
-        loadingPosition="start"
-        variant="contained"
       >
-        <span>ADD</span>
+        <span className="mx-2">ADD</span>
 
-        <lord-icon
-          src="https://cdn.lordicon.com/jgnvfzqg.json"
-          trigger="hover"
-          colors="primary:#30c9e8"
-        ></lord-icon>
-      </LoadingButton>
-      {/* </button> */}
+        {isSubmitting ? (
+          <CircularProgress size={24} />
+        ) : (
+          <lord-icon
+            src="https://cdn.lordicon.com/jgnvfzqg.json"
+            trigger="loop"
+            colors="primary:#30c9e8"
+          ></lord-icon>
+        )}
+      </button>
     </form>
   );
 };

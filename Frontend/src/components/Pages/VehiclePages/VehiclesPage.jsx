@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CarCard from "../../social media/CarCard";
 import axios from "axios";
 import { Pagination } from "@mui/material";
 import LocationFinder from "../../LocationFinder";
+import { UserContext } from "../../../context/context";
 
 const VehiclesPage = () => {
   let [list, setList] = useState([]);
   let [filterList, setFilter] = useState([]);
   let [category, setType] = useState("all");
+
+  const { url } = useContext(UserContext);
 
   // filter function
   const filterdata = () => {
@@ -29,7 +32,7 @@ const VehiclesPage = () => {
   useEffect(() => {
     const getitems = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/vehicles");
+        const res = await axios.get(`${url}/vehicles`);
         setList(res.data);
         // call it here to get data in filterList
         console.log(res.data);
@@ -87,7 +90,7 @@ const VehiclesPage = () => {
         </div>
       </div>
 
-<LocationFinder/>
+      <LocationFinder />
 
       {/* cards */}
       {filterList.length > 0 ? (

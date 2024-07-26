@@ -7,7 +7,8 @@ import {
 } from "react-icons/fa";
 
 function Footer() {
-  const iconsClass = "shadow-md w-7 p-1 h-7 bg-slate-800 hover:scale-[1.1] mx-2 rounded-xl duration-100 ";
+  const iconsClass =
+    "shadow-md w-7 p-1 h-7 bg-slate-800 hover:scale-[1.1] mx-2 rounded-xl duration-100 ";
 
   return (
     <div>
@@ -39,13 +40,11 @@ function Footer() {
               ></lord-icon> */}
             </div>
             <div className="flex text-slate-300 my-3 text-xl">
-              Connect With Us : 
-              <FaFacebookF className={`${iconsClass} hover:text-sky-500`} />
-              <FaTwitter className={`${iconsClass}   hover:text-cyan-500`} />
-              <FaPinterest className={`${iconsClass} hover:text-red-500`} />
-              <FaInstagram
-                className={`${iconsClass} hover:text-pink-500 `}
-              />
+              Connect With Us :
+              <FaFacebookF className={`${iconsClass} text-sky-400`} />
+              <FaTwitter className={`${iconsClass}   text-cyan-400`} />
+              <FaPinterest className={`${iconsClass} text-red-600`} />
+              <FaInstagram className={`${iconsClass} text-pink-500 `} />
             </div>
           </div>
         </nav>

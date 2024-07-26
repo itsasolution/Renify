@@ -26,7 +26,7 @@ export const SocialMedia = () => {
   };
 
   return (
-    <div className="media-div" title="Click to Pause">
+    <div className="media-div md:hover:scale-105 duration-500 " title="Click to Pause">
       <div
         // className="d1 animat bg-[#9FFB17]/80 dark:bg-[#060665]/30 bg-[radial-gradient(circle_farthest-side,rgba(255,128,182,.15),rgba(255,255,255,0))]"
         className="d1 animat from-green-400 to-[#9FFB17]  bg-gradient-to-tr dark:from-blue-800/70 dark:to-fuchsia-900/50 shadow-cyan-500 "

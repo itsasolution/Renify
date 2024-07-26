@@ -13,7 +13,7 @@ import Reveiws from "./Reveiws";
 import ReviewForm from "./ReviewForm";
 
 export const VehicleDetails = () => {
-  const { user } = useContext(UserContext);
+  const { user, url } = useContext(UserContext);
 
   const [image, setImage] = useState("");
   const [vehicle, setVehicle] = useState();
@@ -22,7 +22,7 @@ export const VehicleDetails = () => {
   const { id } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/vehicles/findvehicle/${id}`)
+      .get(`${url}/vehicles/findvehicle/${id}`)
       .then((res) => {
         if (res) {
           console.log(res.data);

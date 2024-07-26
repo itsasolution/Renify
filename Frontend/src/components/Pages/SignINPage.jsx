@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export const SignINPage = () => {
-  const { setUser } = useContext(UserContext);
+  const { setUser, url } = useContext(UserContext);
 
   //  form setup
   const {
@@ -27,10 +27,7 @@ export const SignINPage = () => {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:4000/user/sign-up",
-        userInfo
-      );
+      const res = await axios.post(`${url}/user/sign-up`, userInfo);
 
       console.log(res.data);
       if (res.data) {
@@ -58,12 +55,13 @@ export const SignINPage = () => {
       {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div> */}
       <section className=" h-[calc[100vh-50px]] opacityanime">
         {/* Left column container with background*/}
-        <div className="flex md:h-screen flex-wrap items-center justify-center gap-x-[40px] ">
-          <div className="shrink-1 grow-0 basis-auto md:w-5/12 md:shrink-0 h-[300px] md:h-[450px] pl-2 md:pl-0">
-            <img src="./login.png" className="h-full" alt="" />
+        <div className="flex md:h-screen flex-wrap items-center justify-center gap-x-[70px] ">
+          <div className="shrink-1 basis-auto w-[60%] md:w-[35%]  ">
+            <img src="./login.png" className="h-full w-full" alt="" />
           </div>
+
           {/* Right column container */}
-          <div className="mb-12 p-10 md:mb-0 md:w-[30%] w-72 lg:w-[30%] xl:w-[30%] bg-white/80 rounded-lg shadow-md sm:max-w-md dark:bg-gray-800/80 border dark:border-gray-700 ">
+          <div className="mb-12 md:p-9 p-6  md:mb-0 md:w-[30%] max-w-[500px]  w-[90%] bg-white/80 rounded-lg shadow-md dark:bg-gray-900 border dark:border-gray-700 ">
             {/*Sign in section*/}
 
             <form onSubmit={handleSubmit(submit)}>
@@ -107,7 +105,6 @@ export const SignINPage = () => {
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
                     >
-                      {/*!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. */}
                       <path d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z" />
                     </svg>
                   </span>
@@ -210,7 +207,7 @@ export const SignINPage = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`inline-block w-full rounded px-7 py-2 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
+                  className={`inline-block w-full rounded px-7 py-2 my-2  font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
                   ${
                     isSubmitting
                       ? "cursor-not-allowed dark:hover:bg-cyan-200"
@@ -224,7 +221,7 @@ export const SignINPage = () => {
                   Have an account?
                   <Link
                     to={"/user-login"}
-                    className=" transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
+                    className="transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
                   >
                     &nbsp;Login
                   </Link>
