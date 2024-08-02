@@ -12,6 +12,7 @@ import { Contact } from "./components/Pages/Contact";
 import VehiclesPage from "./components/Pages/VehiclePages/VehiclesPage";
 import { VehicleDetails } from "./components/Pages/VehiclePages/VehicleDetails";
 import ProfilePage from "./components/Pages/Profile page/ProfilePage";
+import Examples from "./components/Helper model/Examples";
 
 const AppRoutes = () => {
   const { user } = useContext(UserContext);
@@ -26,6 +27,7 @@ const AppRoutes = () => {
       <div className="z-20">
         <Routes>
           <Route path="/" exact element={<HomePage />} />
+          <Route path="examples" element={<Examples />} />
           <Route path="/user-login" element={<LoginPage who={"user"} />} />
           <Route path="/sign-in" element={<SignINPage />} />
           <Route

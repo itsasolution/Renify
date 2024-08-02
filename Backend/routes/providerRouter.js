@@ -3,8 +3,6 @@ const { signup, login, myVehicles, updateUser, DeleteUser } = require('../Contro
 const upload = require('../utils/multer');
 const router = express.Router();
 
-
-
 router.post('/sign-up', signup)
 
 router.post("/login", login)
@@ -17,12 +15,10 @@ router.get("/logout", async (req, res) => {
 
 router.route('/id/:uid').get((req, res) => {
     console.log("get request")
-    res.send("get user")
-
+    res.send("get provider")
 })
     .delete(DeleteUser)// cant send headers so use params
-    .patch(upload.single('avatar'), updateUser)// update user/ middleare for file
-
+    .patch(upload.single('avatar'), updateUser)// update user/ middleware for file
 
 
 router.post("/my-vehicles", myVehicles)

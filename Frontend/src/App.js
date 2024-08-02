@@ -5,6 +5,9 @@ import AppRoutes from './AppRoutes';
 import { Navbar } from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/loader/Loader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
 
@@ -19,6 +22,8 @@ function App() {
       <AppRoutes />
       <Footer />
       <Toaster />
+      <ToastContainer />
+
     </div>
   );
 }

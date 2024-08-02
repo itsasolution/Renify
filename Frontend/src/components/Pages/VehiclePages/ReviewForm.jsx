@@ -9,7 +9,7 @@ const ReviewForm = ({ user, vid }) => {
   const [rating, setRating] = useState(1);
   const { register, handleSubmit, reset } = useForm();
   const { url } = useContext(UserContext);
-  
+
   const submit = async (data) => {
     const newReview = {
       //   user: user._id,
@@ -28,7 +28,7 @@ const ReviewForm = ({ user, vid }) => {
           toast.success("Review Added");
         })
         .catch((err) => {
-          alert("err");
+          alert("error");
           console.log(err);
         });
 

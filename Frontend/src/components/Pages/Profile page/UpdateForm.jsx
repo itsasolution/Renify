@@ -14,7 +14,7 @@ const UpdateForm = ({ user, updateDetails, loader }) => {
       updateInfo["name"] = name;
       has = true;
     }
-    if (number !== "" && number !== user.mobileNumber) {
+    if (number && number !== user.mobileNumber) {
       has = true;
       updateInfo["mobileNumber"] = number;
     }

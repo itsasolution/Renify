@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import toast, { LoaderIcon } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import { PiMotorcycleFill } from "react-icons/pi";
 import { PiCarProfile } from "react-icons/pi";
-import { LoadingButton } from "@mui/lab";
 import { CircularProgress } from "@mui/material";
 const AddVehicle = () => {
   const { user, setMyVehicles, url } = useContext(UserContext);
@@ -237,10 +236,11 @@ const AddVehicle = () => {
         className={`text-white w-full btn text-lg btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-4 px-5
           ${isSubmitting} ? "cursor-not-allowed":""`}
       >
-        <span className="mx-2">ADD</span>
-
         {isSubmitting ? (
-          <CircularProgress size={24} />
+          <>
+            <span className="mx-2">ADD</span>
+            <CircularProgress size={24} />
+          </>
         ) : (
           <lord-icon
             src="https://cdn.lordicon.com/jgnvfzqg.json"

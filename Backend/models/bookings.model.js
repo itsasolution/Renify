@@ -6,6 +6,7 @@ const BookingSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    amount: Number,
     vehicle: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Vehicle',

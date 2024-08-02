@@ -141,9 +141,9 @@ const updateUser = async (req, res) => {
                     });
 
                     blobStream.on('finish', async () => {
-                        await blob.makePublic();
                         publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-                        resolve(publicUrl);
+                        await blob.makePublic();
+                        resolve();
                     });
 
                     blobStream.end(req.file.buffer);
@@ -155,8 +155,9 @@ const updateUser = async (req, res) => {
         })
     }
 
+    await uploadFile();
+
     try {
-        await uploadFile();
 
         // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;

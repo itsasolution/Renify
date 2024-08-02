@@ -54,12 +54,12 @@ router.post('/', (req, res) => {
 
             const ImageList = await Promise.all(uploadPromises);
 
-            const { type, brand, model, registrationNumber, rentPerDay, rentPerHour } = req.body;
+            const { type, brand, model, registrationNumber, rentPerDay, rentPerHour,location } = req.body;
 
             const vehicle = await vehiclesModel.create({
                 providerId: provider._id,
                 images: ImageList, // Store the array of image URLs
-                type, model, registrationNumber, rentPerDay, brand, rentPerHour,
+                type, model, registrationNumber, rentPerDay, brand, rentPerHour,location
             });
 
             provider.vehicles.push(vehicle._id);

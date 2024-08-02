@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersModel = require('./models/user.model');
@@ -10,7 +11,6 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require("connect-flash");
 const cors = require("cors")
-
 var app = express();
 
 // view engine setup

@@ -89,6 +89,34 @@ const DeleteUser = async (req, res) => {
     }
 
 }
+const myrides = async (req, res) => {
+    if (!req.params.uid)
+        return res.status(400).json({ err: "user id missing" })
+
+    try {
+        const user = await userModel.findOne({ _id: req.params.uid })
+            .populate({
+                path: 'myRides',   // Populates the 'myRides' field which references bookings
+                populate: {
+                    path: 'vehicle', // Populates the 'vehicle' field inside each booking
+                    model: 'Vehicle'
+                }
+            });
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        // Extract vehicles from the populated myRides(bookings arr)
+        const vehicles = user.myRides.map(ride => ride.vehicle);
+
+        return res.status(200).json(vehicles);
+
+    } catch (err) {
+        console.error("Error fetching user with bookings and vehicles:", err);
+        return res.status(500).send("Internal server error");
+    }
+}
 // in user route file multer setup 
 const updateUser = async (req, res) => {
 
@@ -155,5 +183,5 @@ const updateUser = async (req, res) => {
 }
 
 module.exports = {
-    login, signup, DeleteUser, updateUser
+    login, signup, DeleteUser, updateUser, myrides
 }
