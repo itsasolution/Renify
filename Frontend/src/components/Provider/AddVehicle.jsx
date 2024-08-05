@@ -175,7 +175,24 @@ const AddVehicle = () => {
           <p className={errorClass}>{errors.location.message}</p>
         )}
       </div>
+
+      {/* rents */}
       <div className="grid md:grid-cols-2 md:gap-6">
+        <div className="relative z-0 w-full mb-5 group">
+          <input
+            {...register("rentPerHour", {
+              required: "required",
+            })}
+            type="number"
+            maxLength={4}
+            className={inputClass}
+            placeholder=" "
+          />
+          <label className={labelClass}>Rent Per Hour</label>
+          {errors.rentPerHour && (
+            <p className={errorClass}>{errors.rentPerHour.message}</p>
+          )}
+        </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
             {...register("rentPerDay", {
@@ -190,29 +207,14 @@ const AddVehicle = () => {
             <p className={errorClass}>{errors.rentPerDay.message}</p>
           )}
         </div>
-        <div className="relative z-0 w-full mb-5 group">
-          <input
-            {...register("rentPerHour", {
-              required: "required",
-            })}
-            // inputmode="numeric"
-            type="number"
-            className={inputClass}
-            placeholder=" "
-          />
-          <label className={labelClass}>Rent Per Hour</label>
-          {errors.rentPerHour && (
-            <p className={errorClass}>{errors.rentPerHour.message}</p>
-          )}
-        </div>
       </div>
+
       <div className="relative flex items-center  z-0 w-full mb-5 group">
         <div className=" ">
           <lord-icon
             src="https://cdn.lordicon.com/rehjpyyh.json"
             trigger="hover"
             stroke="regular"
-            // colors="primary:#121331,secondary:#08a88a,tertiary:#4bb3fd,quaternary:#ffc738,quinary:#eee966,senary:#ffffff,septenary:#f9c9c0"
             style={{ width: "60px", height: "60px" }}
           ></lord-icon>
         </div>
@@ -233,13 +235,13 @@ const AddVehicle = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`text-white w-full btn text-lg btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-4 px-5
-          ${isSubmitting} ? "cursor-not-allowed":""`}
+        className={`text-white w-full btn text-lg  btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-2 px-5
+          ${isSubmitting} ? cursor-not-allowed:""`}
       >
         {isSubmitting ? (
           <>
             <span className="mx-2">ADD</span>
-            <CircularProgress size={24} />
+            <CircularProgress color="inherit" thickness={5} size={25} />
           </>
         ) : (
           <lord-icon

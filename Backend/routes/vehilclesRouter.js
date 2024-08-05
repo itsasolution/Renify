@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { findvehicle, getAllVehicles, addReview } = require("../Controllers/vehicle.controller");
+const { findvehicle, addReview, paginate, filterVehicle } = require("../Controllers/vehicle.controller");
 const { bookVehicle, cancelBooking, checkBooking } = require('../Controllers/booking.controller');
 
 
-router.get("/", getAllVehicles)
+router.get("/", paginate, filterVehicle)
 
 router.get("/findvehicle/:vid", findvehicle)
 router.post("/addreview/:vid", addReview)

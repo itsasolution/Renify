@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CarCard from "./social media/CarCard";
+import CarCard from "./CarCard";
 import axios from "axios";
+import { UserContext } from "../../context/context";
 
 const CardSlider = () => {
   const [vehicles, setVehicles] = useState([]);
+  const { url } = useContext(UserContext);
 
   const settings = {
     dots: true,
@@ -27,7 +29,7 @@ const CardSlider = () => {
           dots: true,
         },
       },
-     
+
       {
         breakpoint: 576,
         settings: {
@@ -41,11 +43,11 @@ const CardSlider = () => {
   useEffect(() => {
     const getitems = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/vehicles");
-        // console.log(res.data);
-        setVehicles(res.data);
-      } catch(err) {
-        console.log("error:",err);
+        const res = await axios.get(`${url}/vehicles`);
+        console.log(res.data);
+        setVehicles(res.data.results);
+      } catch (err) {
+        console.log("error:", err);
       }
     };
     getitems();
@@ -54,7 +56,7 @@ const CardSlider = () => {
   return (
     <>
       <Slider {...settings} className="m-10 ">
-        {vehicles.map((data) => (
+        {vehicles?.map((data) => (
           <CarCard key={data?._id} data={data} />
         ))}
       </Slider>

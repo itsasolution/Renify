@@ -6,7 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const Navbar = () => {
-  const { user, setUser,url } = useContext(UserContext);
+  const { user, setUser, url } = useContext(UserContext);
 
   const logout = async () => {
     try {
@@ -170,15 +170,29 @@ export const Navbar = () => {
               role="button"
               className="btn btn-ghost no-animation btn-circle avatar"
             >
-              <div className="w-10 p-1 rounded-full shadow-md bg-slate-200">
+              <div className="w-10 p-[1px] rounded-full shadow-md bg-slate-200">
                 {/* <img alt="Profile" src="./profile.jpg" /> */}
-                <lord-icon
-                  src="https://cdn.lordicon.com/bgebyztw.json"
-                  trigger="hover"
-                  delay="1000"
-                  state="hover-jumping"
-                  style={{ width: "90%", height: "90%" }}
-                ></lord-icon>
+
+                {/* profile img */}
+                {user?.avatar ? (
+                  <img
+                    alt="profile"
+                    style={{
+                      backgroundImage: `url(${user?.avatar})`,
+                      backgroundPosition: "cover",
+                    }}
+                    className="rounded-full h-full w-full"
+                    src={user.avatar}
+                  />
+                ) : (
+                  <lord-icon
+                    src="https://cdn.lordicon.com/bgebyztw.json"
+                    trigger="hover"
+                    delay="1000"
+                    state="hover-jumping"
+                    style={{ width: "90%", height: "90%" }}
+                  ></lord-icon>
+                )}
               </div>
             </div>
             <ul
@@ -190,19 +204,21 @@ export const Navbar = () => {
               <p className="text-center py-1 ">{user?.name}</p>
               <p className="text-center py-1 ">{user?.email}</p>
               {user && (
-               <> <button
-                  onClick={() => logout()}
-                  className=" bg-amber-400 my-1 py-1.5 mx-5 duration-200 hover:rounded rounded-full hover:bg-slate-200 dark:hover:text-black "
-                >
-                  Logout
-                </button>
-              
-              <li>
-                <Link to={"/profile"} className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </Link>
-              </li></>
+                <>
+                  {" "}
+                  <button
+                    onClick={() => logout()}
+                    className=" bg-sky-500 my-1 py-1.5 text-white font-semibold mx-5 rounded-full duration-200 ring-white hover:ring-2 "
+                  >
+                    Logout
+                  </button>
+                  <li>
+                    <Link to={"/profile"} className="justify-between">
+                      Profile
+                      <span className="badge">New</span>
+                    </Link>
+                  </li>
+                </>
               )}
               {!user && (
                 <>

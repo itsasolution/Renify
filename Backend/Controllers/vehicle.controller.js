@@ -60,18 +60,53 @@ async function findvehicle(req, res) {
     }
 }
 
-const getAllVehicles = async (req, res) => {
-    try {
-        const vehicles = await VehicleModel.find({});
-        res.status(200).json(vehicles)
-        // sends list of objescts recieved in frontend by axis
-    }
-    catch (err) {
-        res.status(500).send(err)
-    }
+const filterVehicle = async (req, res) => {
+    res.json(res.paginatedResults);
 }
 
 
+
+// Pagination middleware
+const paginate = async (req, res, next) => {
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    let filterParams = {}
+    try {
+        let results;
+        if (req.query.type)
+            results = await VehicleModel.find({ type: req.query.type }).limit(limit).skip(skip).exec();
+
+        else
+            results = await VehicleModel.find().limit(limit).skip(skip).exec();
+
+        const totalDocuments = await VehicleModel.countDocuments().exec();
+
+        const response = {
+            results,
+            pagination: {
+                totalDocuments,
+                totalPages: Math.ceil(totalDocuments / limit),
+                currentPage: page,
+                nextPage: page < Math.ceil(totalDocuments / limit) ? page + 1 : null,
+                prevPage: page > 1 ? page - 1 : null,
+            }
+        };
+
+        res.paginatedResults = response;
+        next();
+
+    } catch (e) {
+        res.status(500).send(e);
+    }
+
+};
+
+
+
+
 module.exports = {
-    findvehicle, getAllVehicles, addReview
+    findvehicle, filterVehicle, addReview, paginate
 }

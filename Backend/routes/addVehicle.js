@@ -33,12 +33,11 @@ router.post("/", upload.array('images', 5), async (req, res, next) => {
                     const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
                     await blob.makePublic();
                     publicUrls.push(publicUrl); //working publicurls
-
                     resolve();
                 });
                 
                 // all promises not resolved
-                console.log(publicUrls) // empty why 
+                // console.log(publicUrls) // empty why 
                 blobStream.end(file.buffer);
             });
         })

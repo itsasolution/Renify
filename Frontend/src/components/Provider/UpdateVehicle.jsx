@@ -87,7 +87,7 @@ const UpdateVehicle = () => {
                 className="w-full bg-sky-400 text-lg ring-white hover:ring-2 text-white duration-300 hover:bg-sky-500 font-medium rounded-lg p-2 text-center"
               >
                 {loader ? (
-                  <CircularProgress backgroun={"red"} size={26} />
+                  <CircularProgress color="inherit" thickness={5} size={25} />
                 ) : (
                   " Update Details"
                 )}

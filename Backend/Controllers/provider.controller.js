@@ -123,36 +123,31 @@ const updateUser = async (req, res) => {
     let update = { ...req.body }
 
     const uploadFile = async () => {
-        return new Promise((resolve, reject) => {
-            if (req.file) {
-                try {
-                    const fileName = `Renify/Avatars/${Date.now()}-${req.file.originalname}`;
+        if (req.file) {
 
-                    const blob = bucket.file(fileName);
-                    const blobStream = blob.createWriteStream({
-                        metadata: {
-                            contentType: req.file.mimetype
-                        }
-                    });
+            const fileName = `Renify/Avatars/${Date.now()}-${req.file.originalname}`;
 
-                    blobStream.on('error', (err) => {
-                        console.log("blob err")
-                        res.status(500).send(err);
-                    });
-
-                    blobStream.on('finish', async () => {
-                        publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-                        await blob.makePublic();
-                        resolve();
-                    });
-
-                    blobStream.end(req.file.buffer);
+            const blob = bucket.file(fileName);
+            const blobStream = blob.createWriteStream({
+                metadata: {
+                    contentType: req.file.mimetype
                 }
-                catch (error) {
-                    reject(error);
-                }
-            }
-        })
+            });
+
+            await new Promise((resolve, reject) => {
+                blobStream.on('error', (err) => {
+                    reject(err);
+                });
+
+                blobStream.on('finish', async () => {
+                    publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+                    await blob.makePublic();
+                    resolve();
+                });
+
+                blobStream.end(req.file.buffer);
+            });
+        }
     }
 
     await uploadFile();

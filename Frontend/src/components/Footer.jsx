@@ -13,10 +13,9 @@ function Footer() {
   return (
     <div>
       <hr />
-      {/* <footer className="footer footer-center p-10 gap-3  bg-blue-950 dark:bg-gradient-[linear-gradient(0deg, rgba(34,193,195,1), rgba(253,187,45,1))] text-white"> */}
-      <footer className="footer  footer-center p-10 gap-3  bg-gradient-to-b from-slate-900 to-slate-950 text-white">
+      <footer className="footer  footer-center md:p-10 gap-2.5 py-2.5 bg-gradient-to-b from-slate-900 to-slate-950 text-white">
         <nav className="grid grid-flow-col text-lg gap-4">
-          <a href="/#" className=" p-1 duration-200 hover:-translate-y-1">
+          <a href="/#" className=" p-1  duration-200 hover:-translate-y-1">
             About us
           </a>
           <a href="/#" className="p-1 duration-200 hover:-translate-y-1">
@@ -39,12 +38,14 @@ function Footer() {
                 style={{ width: "60px", height: "60px" }}
               ></lord-icon> */}
             </div>
-            <div className="flex text-slate-300 my-3 text-xl">
+            <div className="flex md:flex-row gap-2 flex-col text-slate-300 my-3 text-xl">
               Connect With Us :
-              <FaFacebookF className={`${iconsClass} text-sky-400`} />
-              <FaTwitter className={`${iconsClass}   text-cyan-400`} />
-              <FaPinterest className={`${iconsClass} text-red-600`} />
-              <FaInstagram className={`${iconsClass} text-pink-500 `} />
+              <span className="flex ">
+                <FaFacebookF className={`${iconsClass} text-sky-400`} />
+                <FaTwitter className={`${iconsClass}   text-cyan-400`} />
+                <FaPinterest className={`${iconsClass} text-red-600`} />
+                <FaInstagram className={`${iconsClass} text-pink-500 `} />
+              </span>
             </div>
           </div>
         </nav>

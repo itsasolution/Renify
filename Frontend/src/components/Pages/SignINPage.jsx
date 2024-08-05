@@ -214,7 +214,7 @@ export const SignINPage = () => {
                       : ""
                   }`}
                 >
-                  {isSubmitting ? <CircularProgress size={24} /> : "Register"}
+                  {isSubmitting ? <CircularProgress color="inherit" thickness={5} size={25} /> : "Register"}
                 </button>
                 {/* Register link */}
                 <p className="mb-0 mt-2 pt-1 text-sm font-semibold">

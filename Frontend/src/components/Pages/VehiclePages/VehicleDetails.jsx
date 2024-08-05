@@ -6,13 +6,14 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/context";
 import DateTimeSchedular from "../../Date and time picker/DateTimeSchedular";
-import CardSlider from "../../CardSlider";
+import CardSlider from "../../Cards/CardSlider";
 import ImageSection from "./ImageSection";
 import Reveiws from "./Reveiws";
 import ReviewForm from "./ReviewForm";
 import UpdateVehicle from "../../Provider/UpdateVehicle";
 import ModelRed from "../../Helper model/ModelRed";
 import { CircularProgress } from "@mui/material";
+import DateTimeComp from "../../Date and time picker/DateTimeComp";
 
 export const VehicleDetails = () => {
   const { user, url } = useContext(UserContext);
@@ -138,12 +139,6 @@ export const VehicleDetails = () => {
               </h1>
               <span>
                 <span className="mx-1 flex items-center">
-                  {/* <Rating
-                    value={vehicle?.overallRating}
-                    sx={{ fontSize: "20px" }}
-                    readOnly
-                    /> */}
-
                   <div className="flex items-center mb-1 space-x-1 ">
                     <span className="mr-1">{vehicle?.overallRating}</span>
                     {Array.from({ length: vehicle?.overallRating }).map(
@@ -201,7 +196,8 @@ export const VehicleDetails = () => {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <DateTimeSchedular getDate={getDate} />
+            {/* <DateTimeSchedular getDate={getDate} /> */}
+            <DateTimeComp getDate={getDate} />
 
             {/* booking and cancel function */}
 

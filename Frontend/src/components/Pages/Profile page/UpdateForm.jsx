@@ -14,7 +14,7 @@ const UpdateForm = ({ user, updateDetails, loader }) => {
       updateInfo["name"] = name;
       has = true;
     }
-    if (number && number !== user.mobileNumber) {
+    if (number && parseInt(number) !== user.mobileNumber) {
       has = true;
       updateInfo["mobileNumber"] = number;
     }
@@ -32,14 +32,10 @@ const UpdateForm = ({ user, updateDetails, loader }) => {
     }
     // console.log(updateInfo);
     if (!has) toast.error("Update at least on detail !");
-    
-    else updateDetails(updateInfo);
+    else {
+      updateDetails(updateInfo);
+    }
   };
-
-  // const labelClass =
-  //   "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
-  // const inputClass =
-  //   "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -137,7 +133,7 @@ const UpdateForm = ({ user, updateDetails, loader }) => {
                 className="w-full bg-sky-400 text-lg ring-white hover:ring-2 text-white duration-300 hover:bg-sky-500 font-medium rounded-lg p-2 text-center"
               >
                 {loader ? (
-                  <CircularProgress backgroun={"red"} size={26} />
+                  <CircularProgress color="inherit" thickness={5} size={25} />
                 ) : (
                   " Update Details"
                 )}

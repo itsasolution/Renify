@@ -1,101 +1,117 @@
 import React, { useContext, useEffect, useState } from "react";
-import CarCard from "../../social media/CarCard";
+import CarCard from "../../Cards/CarCard";
 import axios from "axios";
-import { Pagination } from "@mui/material";
 import LocationFinder from "../../LocationFinder";
 import { UserContext } from "../../../context/context";
+import Paginate from "./Pagination code/Pagination";
+import toast from "react-hot-toast";
 
 const VehiclesPage = () => {
-  let [list, setList] = useState([]);
-  let [filterList, setFilter] = useState([]);
-  let [category, setType] = useState("all");
-
   const { url } = useContext(UserContext);
 
-  // filter function
-  const filterdata = () => {
-    if (category === "all") {
-      setFilter(list.filter((vehicle) => vehicle.availability === true));
-    } else if (category === "booked") {
-      setFilter(list.filter((vehicle) => vehicle.availability === false));
-    } else {
-      setFilter(
-        list.filter(
-          (item) => item.type === category && item.availability === true
-        )
-      );
+  const [vehicles, setVehicles] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [filters, setFilters] = useState({
+    type: "",
+    price: "",
+    limit: "2",
+  });
+
+  useEffect(() => {
+    fetchVehicles(currentPage, filters);
+  }, [currentPage, filters]);
+
+  const fetchVehicles = async (page, filters) => {
+    try {
+      const query = new URLSearchParams({
+        page,
+        ...filters,
+      }).toString();
+
+      const response = await fetch(`${url}/vehicles?${query}`);
+      const data = await response.json();
+      setVehicles(data.results);
+      setTotalPages(data.pagination.totalPages);
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
     }
-    // console.log(filterList);
   };
 
-  // fetching data
-  useEffect(() => {
-    const getitems = async () => {
-      try {
-        const res = await axios.get(`${url}/vehicles`);
-        setList(res.data);
-        // call it here to get data in filterList
-        console.log(res.data);
-        filterdata();
-      } catch {
-        console.log("error");
-      }
-    };
-    getitems();
-  }, []);
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
 
-  useEffect(() => {
-    filterdata();
-    console.log("filter useeffect called");
-  }, [category, list]);
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const selectCLS = "dark:bg-slate-800/80 bg-slate-200 shadow hover:shadow-md dark:ring-white hover:ring-1 rounded outline-none";
 
   return (
     <>
-      <div className="flex text-white justify-center shrink fle text-xl gap-x-5 m-5  ">
-        <div
-          role="button"
-          className="btn bg-[#ffdb80] text-black shadow-md  w-28 text-lg hover:bg-[#ffd641] hover:shadow-lg border-none  "
-          onClick={() => {
-            setType("all");
-          }}
-        >
-          All
-        </div>
-        <div
-          role="button"
-          className="btn bg-[#fafa5e] shadow-md text-black w-28 text-lg hover:bg-[#ffff42] hover:shadow-lg border-none  "
-          onClick={() => {
-            setType("Bike");
-          }}
-        >
-          Bikes
-        </div>
-        <div
-          role="button"
-          className="btn w-28 bg-[#fbba4f] shadow-md text-black text-lg hover:bg-[#fca820] hover:shadow-lg border-none   "
-          onClick={() => {
-            setType("Car");
-          }}
-        >
-          Cars
-        </div>
-        <div
-          role="button"
-          className="btn bg-[#fcfc27] shadow-md text-black w-28 text-lg hover:bg-[#ffff42] hover:shadow-lg border-none  "
-          onClick={() => {
-            setType("booked");
-          }}
-        >
-          Booked
-        </div>
+      {/* filters */}
+      <div className="flex mt-3">
+        <label className=" m-3 text-lg flex gap-3 ">
+          Type:
+          <select
+            className={selectCLS}
+            name="type"
+            value={filters.type}
+            onChange={handleFilterChange}
+          >
+            <option value="">All</option>
+            <option value="car">Car</option>
+            <option value="bike">Bike</option>
+          </select>
+        </label>
+        <label className=" m-3 text-lg flex gap-3">
+          Price:
+          <select
+            className={selectCLS}
+            name="price"
+            value={filters.price}
+            onChange={handleFilterChange}
+          >
+            <option value="">All</option>
+            <option value="low">Low</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <span className=" m-3 text-lg flex gap-3">
+          <span className="">limit :</span>
+          <select
+            name="limit"
+            onChange={handleFilterChange}
+            className={selectCLS}
+          >
+            <option value={2}>2</option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>50</option>
+            <option value={20}>100</option>
+          </select>
+        </span>
       </div>
-
-      <LocationFinder />
-
-      {/* cards */}
-      {filterList.length > 0 ? (
+      {vehicles?.length > 0 ? (
         <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
-          {filterList.map((item) => {
+          {vehicles?.map((item) => {
             return (
               <div className="my-4 cardanime">
                 <CarCard key={item._id} data={item} />
@@ -108,16 +124,15 @@ const VehiclesPage = () => {
           No vehicle Found !
         </div>
       )}
-      <div className=" grid place-items-center m-4 ">
-        <Pagination
-          count={10}
-          variant="outlined"
-          size="large"
-          color="primary"
-          // shape="rounded"
-          className=""
-        />
-      </div>
+
+      {/* pagination  */}
+      <Paginate
+        handleNextPage={handleNextPage}
+        handlePrevPage={handlePrevPage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageClick={handlePageClick}
+      />
     </>
   );
 };

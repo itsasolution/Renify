@@ -1,14 +1,14 @@
 import React from "react";
-import CardSlider from "../../CardSlider";
+import CardSlider from "../../Cards/CardSlider";
 import { ProviderRegister } from "../../Provider/PoviderRegister";
 // import banner from "../../public/hero.png"
 
 import "./Home.css";
 import "@mui/material/styles";
 import { Link } from "react-router-dom";
-import CarBikeCard from "../../CarBikeCard";
-
-export const HomePage = () => {
+import CarBikeCard from "../../Cards/CarBikeCard";
+export const HomePage = () =>
+   {
   return (
     <>
       {/* <div className="absolute top-0 z-[-2] h-screen w-4/5 bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div> */}
@@ -54,6 +54,7 @@ export const HomePage = () => {
       <div className="grid bg-white/90 z-20 dark:bg-slate-900/90 rounded-lg p-4 gap-5 grid-cols-1 m-5  md:grid-cols-2">
         <CarBikeCard type="Bikes" />
         <CarBikeCard type="Cars" />
+        
       </div>
 
       <div className="dark:bg-slate-950/80 ">

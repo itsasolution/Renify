@@ -23,6 +23,7 @@
   .nav{
   animation: nav 1s .4s;
   }
+  
   @keyframes nav {
     from {
       opacity: 0.2;

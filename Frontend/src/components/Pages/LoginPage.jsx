@@ -185,7 +185,7 @@ export const LoginPage = ({ who }) => {
                     className={`inline-block mt-5 w-full rounded px-7 py-2 font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
                    ${isSubmitting ? "cursor-not-allowed" : ""}`}
                   >
-                    {isSubmitting ? <CircularProgress size={24} /> : "Login"}
+                    {isSubmitting ? <CircularProgress color="inherit" thickness={5} size={25} /> : "Login"}
                   </button>
 
                   {/* Register link */}

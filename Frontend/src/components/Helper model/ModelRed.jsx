@@ -1,4 +1,6 @@
 import React from "react";
+import { MdDeleteForever } from "react-icons/md";
+import { TiWarningOutline } from "react-icons/ti";
 
 const ModelRed = (prop) => {
   const { btnName, message, heading, actionName, fn, bgclr } = prop;
@@ -12,11 +14,19 @@ const ModelRed = (prop) => {
       >
         {btnName}
       </button>
-
       <dialog id={`${actionName}`} className="modal">
-        <div className="modal-box bg-white dark:bg-slate-900">
-          <h3 className="font-bold text-lg">{heading}</h3>
-          <p className="py-4 text-lg font-semibold">{message}</p>
+        <div className="modal-box bg-white dark:bg-slate-900 flex flex-col items-center ">
+        {actionName === "Logout" && (
+              <TiWarningOutline className={`text-4xl  text-yellow-300`} />
+            )}
+          <span className="flex gap-2 justify-center items-center mt-3 ">
+            <h3 className="font-bold text-lg">{heading}</h3>
+            {actionName === "Delete" && (
+              <MdDeleteForever className={`text-3xl  text-rose-600`} />
+            )}
+           
+          </span>
+          <p className="py-4 text-lg font-semibold text-center">{message}</p>
           <div className="modal-action ">
             <button
               className={`${bgclr} font-semibold mx-2 hover:bg-rose-600 ring-2 ring-white duration-200 text-white p-1 px-5 rounded-lg `}
