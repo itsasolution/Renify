@@ -239,16 +239,16 @@ const AddVehicle = () => {
           ${isSubmitting} ? cursor-not-allowed:""`}
       >
         {isSubmitting ? (
+          <CircularProgress color="inherit" thickness={5} size={25} />
+        ) : (
           <>
             <span className="mx-2">ADD</span>
-            <CircularProgress color="inherit" thickness={5} size={25} />
+            <lord-icon
+              src="https://cdn.lordicon.com/jgnvfzqg.json"
+              trigger="hover"
+              colors="primary:#30c9e8"
+            ></lord-icon>
           </>
-        ) : (
-          <lord-icon
-            src="https://cdn.lordicon.com/jgnvfzqg.json"
-            trigger="loop"
-            colors="primary:#30c9e8"
-          ></lord-icon>
         )}
       </button>
     </form>

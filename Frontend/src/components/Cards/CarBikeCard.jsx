@@ -59,10 +59,25 @@ const CarBikeCard = ({ type }) => {
         <div className="pt-5 text-base font-semibold leading-7">
           <p>
             <Link
-              to={`${type === "cars" ? "/vehicles" : "vehicles"}`}
-              className=" transition-all duration-300 hover:ring-2 sm:ring-  rounded-md p-2 ring-white group-hover:text-white"
+              to={`${type === "cars" ? "/vehicles/car" : "/vehicles/bike"}`}
+              className="flex gap-2 items-center transition-all w-32 duration-300 ring-1 hover:ring-2 rounded-md p-2 ring-white"
             >
-              Check Out &rarr;
+              <span>Check Out</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="w-4 h-4 group-hover:scale-[1.1] duration-150 group-hover:translate-x-1"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                ></path>
+              </svg>
             </Link>
           </p>
         </div>

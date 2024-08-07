@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import CarCard from "../../Cards/CarCard";
-import axios from "axios";
 import LocationFinder from "../../LocationFinder";
 import { UserContext } from "../../../context/context";
 import Paginate from "./Pagination code/Pagination";
-import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 const VehiclesPage = () => {
   const { url } = useContext(UserContext);
@@ -13,10 +12,12 @@ const VehiclesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const { vtype } = useParams();
+
   const [filters, setFilters] = useState({
-    type: "",
+    type: vtype || "all",
     price: "",
-    limit: "2",
+    limit: "10",
   });
 
   useEffect(() => {
@@ -62,7 +63,8 @@ const VehiclesPage = () => {
     }
   };
 
-  const selectCLS = "dark:bg-slate-800/80 bg-slate-200 shadow hover:shadow-md dark:ring-white hover:ring-1 rounded outline-none";
+  const selectCLS =
+    "dark:bg-slate-800/80 bg-slate-200 shadow hover:shadow-md dark:ring-white hover:ring-1 rounded outline-none";
 
   return (
     <>
@@ -76,7 +78,7 @@ const VehiclesPage = () => {
             value={filters.type}
             onChange={handleFilterChange}
           >
-            <option value="">All</option>
+            <option value="all">All</option>
             <option value="car">Car</option>
             <option value="bike">Bike</option>
           </select>
@@ -101,7 +103,7 @@ const VehiclesPage = () => {
             onChange={handleFilterChange}
             className={selectCLS}
           >
-            <option value={2}>2</option>
+            <option>{filters?.limit}</option>
             <option value={5}>5</option>
             <option value={10}>10</option>
             <option value={15}>50</option>
@@ -113,8 +115,14 @@ const VehiclesPage = () => {
         <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
           {vehicles?.map((item) => {
             return (
-              <div className="my-4 cardanime">
-                <CarCard key={item._id} data={item} />
+              <div className="my-4">
+                <a
+                  href={`/vehicledetails/${item?._id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <CarCard key={item._id} data={item} />
+                </a>
               </div>
             );
           })}

@@ -4,13 +4,13 @@ import CarCard from "../Cards/CarCard";
 import axios from "axios";
 
 export const MyVehicles = () => {
-  const { MyVehicles, setMyVehicles, user,url } = useContext(UserContext);
+  const { MyVehicles, setMyVehicles, user, url } = useContext(UserContext);
   // fetch and set myvehicles only
   useEffect(() => {
     axios
       .post(`${url}/provider/my-vehicles`, { uid: user._id })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setMyVehicles(res.data.vehicles);
       })
       .catch((err) => {
@@ -21,27 +21,23 @@ export const MyVehicles = () => {
   return (
     <>
       {MyVehicles?.length > 0 ? (
-        <div className="my-15 grid grid-cols-2 mb-5  md:grid-cols-4 px-5 ">
+        <div className="my-15 py-1 grid md:grid-cols-4 grid-cols-1 mb-5 px-5 ">
           {MyVehicles?.map((item, i) => {
             return (
-              <div className="my-4">
+              <a
+                href={`/vehicleEdit/${item?._id}`}
+                target="_blank"
+                rel="noreferrer"
+                key={i}
+              >
                 <CarCard key={i} data={item} />
-              </div>
+              </a>
             );
           })}
         </div>
       ) : (
-        <div className="flex flex-col w-full items-center h-[calc(100vh-60px)] justify-center">
-          <div className="hover:scale-125 duration-300 ">
-            <lord-icon
-              src="https://cdn.lordicon.com/mirdbprd.json"
-              trigger="loop"
-              style={{ width: "100px", height: "100px" }}
-            ></lord-icon>
-          </div>
-          <h2 className="text-2xl text-center">
-            You don't have added any Vehicle yet yet
-          </h2>
+        <div className="flex text-2xl flex-col w-full items-center h-[calc(100vh-60px)] justify-center">
+          You don't have added any Vehicle yet yet
         </div>
       )}
     </>

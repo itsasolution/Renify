@@ -148,7 +148,8 @@ const ProfilePage = () => {
               actionName="Delete"
               fn={deleteUser}
               bgclr="bg-rose-500"
-            />
+              cls="ring-white hover:ring-2 p-3 rounded-md w-40 text-white font-semibold bg-rose-500 "
+              />
 
             <ModelRed
               btnName="Logout"
@@ -157,6 +158,7 @@ const ProfilePage = () => {
               actionName="Logout"
               fn={logout}
               bgclr="bg-yellow-400"
+              cls="ring-white hover:ring-2 p-3 rounded-md w-40 text-white font-semibold bg-yellow-400 "
             />
           </div>
         </div>

@@ -43,13 +43,14 @@ const CardSlider = () => {
   useEffect(() => {
     const getitems = async () => {
       try {
-        const res = await axios.get(`${url}/vehicles`);
-        console.log(res.data);
+        const res = await axios.get(`${url}/vehicles?type=all`);
+        // console.log(res.data);
         setVehicles(res.data.results);
       } catch (err) {
         console.log("error:", err);
       }
     };
+
     getitems();
   }, []);
 
@@ -57,7 +58,13 @@ const CardSlider = () => {
     <>
       <Slider {...settings} className="m-10 ">
         {vehicles?.map((data) => (
-          <CarCard key={data?._id} data={data} />
+          <a
+            href={`/vehicledetails/${data?._id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <CarCard key={data?._id} data={data} />
+          </a>
         ))}
       </Slider>
     </>

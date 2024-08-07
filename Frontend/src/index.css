@@ -3,38 +3,43 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.shado:hover{
-  box-shadow: 0 0 10px black ;
-
+.shado:hover {
+  box-shadow: 0 0 10px black;
 }
 
-.scroll::-webkit-scrollbar{
-width: 2px;
-
+.scroll::-webkit-scrollbar {
+  width: 2px;
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 body::-webkit-scrollbar {
   width: 4px;
-  /* background-color: ; */
 }
 body::-webkit-scrollbar-thumb {
   background-color: rgb(221, 222, 223);
   border-radius: 5px;
 }
-.cardanime{
-  animation: card 1s;
+
+.scroll-bar::-webkit-scrollbar {
+  height: 1.5px;
+}
+.scroll-bar::-webkit-scrollbar-thumb {
+  background-color: rgb(221, 222, 223);
+  border-radius: 5px;
+}
+
+.cardanime {
+  animation: card 0.8s;
+}
+@keyframes card {
+  from {
+    opacity: 0.2;
+    transform: translateY(15%);
   }
-  @keyframes card {
-    from {
-      opacity: 0.2;
-      transform:scale(.9) translateY(40%) ;
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0%) rotateY(0deg);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
   }
+}

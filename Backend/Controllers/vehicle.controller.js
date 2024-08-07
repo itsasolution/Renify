@@ -1,3 +1,5 @@
+const { now } = require("mongoose");
+const vehiclesModel = require("../models/vehicles.model");
 const VehicleModel = require("../models/vehicles.model");
 
 const OverallRating = async (vehicle) => {
@@ -76,11 +78,12 @@ const paginate = async (req, res, next) => {
     let filterParams = {}
     try {
         let results;
-        if (req.query.type)
-            results = await VehicleModel.find({ type: req.query.type }).limit(limit).skip(skip).exec();
+
+        if (req.query.type == "all")
+            results = await VehicleModel.find().limit(limit).skip(skip).exec();
 
         else
-            results = await VehicleModel.find().limit(limit).skip(skip).exec();
+            results = await VehicleModel.find({ type: req.query.type }).limit(limit).skip(skip).exec();
 
         const totalDocuments = await VehicleModel.countDocuments().exec();
 
@@ -104,9 +107,40 @@ const paginate = async (req, res, next) => {
 
 };
 
+const updateVehicle = async (req, res) => {
+    if (req.params.id) {
+        try {
+
+            const vehicle = await vehiclesModel.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true })?.populate('providerId');
+            if (!vehicle) {
+                res.status(404).send("Vehicle Not found !")
+            }
+
+            res.status(200).json(vehicle);
+
+        } catch (err) {
+            res.send(err);
+        }
+    }
+}
+const deleteVehicle = async (req, res) => {
+    if (req.params.id) {
+        try {
+            const vehicle = await vehiclesModel.findByIdAndDelete(req.params.id);
+            if (!vehicle) {
+                res.status(404).send("Vehicle Not found !")
+            }
+
+            res.status(200).send("Deleted SuccessFully");
+
+        } catch (err) {
+            res.send(err);
+        }
+    }
+}
 
 
 
 module.exports = {
-    findvehicle, filterVehicle, addReview, paginate
+    findvehicle, filterVehicle, addReview, paginate, updateVehicle, deleteVehicle
 }

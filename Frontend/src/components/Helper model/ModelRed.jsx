@@ -3,28 +3,27 @@ import { MdDeleteForever } from "react-icons/md";
 import { TiWarningOutline } from "react-icons/ti";
 
 const ModelRed = (prop) => {
-  const { btnName, message, heading, actionName, fn, bgclr } = prop;
+  const { btnName, message, heading, actionName, fn, bgclr, cls } = prop;
 
   return (
     <>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
-        className={`${bgclr} font-semibold hover:ring-2 duration-200 ring-white text-white rounded-md p-2 text-lg px-3`}
+        className={`${cls}`}
         onClick={() => document.getElementById(`${actionName}`).showModal()}
       >
         {btnName}
       </button>
       <dialog id={`${actionName}`} className="modal">
         <div className="modal-box bg-white dark:bg-slate-900 flex flex-col items-center ">
-        {actionName === "Logout" && (
-              <TiWarningOutline className={`text-4xl  text-yellow-300`} />
-            )}
+          {actionName === "Logout" && (
+            <TiWarningOutline className={`text-4xl  text-yellow-300`} />
+          )}
           <span className="flex gap-2 justify-center items-center mt-3 ">
             <h3 className="font-bold text-lg">{heading}</h3>
             {actionName === "Delete" && (
               <MdDeleteForever className={`text-3xl  text-rose-600`} />
             )}
-           
           </span>
           <p className="py-4 text-lg font-semibold text-center">{message}</p>
           <div className="modal-action ">

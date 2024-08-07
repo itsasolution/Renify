@@ -25,7 +25,7 @@ export const HomePage = () =>
           <div className=" md:w-1/2 z-10 flex flex-col px-3 h-[40%] pt-5 md:pt-0 md:h-full justify-center items-center">
             <h1 className="text-3xl  text-shado md:text-5xl font-bold text-center text-blue-900 dark:text-white mb-8">
               Explore The Open Road: Rent Your Dream
-              <div className="text-cyan-600 dark:text-cyan-300">
+              <div className="text-cyan-600 dark:text-cyan-300 group-hover:text-sky-600  stroke-1">
                 Ride with Us!
               </div>
             </h1>
@@ -61,7 +61,7 @@ export const HomePage = () =>
         <CardSlider />
         <div className=" text-center ">
           <Link
-            to={"/vehicles"}
+            to={"/vehicles/all"}
             className="text-xl btn text-white hover:text-white  hover:bg-gradient-to-tr bg-gradient-to-t hover:scale-105 duration-300 from-sky-500 shadow-md hover:shadow to-sky-600"
           >
             See All Vehicles

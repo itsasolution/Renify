@@ -1,64 +1,63 @@
 .opacityanime {
-    animation: opac 1s ease 1;
+  animation: opac 1s ease 1;
+}
+@keyframes opac {
+  from {
+    opacity: 0.1;
+    transform: translateY(-10%);
   }
-  @keyframes opac {
-    from {
-      opacity: 0.1;
-      transform: translateY(-10%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
   }
-  
-  .img-shadow {
-    filter: drop-shadow(0 5px 5px rgb(91, 94, 109));
+}
+
+.img-shadow {
+  filter: drop-shadow(0 5px 5px rgb(91, 94, 109));
+}
+.text-shado {
+  text-shadow: 0 0 4px cyan;
+}
+
+.nav {
+  animation: nav 1s .5s;
+}
+
+@keyframes nav {
+  from {
+    opacity: 0.2;
+    transform: translateY(-80%);
   }
-  .text-shado {
-    text-shadow: 0 0 4px cyan;
-    
+  to {
+    opacity: 1;
+    transform: translateY(0%);
   }
-  
-  .nav{
-  animation: nav 1s .4s;
-  }
-  
-  @keyframes nav {
-    from {
-      opacity: 0.2;
-      transform: translateY(-80%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-  .bullet-points {
-    animation: bullets 1s 0s;
-  }
-  
-  .bullet-points > li {
-    display: flex;
-    position: relative;
-    margin-top: 3px;
-  }
-  
-  .bullet-points > li::before {
-    content: "🌟";
-    margin-right: 2px;
-  }
-  
-  /* .bullets {
+}
+
+.bullet-points {
+  animation: bullets 1s 0s;
+}
+
+.bullet-points > li {
+  display: flex;
+  position: relative;
+  margin-top: 3px;
+}
+
+.bullet-points > li::before {
+  content: "🌟";
+  margin-right: 2px;
+}
+
+/* .bullets {
   } */
-  @keyframes bullets {
-    from {
-      opacity: 0;
-      transform: translateY(580%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
+@keyframes bullets {
+  from {
+    opacity: 0;
+    transform: translateY(580%);
   }
-  
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}

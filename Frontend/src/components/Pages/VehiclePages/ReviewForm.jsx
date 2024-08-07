@@ -18,25 +18,19 @@ const ReviewForm = ({ user, vid }) => {
       text: data.text,
       rating: rating,
     };
-    console.log(newReview);
 
-    try {
-      axios
-        .post(`${url}/vehicles/addreview/${vid}`, newReview)
-        .then((res) => {
-          console.log(res);
-          toast.success("Review Added");
-        })
-        .catch((err) => {
-          alert("error");
-          console.log(err);
-        });
+    axios
+      .post(`${url}/vehicles/addreview/${vid}`, newReview)
+      .then((res) => {
+        toast.success("Review Added");
+      })
+      .catch((err) => {
+        alert("error");
+        console.log(err);
+      });
 
-      window.location.reload();
-      reset(); // Reset the form after successful submission
-    } catch (error) {
-      console.error("Error submitting review", error);
-    }
+    window.location.reload();
+    reset(); // Reset the form after successful submission
   };
 
   return !user ? (

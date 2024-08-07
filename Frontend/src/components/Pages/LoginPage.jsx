@@ -13,10 +13,9 @@ export const LoginPage = ({ who }) => {
   const { setUser, url } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const [login, setLogin] = useState(who);
+
   const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
   const {
     register,
@@ -32,24 +31,21 @@ export const LoginPage = ({ who }) => {
 
     try {
       const res = await axios.post(
-        who === "user" ? `${url}/user/login` : `${url}/provider/login`,
+        login === "user" ? `${url}/user/login` : `${url}/provider/login`,
 
         userInfo
         // { withCredentials: true } // Include cookies in the request
       );
 
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data?.userdata) {
         toast.success("login Successfull!");
         setUser({ ...res.data?.userdata });
-        console.log(res.data.userdata);
         localStorage.setItem("userdata", JSON.stringify(res.data.userdata));
         navigate("/");
       }
     } catch (err) {
-      // if (err.response.data === "Unauthorized") {
       if (err.response?.data) {
-        console.log("error:", err);
         toast.error("Invalid Username or Password");
       } else {
         console.error("Unexpected error", err);
@@ -72,13 +68,8 @@ export const LoginPage = ({ who }) => {
             <div className="mb-12 md:mb-0 w-full m-5 md:w-[30%] max-w-[410px] h-[25em] bg-white/80 md:p-10 p-6 rounded-lg shadow-md dark:bg-gray-900 border dark:border-gray-800  ">
               <form onSubmit={handleSubmit(submit)}>
                 {/*Sign in section*/}
-                
 
-                <div className="flex flex-row items-center justify-center lg:justify-start">
-                  <p className="mb-0 me-4 text-lg hidden md:block ">
-                  <p className="text-lg ">{who}</p>
-                    {/* Login with */}
-                  </p>
+                <span className="hidden">
                   {/* Facebook */}
                   <button className="mx-1 inline-block h-9 w-9 rounded-full fill-white p-2 bg-blue-600 hover:bg-transparent hover:border border-blue-600 hover:fill-blue-700 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
                     <span className="[&>svg]:mx-auto [&>svg]:h-3.5 [&>svg]:w-3.5">
@@ -122,23 +113,52 @@ export const LoginPage = ({ who }) => {
                       </svg>
                     </span>
                   </button>
+                  <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500">
+                    <p className="mx-4 text-center font-semibold ">Or</p>
+                  </div>
+                </span>
+
+                {/* LOGIN OPTIONS */}
+                <div className="flex flex-row items-center justify-center lg:justify-start">
+                  <p className="flex font-semibold justify-center gap-5 w-full ">
+                    <span
+                      onClick={() => setLogin("user")}
+                      className={` dark:border-white border-b-slate-800 py-1 duration-100 ${
+                        login === "user"
+                          ? "-translate-y-[2px] text-sky-400 border-b-2"
+                          : "cursor-pointer opacity-80"
+                      }`}
+                    >
+                      User Login
+                    </span>
+                    <span
+                      onClick={() => setLogin("provider")}
+                      className={`  dark:border-white border-b-slate-800 py-1 duration-100 ${
+                        login === "provider"
+                          ? "-translate-y-[2px] text-green-400 border-b-2"
+                          : "cursor-pointer opacity-80"
+                      }`}
+                    >
+                      Provider Login
+                    </span>
+                  </p>
                 </div>
+
                 <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500">
-                  <p className="mx-4 text-center font-semibold ">Or</p>
+                  <p className="mx-3 text-center text-sm  ">Login</p>
                 </div>
 
                 {/* credential input */}
-                <div className="relative z-0 w-full mb-5 group">
+                <div className="relative z-0 w-full mb-5 group mt-8">
                   <input
                     {...register("credential", { required: true })}
                     type="text"
-                    // className="py-2 w-full outline-none border-b-2  border-slate-300 duration-200 focus:border-slate-700 dark:focus:border-white"
-                    className="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-1.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=""
                   />{" "}
                   <label
                     htmlFor="float"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    className="peer-focus:font-medium text-sm absolute text-gray-500 dark:text-gray-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Username or Email
                   </label>
@@ -154,11 +174,11 @@ export const LoginPage = ({ who }) => {
                     {...register("password", { required: true })}
                     type={showPassword ? "text" : "password"}
                     placeholder=""
-                    className="block py-2.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-1.5 px-0 w-full  text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   />{" "}
                   <button
                     type="button"
-                    onClick={togglePasswordVisibility}
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-2 top-0 "
                   >
                     {showPassword ? (
@@ -185,14 +205,22 @@ export const LoginPage = ({ who }) => {
                     className={`inline-block mt-5 w-full rounded px-7 py-2 font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
                    ${isSubmitting ? "cursor-not-allowed" : ""}`}
                   >
-                    {isSubmitting ? <CircularProgress color="inherit" thickness={5} size={25} /> : "Login"}
+                    {isSubmitting ? (
+                      <CircularProgress
+                        color="inherit"
+                        thickness={5}
+                        size={25}
+                      />
+                    ) : (
+                      "Login"
+                    )}
                   </button>
 
                   {/* Register link */}
                   <p className="mb-0 mt-3 pt-1 text-sm font-semibold">
                     Create Account?
                     <Link
-                      to={who === "user" ? "/sign-in" : "/provider-sign-in"}
+                      to={login === "user" ? "/sign-in" : "/provider-sign-in"}
                       className="text-danger transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
                     >
                       &nbsp;Sign-in

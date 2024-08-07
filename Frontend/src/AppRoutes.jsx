@@ -13,6 +13,7 @@ import VehiclesPage from "./components/Pages/VehiclePages/VehiclesPage";
 import { VehicleDetails } from "./components/Pages/VehiclePages/VehicleDetails";
 import ProfilePage from "./components/Pages/Profile page/ProfilePage";
 import Examples from "./components/Helper model/Examples";
+import { VehicleEdit } from "./components/Provider/VehicleEdit";
 
 const AppRoutes = () => {
   const { user } = useContext(UserContext);
@@ -36,8 +37,9 @@ const AppRoutes = () => {
           />
           <Route path="/provider-sign-in" element={<ProviderRegister />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/vehicles" element={<VehiclesPage />} />
+          <Route path="/vehicles/:vtype" element={<VehiclesPage />} />
           <Route path="/vehicledetails/:id" element={<VehicleDetails />} />
+          <Route path="/vehicleEdit/:id" element={<VehicleEdit />} />
           <Route
             path="/profile"
             element={user ? <ProfilePage /> : <Navigate to={"/user-login"} />}

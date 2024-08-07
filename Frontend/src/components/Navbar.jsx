@@ -44,7 +44,7 @@ export const Navbar = () => {
 
   // navbar
   const navcls =
-    "dark:focus:text-cyan-400 hover:ring-2  duration-300 dark:focus:bg-blue-800 focus:bg-slate-200 focus:border-b-2 border-blue-600  p-1 px-2 rounded-md";
+    "dark:focus:text-cyan-400 hover:ring-1  dark:ring-white duration-300 focus:border-b-2 border-blue-600  p-1 px-2 rounded-md";
 
   // nav items
   const nav = (
@@ -63,7 +63,7 @@ export const Navbar = () => {
         </>
       ) : (
         <>
-          <Link to={"/vehicles"} className={navcls}>
+          <Link to={"/vehicles/all"} className={navcls}>
             Vehilcles
           </Link>
           <Link to={"/myrides"} className={navcls}>
@@ -121,7 +121,7 @@ export const Navbar = () => {
     <>
       <div
         // className={`navbar z-30 w-full min-h-[50px] h-[55px]  dark:bg-gradient-to-r from-slate-900/50 to-blue-950/50 backdrop-blur-sm sticky top-0 shadow-md `}
-        className={`navbar z-50  w-full min-h-[50px] h-[55px]  backdrop-blur-sm sticky top-0 shadow-md `}
+        className={`navbar nav z-50 w-full min-h-[50px] h-[55px]  backdrop-blur-sm dark:bg-slate-900/50 bg-slate-200/50 sticky top-0 shadow-md `}
       >
         <div className="navbar">
           {/* hamburger menu */}
@@ -170,7 +170,7 @@ export const Navbar = () => {
               role="button"
               className="btn btn-ghost no-animation btn-circle avatar"
             >
-              <div className="w-10 p-[1px] rounded-full shadow-md bg-slate-200">
+              <div className="w-10 rounded-full shadow-md bg-slate-200">
                 {/* <img alt="Profile" src="./profile.jpg" /> */}
 
                 {/* profile img */}

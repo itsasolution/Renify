@@ -157,7 +157,7 @@ const updateUser = async (req, res) => {
     }
 
     try {
-        // await uploadFile();
+        await uploadFile();
 
         // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;

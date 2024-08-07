@@ -16,7 +16,7 @@ const Reviews = ({ reviews }) => {
         </div>
 
         <button
-          className="absolute -top-3 w-fit right-2  hover:text-sky-400 hover:underline font-semibold"
+          className="absolute -top-3 w-fit right-2  hover:text-sky-400 font-semibold"
           onClick={() => setAllReviewsVisible(!allReviewsVisible)}
         >
           {allReviewsVisible ? "Hide Reviews" : "Show All Reviews"}
@@ -37,26 +37,25 @@ const Reviews = ({ reviews }) => {
               ) : (
                 <article
                   key={index}
-                  className={`z-10 m-1 w-[300px] p-1 py-2 bg-slate-100/90 dark:bg-gradient-to-tr from-slate-900/80 to-slate-800/80 shadow hover:shadow-md rounded-md leading-5 overflow-hidden hover:-translate-y-0.5 ring-1 duration-200 ${
+                  className={`z-10 m-1 w-[300px] p-1 py-2 dark:bg-gradient-to-tr bg-gradient-to-t from-sky-200/30 to-slate-100   dark:from-blue-950/90 dark:to-slate-800/80 shadow hover:shadow-md rounded-md leading-5 overflow-hidden hover:-translate-y-0.5 ring-1 ring-sky-600 hover:ring-sky-400  duration-200 ${
                     expandedReviewIndex === index ? "h-fit" : "h-36"
                   }`}
                 >
                   {/* img - rating */}
                   <div className="flex justify-between">
                     {/* img and name */}
-                    <div className="flex items-center mb-4">
+                    <div className="flex items-center  mb-2">
                       <img
-                        className="w-10 h-10 me-4 rounded-full"
+                        className="w-12 h-12 me-2  rounded-full"
                         src={`${process.env.PUBLIC_URL}/profile.webp`}
                         alt=""
                       />
-                      <div className="font-medium dark:text-white">
+                      <div className="font-medium ">
                         <p>
-                          {/* {review.user?.name} */}
-                          {review.user}
+                          {review?.user}
                           <time
                             dateTime={review.date}
-                            className="block text-sm text-gray-500 dark:text-gray-400"
+                            className="block text-sm text-gray-500 my-1 dark:text-gray-300"
                           >
                             {new Date(review.date).toLocaleDateString("en-GB", {
                               day: "2-digit",
@@ -68,11 +67,11 @@ const Reviews = ({ reviews }) => {
                       </div>
                     </div>
                     {/* rating */}
-                    <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+                    <div className="flex items-center mb-3 space-x-1 mr-2 rtl:space-x-reverse">
                       {Array.from({ length: review.rating }).map((_, i) => (
                         <svg
                           key={i}
-                          className="w-4 h-4 text-yellow-300"
+                          className="w-4 h-4 text-yellow-300  "
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"
@@ -96,13 +95,13 @@ const Reviews = ({ reviews }) => {
                     </div>
                   </div>
 
-                  <p className="mb-2 text-gray-600 dark:text-gray-300 p-1">
+                  <p className="mb-2 text-gray-600 dark:text-gray-200 p-1 px-2">
                     {expandedReviewIndex === index
                       ? review.text
                       : `${review.text.substring(0, 80)}`}
 
                     <button
-                      className="text-blue-500 hover:underline ml-1"
+                      className="text-sky-500 hover:text-sky-400 ml-1"
                       onClick={() => toggleExpansion(index)}
                     >
                       {expandedReviewIndex === index

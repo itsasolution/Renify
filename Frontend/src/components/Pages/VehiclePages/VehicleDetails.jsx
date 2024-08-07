@@ -8,12 +8,12 @@ import { UserContext } from "../../../context/context";
 import DateTimeSchedular from "../../Date and time picker/DateTimeSchedular";
 import CardSlider from "../../Cards/CardSlider";
 import ImageSection from "./ImageSection";
-import Reveiws from "./Reveiws";
 import ReviewForm from "./ReviewForm";
-import UpdateVehicle from "../../Provider/UpdateVehicle";
 import ModelRed from "../../Helper model/ModelRed";
 import { CircularProgress } from "@mui/material";
 import DateTimeComp from "../../Date and time picker/DateTimeComp";
+import Reviews from "./Reveiws";
+import VehicleDetailText from "./VehicleDetailText";
 
 export const VehicleDetails = () => {
   const { user, url } = useContext(UserContext);
@@ -47,7 +47,7 @@ export const VehicleDetails = () => {
   // booking status
   const findBooking = () => {
     axios
-      .post(`${url}/vehicles/checkBooking`, { uid: user._id, vid: id })
+      .post(`${url}/vehicles/checkBooking`, { uid: user?._id, vid: id })
       .then((res) => {
         if (res) {
           console.log("booking details: ", res.data.booking);
@@ -116,117 +116,39 @@ export const VehicleDetails = () => {
   };
 
   return (
-    // <div className="md:h-[calc(100vh-55px)]  ">
     <>
       <Link to={"/vehicles"}>
         <div className="hidden md:flex items-center group font-semibold m-2 w-14 justify-between">
-          <IoIosArrowBack className="group-hover:translate-x-1 duration-300" />{" "}
+          <IoIosArrowBack className="group-hover:translate-x-1 duration-300" />
           Back
         </div>
       </Link>
-      {/* <UpdateVehicle/> */}
 
       <div className="grid md:grid-cols-2 grid-cols-1 md:gap-6 mt-5">
-        {/* images section */}
+        {/* Image Section */}
         <ImageSection vehicle={vehicle} setImage={setImage} image={image} />
 
-        <div className="">
-          <div className="m-2 grid grid-cols-2  ">
-            <div className="">
-              <h1 className="text-3xl my-2 font-semibold">{vehicle?.model}</h1>
-              <h1 className="text-2xl text-slate-500 my-2 font-semibold">
-                {vehicle?.brand}
-              </h1>
-              <span>
-                <span className="mx-1 flex items-center">
-                  <div className="flex items-center mb-1 space-x-1 ">
-                    <span className="mr-1">{vehicle?.overallRating}</span>
-                    {Array.from({ length: vehicle?.overallRating }).map(
-                      (_, i) => (
-                        <svg
-                          key={i}
-                          className="w-4 h-4 text-yellow-300"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 22 20"
-                        >
-                          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                      )
-                    )}
-                    {Array.from({ length: 5 - vehicle?.overallRating }).map(
-                      (_, i) => (
-                        <svg
-                          key={i}
-                          className="w-4 h-4 text-gray-300 dark:text-gray-500"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 22 20"
-                        >
-                          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                      )
-                    )}
-                  </div>
-                </span>
-                <div className="my-1">
-                  {vehicle?.reviews?.length ? vehicle?.reviews?.length : 0}{" "}
-                  reviews
-                </div>
-              </span>
-              {/* price */}
-              <span className="text-lg pt-1">
-                <span className="font-semibold">
-                  Rent/hour:
-                  <span className=""> ₹ {vehicle?.rentPerHour}</span>
-                </span>
-                <div className="my-1">
-                  <span className="font-semibold">
-                    Rent/Day:
-                    <span> ₹ {vehicle?.rentPerDay}</span>
-                  </span>
-                </div>
-              </span>
-            </div>
-            <div className="flex flex-col font-semibold mt-[90px] md:mt-24 mx-1 text-lg ">
-              <span>Owner : {vehicle?.providerId?.name}</span>
-              <span>Location : {vehicle?.location}</span>
-            </div>
-          </div>
+        <div className="p-4">
+          <VehicleDetailText vehicle={vehicle} />
+
           <div className="flex flex-col items-center">
-            {/* <DateTimeSchedular getDate={getDate} /> */}
+            {/* DateTime Scheduler */}
             <DateTimeComp getDate={getDate} />
 
-            {/* booking and cancel function */}
-
+            {/* Booking and Cancel Function */}
             {user?._id ? (
               booking?.user ? (
-                <>
-                  <ModelRed
-                    btnName="Cancel Booking"
-                    message="Are You Sure You Want to cancel Your Ride"
-                    heading="Cancell Booking"
-                    actionName="Cancel Ride"
-                    fn={cancel}
-                    bgclr="bg-rose-500"
-                  />
-                  {/* <button className="w-[50%] btn hover:bg-rose-600 border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-rose-500">
-                    {loader ? (
-                      <CircularProgress
-                        color="inherit"
-                        thickness={5}
-                        size={25}
-                      />
-                    ) : (
-                      "Cancel"
-                    )}
-                  </button> */}
-                </>
+                <ModelRed
+                  btnName="Cancel Booking"
+                  message="Are You Sure You Want to cancel Your Ride"
+                  heading="Cancel Booking"
+                  actionName="Cancel Ride"
+                  fn={cancel}
+                  bgclr="bg-rose-500"
+                />
               ) : (
                 <button
-                  className="w-[50%] btn hover:bg-green-600 border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500"
+                  className="w-[50%] btn hover:bg-green-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500"
                   onClick={() => Bookeride()}
                 >
                   {loader ? (
@@ -238,8 +160,8 @@ export const VehicleDetails = () => {
               )
             ) : (
               <Link to={"/user-login"}>
-                <button className="w-full btn hover:bg-green-600 border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500">
-                  Login to book Ride
+                <button className="w-full btn hover:ring-2 border-none h-12 ring-white text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500">
+                  Login to Book Ride
                 </button>
               </Link>
             )}
@@ -247,7 +169,7 @@ export const VehicleDetails = () => {
         </div>
       </div>
 
-      <Reveiws reviews={vehicle?.reviews} />
+      <Reviews reviews={vehicle?.reviews} />
       <ReviewForm user={user} vid={id} />
 
       <div className="my-28">
