@@ -6,11 +6,21 @@ const bookVehicle = async (req, res) => {
     const { id, userId, bookingDate, startDate, endDate } = req.body;
 
     try {
+        const vehicle = await VehicleModel.findById(id);
+        if (!vehicle) {
+            return res.status(404).send("Vehicle not found");
+        }
         const booking = await BookingModel.create({
             user: userId,
             vehicle: id,
+            provider: vehicle.providerId,
             bookingDate, startDate, endDate
+
         });
+
+        vehicle.bookings.push(booking._id);
+        vehicle.availability = false;
+        await vehicle.save();
 
         const user = await UserModel.findById(userId);
         if (!user) {
@@ -19,19 +29,32 @@ const bookVehicle = async (req, res) => {
         user.myRides.push(booking._id);
         await user.save();
 
-        const vehicle = await VehicleModel.findById(id);
-        if (!vehicle) {
-            return res.status(404).send("Vehicle not found");
-        }
-        vehicle.bookings.push(booking._id);
-        vehicle.availability = false;
-        await vehicle.save();
+
+
+
+        booking.provider = vehicle.providerId;
+        await booking.save()
 
         res.status(201).json({ booking });
     } catch (err) {
         res.status(500).send(err);
     }
 };
+
+
+const findProviderBooking = async (req, res) => {
+    const { providerId } = req.params;
+    if (!providerId) {
+        res.status(401).send("Provider Id is missing")
+    }
+
+    try {
+        const bookings = await BookingModel.find({ provider: providerId }).populate('user vehicle');
+        res.status(200).send(bookings);
+    } catch (error) {
+        res.status(500).send({ error });
+    }
+}
 
 const cancelBooking = async (req, res) => {
     const { vid, uid } = req.body;
@@ -65,7 +88,7 @@ const cancelBooking = async (req, res) => {
         res.status(500).send(err);
     }
 };
-
+// for users
 const checkBooking = async (req, res) => {
     const { uid, vid } = req.body;
 
@@ -78,7 +101,7 @@ const checkBooking = async (req, res) => {
             res.status(404).send("No bookings found");
         }
         else
-        res.status(200).json({booking});
+            res.status(200).json({ booking });
 
     } catch (err) {
         res.status(500).send(err);
@@ -87,5 +110,5 @@ const checkBooking = async (req, res) => {
 
 
 module.exports = {
-    bookVehicle, cancelBooking,checkBooking
+    bookVehicle, cancelBooking, checkBooking, findProviderBooking
 };

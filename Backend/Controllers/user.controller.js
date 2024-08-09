@@ -117,56 +117,74 @@ const myrides = async (req, res) => {
         return res.status(500).send("Internal server error");
     }
 }
+
+
+// delete files from firebase
+async function deleteImage(publicUrl) {
+    // Extract the file path from the public URL
+    const filePath = publicUrl.split(`https://storage.googleapis.com/${bucket.name}/`)[1];
+
+    // Delete the file
+    await bucket.file(filePath).delete();
+}
+
+
 // in user route file multer setup 
 const updateUser = async (req, res) => {
 
     if (!req.params.uid)
         return res.status(400).json({ err: "user id missing" })
 
-    // console.log(req.body);
+    const user = await userModel.findById(req.params.uid);
+    if (!user) {
+        return res.status(404).send('User not found');
+    }
+
+
     let publicUrl;
     let update = { ...req.body }
 
+    if (user.avatar && req.file) {
+        await deleteImage(user.avatar).catch(err => {
+            console.log("err: ", err)
+        })
+    }
 
     const uploadFile = async () => {
-        if (req.file) {
+        const fileName = `Renify/Avatars/${Date.now()}-${req.file.originalname}`;
 
-            const fileName = `Renify/Avatars/${Date.now()}-${req.file.originalname}`;
+        const blob = bucket.file(fileName);
+        const blobStream = blob.createWriteStream({
+            metadata: {
+                contentType: req.file.mimetype
+            }
+        });
 
-            const blob = bucket.file(fileName);
-            const blobStream = blob.createWriteStream({
-                metadata: {
-                    contentType: req.file.mimetype
-                }
+        await new Promise((resolve, reject) => {
+            blobStream.on('error', (err) => {
+                reject(err);
             });
 
-            await new Promise((resolve, reject) => {
-                blobStream.on('error', (err) => {
-                    reject(err);
-                });
-
-                blobStream.on('finish', async () => {
-                    publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-                    await blob.makePublic();
-                    resolve();
-                });
-
-                blobStream.end(req.file.buffer);
+            blobStream.on('finish', async () => {
+                publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+                await blob.makePublic();
+                resolve();
             });
-        }
+
+            blobStream.end(req.file.buffer);
+        });
     }
 
     try {
-        await uploadFile();
+        if (req.file) {
+            await uploadFile();
+        }
 
         // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;
-        console.log(update)
+        // console.log(update)
 
         const user = await userModel.findByIdAndUpdate(req.params.uid, update, { new: true }); // new return updated user details
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
         await user.save();
 
         res.status(200).json({ user }); // always use that fu***ng  json to send objs

@@ -35,11 +35,11 @@ body::-webkit-scrollbar-thumb {
 }
 @keyframes card {
   from {
-    opacity: 0.2;
-    transform: translateY(15%);
+    opacity: 0;
+    scale: .9;
   }
   to {
+    scale: 1;
     opacity: 1;
-    transform: translateY(0%);
   }
 }

@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import CarCard from "../../Cards/CarCard";
-import LocationFinder from "../../LocationFinder";
 import { UserContext } from "../../../context/context";
 import Paginate from "./Pagination code/Pagination";
 import { useParams } from "react-router-dom";
+import { IoMdRefresh } from "react-icons/io";
+import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
 
 const VehiclesPage = () => {
   const { url } = useContext(UserContext);
@@ -11,6 +13,7 @@ const VehiclesPage = () => {
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const { vtype } = useParams();
 
@@ -25,6 +28,7 @@ const VehiclesPage = () => {
   }, [currentPage, filters]);
 
   const fetchVehicles = async (page, filters) => {
+    setLoading(true)
     try {
       const query = new URLSearchParams({
         page,
@@ -37,6 +41,8 @@ const VehiclesPage = () => {
       setTotalPages(data.pagination.totalPages);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,6 +52,7 @@ const VehiclesPage = () => {
       ...prevFilters,
       [name]: value,
     }));
+    setCurrentPage(1); // Reset to the first page when filters change
   };
 
   const handleNextPage = () => {
@@ -57,10 +64,15 @@ const VehiclesPage = () => {
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const handleRefresh = () => {
+    fetchVehicles(currentPage, filters);
   };
 
   const selectCLS =
@@ -69,8 +81,8 @@ const VehiclesPage = () => {
   return (
     <>
       {/* filters */}
-      <div className="flex mt-3">
-        <label className=" m-3 text-lg flex gap-3 ">
+      <div className="flex ml-4 mt-3 flex-wrap gap-2 items-center">
+        <label className="  text-lg flex gap-3 ">
           Type:
           <select
             className={selectCLS}
@@ -97,7 +109,7 @@ const VehiclesPage = () => {
           </select>
         </label>
         <span className=" m-3 text-lg flex gap-3">
-          <span className="">limit :</span>
+          Limit:
           <select
             name="limit"
             onChange={handleFilterChange}
@@ -110,30 +122,41 @@ const VehiclesPage = () => {
             <option value={20}>100</option>
           </select>
         </span>
+
+        <span
+          onClick={handleRefresh}
+          className="group cursor-pointer bg-slate-800 flex items-center rounded-md px-2 h-10 gap-2 dark:bg-sky-500 hover:ring-2 ring-white text-white text-lg"
+        >
+          Refresh
+          <IoMdRefresh className="text-2xl group-hover:rotate-[440deg] duration-500" />
+        </span>
       </div>
-      {vehicles?.length > 0 ? (
+
+      {loading ? (
+        <div className="grid place-items-center h-[50vh] w-screen">
+          <ImSpinner9 className="text-5xl animate-spin" />
+        </div>
+      ) : vehicles?.length > 0 ? (
         <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
-          {vehicles?.map((item) => {
-            return (
-              <div className="my-4">
-                <a
-                  href={`/vehicledetails/${item?._id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <CarCard key={item._id} data={item} />
-                </a>
-              </div>
-            );
-          })}
+          {vehicles.map((item) => (
+            <div className="my-4" key={item._id}>
+              <a
+                href={`/vehicledetails/${item?._id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <CarCard data={item} />
+              </a>
+            </div>
+          ))}
         </div>
       ) : (
         <div className="flex h-[50vh] font-semibold text-xl items-center justify-center">
-          No vehicle Found !
+          No vehicle found!
         </div>
       )}
 
-      {/* pagination  */}
+      {/* pagination */}
       <Paginate
         handleNextPage={handleNextPage}
         handlePrevPage={handlePrevPage}

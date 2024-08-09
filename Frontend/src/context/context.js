@@ -15,11 +15,11 @@ export const UserContextProvider = ({ children }) => {
     // const [user, setUser] = useState(null);
 
     const [MyVehicles, setMyVehicles] = useState([]);
-    const [loader, setloader] = useState(false)
+    const [loader, setLoader] = useState(true)
 
     return (
         <UserContext.Provider value={
-            { user, url, setUser, loader, setloader, MyVehicles, setMyVehicles }}>
+            { user, url, setUser, loader, setLoader, MyVehicles, setMyVehicles }}>
             {children}
         </UserContext.Provider>
     );

@@ -62,8 +62,9 @@ const CardSlider = () => {
             href={`/vehicledetails/${data?._id}`}
             target="_blank"
             rel="noreferrer"
+            key={data?._id}
           >
-            <CarCard key={data?._id} data={data} />
+            <CarCard data={data} />
           </a>
         ))}
       </Slider>

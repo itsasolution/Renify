@@ -6,6 +6,7 @@ import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import { PiMotorcycleFill } from "react-icons/pi";
 import { PiCarProfile } from "react-icons/pi";
+import { IoImageOutline } from "react-icons/io5";
 import { CircularProgress } from "@mui/material";
 const AddVehicle = () => {
   const { user, setMyVehicles, url } = useContext(UserContext);
@@ -17,8 +18,6 @@ const AddVehicle = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    // formData["images"] = data.images[0]; single images upload
-
     const formData = new FormData(); // Create a new FormData object
     formData.append("PID", user._id);
 
@@ -182,61 +181,72 @@ const AddVehicle = () => {
           <input
             {...register("rentPerHour", {
               required: "required",
+              min: {
+                value: 50,
+                message: "Value must be greater than 50",
+              },
+              max: {
+                value: 5000,
+                message: "Value must be less than 10,000",
+              },
             })}
             type="number"
-            maxLength={4}
+            min={50}
+            max={5000}
             className={inputClass}
-            placeholder=" "
+            placeholder=""
+            required
           />
+
           <label className={labelClass}>Rent Per Hour</label>
-          {errors.rentPerHour && (
-            <p className={errorClass}>{errors.rentPerHour.message}</p>
-          )}
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
             {...register("rentPerDay", {
               required: "required",
+              min: {
+                value: 200,
+                message: "Value must be greater than 50",
+              },
+              max: {
+                value: 10000,
+                message: "Value must be less than 10,000",
+              },
             })}
             type="number"
+            min={200}
+            max={10000}
             className={inputClass}
-            placeholder=" "
+            placeholder=""
+            required
           />
           <label className={labelClass}>Rent Per Day</label>
-          {errors.rentPerDay && (
-            <p className={errorClass}>{errors.rentPerDay.message}</p>
-          )}
         </div>
       </div>
 
-      <div className="relative flex items-center  z-0 w-full mb-5 group">
-        <div className=" ">
-          <lord-icon
-            src="https://cdn.lordicon.com/rehjpyyh.json"
-            trigger="hover"
-            stroke="regular"
-            style={{ width: "60px", height: "60px" }}
-          ></lord-icon>
-        </div>
+      <div className="relative flex flex-col  z-0 w-full mb-5 group">
+        <span className="flex items-center gap-2">
+          <IoImageOutline className="text-5xl " />
+          <input
+            {...register("images", {
+              required: "At least one Images is required",
+            })}
+            type="file"
+            multiple
+            name="images"
+            className="file-input file-input-bordered h-10 w-[270px] dark:bg-slate-800 bg-white file-input-info max-w-xs"
+          />
+        </span>
 
-        <input
-          {...register("images", {
-            required: "At least one Images is required",
-          })}
-          type="file"
-          multiple
-          name="images"
-          className="file-input file-input-bordered h-10 w-[270px] dark:bg-slate-800 bg-white file-input-info max-w-xs"
-        />
         {errors.images && (
-          <p className="text-sm mx-1 text-red-500 ">{errors.images.message}</p>
+          <p className="text-sm mx-1 text-rose-500 ">{errors.images.message}</p>
         )}
       </div>
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`text-white w-full btn text-lg  btn-ghost bg-blue-700 hover:bg-blue-600 border-none focus:ring-2 px-5
-          ${isSubmitting} ? cursor-not-allowed:""`}
+        className={`text-white w-full btn text-lg hover:ring-2 ring-white bg-blue-700 hover:bg-blue-600 border-none  px-5
+          ${isSubmitting}`}
       >
         {isSubmitting ? (
           <CircularProgress color="inherit" thickness={5} size={25} />

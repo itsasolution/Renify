@@ -7,20 +7,18 @@ import "./Home.css";
 import "@mui/material/styles";
 import { Link } from "react-router-dom";
 import CarBikeCard from "../../Cards/CarBikeCard";
-export const HomePage = () =>
-   {
+export const HomePage = () => {
   return (
     <>
-      {/* <div className="absolute top-0 z-[-2] h-screen w-4/5 bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div> */}
-      {/* <div class="relative h-full w-full bg-slate-950"><div class="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div><div class="absolute bottom-0 right-[-20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div></div> */}
-
-      <div className=" opacityanime md:h-screen duration-300 overflow-hidden md:overflow-visible ">
-        <div className="group relative flex flex-col-reverse justify-center  h-[90%] md:flex-row items-center pt-7 md:pt-8 mb-10 md:mx-5 duration-300 ">
+      <div className=" homeAnime translate-y-[-55px] bg-gradient-to-br from-sky-200 via-white to-violet-200 dark:from-violet-950 dark:via-black dark:to-purple-950 h-screen duration-300 overflow-hidden md:overflow-visible ">
+        <div className="group relative flex flex-col-reverse justify-center  h-full md:flex-row items-center pt-7 md:pt-0 md:mx-5 duration-300 ">
           {/* effect */}
-          <span className="absolute bg-gradient-to-br from-cyan-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-1000 opacity-0 group-hover:opacity-100 group-hover:scale-[17]  "></span>
 
-          <span className="absolute bg-gradient-to-br from-cyan-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-700 opacity-0 group-hover:opacity-100   group-hover:scale-[21] animate-pulse "></span>
-          <span className="absolute bg-gradient-to-tl from-cyan-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-500 opacity-0 group-hover:opacity-100 group-hover:scale-[25]  "></span>
+          <div className="dark:block hidden">
+            <span className="absolute bg-gradient-to-tr from-sky-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-1000 opacity-0 group-hover:opacity-100 group-hover:scale-[17]  "></span>
+            <span className="absolute bg-gradient-to-br from-sky-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-700 opacity-0 group-hover:opacity-100   group-hover:scale-[21] animate-pulse "></span>
+            <span className="absolute bg-gradient-to-tl from-sky-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-500 opacity-0 group-hover:opacity-100 group-hover:scale-[25]  "></span>
+          </div>
 
           <div className=" md:w-1/2 z-10 flex flex-col px-3 h-[40%] pt-5 md:pt-0 md:h-full justify-center items-center">
             <h1 className="text-3xl  text-shado md:text-5xl font-bold text-center text-blue-900 dark:text-white mb-8">
@@ -30,7 +28,7 @@ export const HomePage = () =>
               </div>
             </h1>
             {/* SubHeadings */}
-            <div className="flex md:gap-4 flex-col md:flex-row md:text-lg ">
+            <div className="flex md:gap-7 mt-3 flex-col md:flex-row md:text-xl ">
               <div className=" overflow-hidden">
                 <ul className="bullet-points ">
                   <li>Ride in style</li>
@@ -51,10 +49,9 @@ export const HomePage = () =>
           </div> */}
         </div>
       </div>
-      <div className="grid bg-white/90 z-20 dark:bg-slate-900/90 rounded-lg p-4 gap-5 grid-cols-1 m-5  md:grid-cols-2">
+      <div className="grid bg-white/90 z-20 dark:bg-slate-900/90 rounded-lg md:p-4 p-2 gap-2 md:gap-5 grid-cols-1  md:h-auto  md:m-5  md:grid-cols-2">
         <CarBikeCard type="Bikes" />
         <CarBikeCard type="Cars" />
-        
       </div>
 
       <div className="dark:bg-slate-950/80 ">

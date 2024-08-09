@@ -14,11 +14,12 @@ import { CircularProgress } from "@mui/material";
 import DateTimeComp from "../../Date and time picker/DateTimeComp";
 import Reviews from "./Reveiws";
 import VehicleDetailText from "./VehicleDetailText";
+import DateRange from "../../Date and time picker/DateRange";
 
 export const VehicleDetails = () => {
   const { user, url } = useContext(UserContext);
 
-  const [booking, setBooking] = useState();
+  const [booking, setBooking] = useState({});
   const [image, setImage] = useState("");
   const [vehicle, setVehicle] = useState();
   const [loader, setLoader] = useState(false);
@@ -30,7 +31,6 @@ export const VehicleDetails = () => {
       .get(`${url}/vehicles/findvehicle/${id}`)
       .then((res) => {
         if (res) {
-          console.log(res.data);
           setVehicle(res.data);
           setImage(res.data.images[0]);
         }
@@ -50,12 +50,12 @@ export const VehicleDetails = () => {
       .post(`${url}/vehicles/checkBooking`, { uid: user?._id, vid: id })
       .then((res) => {
         if (res) {
-          console.log("booking details: ", res.data.booking);
           setBooking(res.data.booking);
+          // console.log(booking);
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -87,7 +87,7 @@ export const VehicleDetails = () => {
           setLoader(false);
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           // toast.error(err.response?.data);
           setLoader(false);
         });
@@ -102,8 +102,7 @@ export const VehicleDetails = () => {
       .post(`${url}/vehicles/cancelBooking`, { uid: user._id, vid: id })
       .then((res) => {
         if (res) {
-          console.log("cancelled");
-          setBooking("");
+          setBooking({});
           toast.success("Cancelled");
         }
         setLoader(false);
@@ -124,17 +123,91 @@ export const VehicleDetails = () => {
         </div>
       </Link>
 
-      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-6 mt-5">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-2 mt-3 px-1 md:px-4">
         {/* Image Section */}
         <ImageSection vehicle={vehicle} setImage={setImage} image={image} />
-
-        <div className="p-4">
+        <div className="md:p-4 p-2  dark:bg-slate-900 bg-white  rounded-xl ">
           <VehicleDetailText vehicle={vehicle} />
 
-          <div className="flex flex-col items-center">
-            {/* DateTime Scheduler */}
-            <DateTimeComp getDate={getDate} />
+          {/* DateTime Scheduler */}
+          {!booking?.startDate && <DateTimeSchedular getDate={getDate} />}
+          {/* <DateTimeComp getDate={getDate} /> */}
+          {/* <DateRange /> */}
 
+          {booking?.startDate && (
+            <table className="min-w-full my-4 border-collapse border border-gray-300">
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2 font-semibold">
+                    Amount:
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.amount}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2 font-semibold">
+                    Booking Date:
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {new Date(booking?.bookingDate).toLocaleString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2 font-semibold">
+                    Start Date:
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {new Date(booking?.startDate).toLocaleString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2 font-semibold">
+                    End Date:
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {new Date(booking?.endDate).toLocaleString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2 font-semibold">
+                    Status:
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.status}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+
+          <div className="flex flex-col items-center">
             {/* Booking and Cancel Function */}
             {user?._id ? (
               booking?.user ? (
@@ -144,7 +217,8 @@ export const VehicleDetails = () => {
                   heading="Cancel Booking"
                   actionName="Cancel Ride"
                   fn={cancel}
-                  bgclr="bg-rose-500"
+                  bgclr="bg-rose-600"
+                  cls="w-[50%] btn hover:bg-rose-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-rose-600"
                 />
               ) : (
                 <button

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/context";
 import CarCard from "../Cards/CarCard";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export const MyRides = () => {
   const { user, url } = useContext(UserContext);
@@ -12,7 +13,6 @@ export const MyRides = () => {
       .get(`${url}/user/myrides/${user?._id}`)
       .then((res) => {
         if (res) setMyrides(res?.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -22,12 +22,12 @@ export const MyRides = () => {
   return (
     <>
       {myrides?.length > 0 ? (
-        <div className="my-15 grid grid-cols-2 mb-5 md:grid-cols-4 px-5 ">
+        <div className="my-10 grid grid-cols-1 h-auto mb-5 md:grid-cols-4 px-5 ">
           {myrides?.map((item) => {
             return (
-              <div className="my-4">
-                <CarCard key={item._id} data={item} />
-              </div>
+              <Link to={`/vehicledetails/${item._id}`} className="my-4">
+                <CarCard key={item._id} data={item} status="Booked" />
+              </Link>
             );
           })}
         </div>

@@ -1,7 +1,9 @@
-const CarCard = ({ data }) => {
+import { MdOutlineLocationOn } from "react-icons/md";
+
+const CarCard = ({ data, status }) => {
   const { brand, rentPerHour, rentPerDay, location, model, images } = data;
   return (
-    <div className="group cardanime relative  z-10 w-auto min-w-60 max-w-80 lg:max-w-[340px] shadow-[0_1px_10px_0px_rgba(0,0,0,0.3)] rounded-xl m-1.5 h-full overflow-hidden  bg-gradient-to-br from-[#f8feff]/90 to-green-100/80 dark:bg-gradient-to-bl dark:from-[#00293f] dark:to-slate-900  duration-200 hover:-translate-y-1 dark:hover:ring-green-400 dark:ring-1 dark:hover:ring-2 ring-white  ">
+    <div className="group cardanime relative  z-10 w-auto min-w-60 max-w-80 lg:max-w-[340px] shadow-[0_1px_10px_0px_rgba(0,0,0,0.3)] rounded-xl m-1.5 h-full overflow-hidden  bg-gradient-to-br from-[#f8feff]/90 to-slate-100 dark:bg-gradient-to-bl dark:from-[#00293f] dark:to-slate-900  duration-200 hover:-translate-y-1 dark:hover:ring-green-400 dark:ring-1 dark:hover:ring-2 ring-white  ">
       <div className="h-60 w-full">
         <img
           src={images[0]}
@@ -10,10 +12,14 @@ const CarCard = ({ data }) => {
         />
       </div>
 
-      <div className="flex-col px-3 mt-1 ">
+      <div className="flex-col px-3 py-1 mt-1 relative ">
+        <span className=" absolute top-1 font-semibold text-green-400 right-2">
+          {status}
+        </span>
+
         <h3 className="font-semibold text-lg">{model}</h3>
         <h4 className="font-semibold text-slate-500">{brand}</h4>
-        <div className="rating  ">
+        <div className="rating">
           {/* rating */}
           <div className="flex items-center mb-1 space-x-1 ">
             <span className="mr-1">{data?.overallRating}</span>
@@ -45,23 +51,25 @@ const CarCard = ({ data }) => {
         </div>
         <div className="price-details">
           <div className="">
-            Rent/hour :
+            Rent/hour : ₹
             <span className="text-green-600 mx-1 font-semibold">
               {rentPerHour}
             </span>
           </div>
           <div className="">
-            Rent/Day :
+            Rent/Day : ₹
             <span className="text-green-600 mx-1 font-semibold">
               {rentPerDay}
             </span>
           </div>
         </div>
         {/* <span className="discount">Discount: {discount}</span> */}
-        <div className="font-semibold">{}</div>
-        <p className="text-gray-700 dark:text-gray-200 line-clamp-1">
-          {location}
-        </p>
+        <div className="flex gap-1 items-center my-1">
+          <MdOutlineLocationOn className="text-xl text-gray-600 dark:text-slate-300" />
+          <p className="text-gray-700 font-semibold dark:text-gray-200 line-clamp-1">
+            {location}
+          </p>
+        </div>
       </div>
     </div>
   );

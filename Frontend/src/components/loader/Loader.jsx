@@ -2,12 +2,12 @@ import "./loader.css";
 
 const Loader = () => {
   return (
-    <div class="cont">
-      <div class="waves"></div>
-      <div class="waves"></div>
-      <div class="waves"></div>
-      <div class="waves"></div>
-      <div class="waves"></div>
+    <div className="cont">
+      <div className="waves"></div>
+      <div className="waves"></div>
+      <div className="waves"></div>
+      <div className="waves"></div>
+      <div className="waves"></div>
     </div>
   );
 };

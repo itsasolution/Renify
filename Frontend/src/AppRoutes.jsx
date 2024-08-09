@@ -2,8 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./components/Pages/LoginPage";
 import { SignINPage } from "./components/Pages/SignINPage";
 import { HomePage } from "./components/Pages/Homepage/HomePage";
-import { useContext } from "react";
-import { UserContext } from "./context/context";
 import { MyRides } from "./components/Pages/MyRides";
 import { ProviderRegister } from "./components/Provider/PoviderRegister";
 import AddVehicle from "./components/Provider/AddVehicle";
@@ -14,9 +12,9 @@ import { VehicleDetails } from "./components/Pages/VehiclePages/VehicleDetails";
 import ProfilePage from "./components/Pages/Profile page/ProfilePage";
 import Examples from "./components/Helper model/Examples";
 import { VehicleEdit } from "./components/Provider/VehicleEdit";
+import Bookings from "./components/Provider/Bookings";
 
-const AppRoutes = () => {
-  const { user } = useContext(UserContext);
+const AppRoutes = ({ user }) => {
   return (
     <>
       {/* effects */}
@@ -36,6 +34,7 @@ const AppRoutes = () => {
             element={<LoginPage who={"provider"} />}
           />
           <Route path="/provider-sign-in" element={<ProviderRegister />} />
+          <Route path="/bookings" element={<Bookings />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/vehicles/:vtype" element={<VehiclesPage />} />
           <Route path="/vehicledetails/:id" element={<VehicleDetails />} />

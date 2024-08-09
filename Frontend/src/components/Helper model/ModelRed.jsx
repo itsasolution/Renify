@@ -19,12 +19,15 @@ const ModelRed = (prop) => {
           {actionName === "Logout" && (
             <TiWarningOutline className={`text-4xl  text-yellow-300`} />
           )}
+          {actionName === "Cancel Ride" && (
+            <TiWarningOutline className={`text-4xl  text-yellow-300`} />
+          )}
           <span className="flex gap-2 justify-center items-center mt-3 ">
-            <h3 className="font-bold text-lg">{heading}</h3>
             {actionName === "Delete" && (
               <MdDeleteForever className={`text-3xl  text-rose-600`} />
             )}
           </span>
+            <h3 className="font-bold text-lg">{heading}</h3>
           <p className="py-4 text-lg font-semibold text-center">{message}</p>
           <div className="modal-action ">
             <button

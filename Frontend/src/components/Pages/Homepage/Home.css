@@ -1,6 +1,19 @@
 .opacityanime {
   animation: opac 1s ease 1;
 }
+.homeAnime {
+  animation: homani 1s ease 1;
+}
+@keyframes homani {
+  from {
+    opacity: 0;
+    transform: translateY(-15%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-55px);
+  }
+}
 @keyframes opac {
   from {
     opacity: 0.1;

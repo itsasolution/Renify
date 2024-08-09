@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { differenceInHours, differenceInDays, format } from "date-fns";
+import { DatePicker } from "antd";
+import moment from "moment";
+const { RangePicker } = DatePicker;
 
 const DateTimeComp = () => {
   const [formData, setFormData] = useState({
@@ -9,11 +12,14 @@ const DateTimeComp = () => {
     endTime: "",
   });
 
+  const [date, setDates] = useState([]);
   const [cost, setCost] = useState(null);
   const [error, setError] = useState("");
 
   const rentPerHour = 120;
   const rentPerDay = 1200;
+
+  console.log(date);
 
   useEffect(() => {
     const calculateCost = () => {
@@ -81,7 +87,81 @@ const DateTimeComp = () => {
 
   return (
     <div className="my-5 font-semibold">
-      <button
+      <div className="modal-box bg-white dark:bg-slate-900">
+        <h2 className="text-center font-semibold text-xl border-cyan-400 mx-36 border-b-2">
+          Select Rental Date
+        </h2>
+
+        <form className="booking-form my-5">
+          <div className={divcls}>
+            <label>
+              days :
+              <RangePicker
+              // value={new Date()}
+                onChange={(dates) => {
+                  setDates(
+                    dates.map((item) => {
+                      return moment(item).format("DD-MM-YYYY");
+                    })
+                  );
+                }}
+              />
+            </label>
+          </div>
+          <div className={divcls}>
+            <label>
+              Time:
+              <input
+                type="time"
+                name="endTime"
+                value={formData.endTime}
+                onChange={handleChange}
+                required
+                className={inpclass}
+              />
+            </label>
+          </div>
+        </form>
+
+        {error && <p className="error text-red-500">{error}</p>}
+        {cost !== null && (
+          <div className="ring-1 dark:ring-white ring-slate-700 p-2">
+            <h2>Booking Summary</h2>
+            <p>
+              Start:{" "}
+              {format(
+                new Date(`${formData.startDate}T${formData.startTime}`),
+                "PPPpp"
+              )}
+            </p>
+            <p>
+              End:{" "}
+              {format(
+                new Date(`${formData.endDate}T${formData.endTime}`),
+                "PPPpp"
+              )}
+            </p>
+            <p>Total Cost: ${cost.toFixed(2)}</p>
+          </div>
+        )}
+
+        <div className="modal-action">
+          <button
+            className="font-semibold mx-2 bg-blue-600 hover:ring-2 ring-white duration-200 text-white p-1 px-5 rounded-lg"
+            onClick={() => ""}
+          >
+            Set date
+          </button>
+          <button
+            onClick={() => document.getElementById("model").close()}
+            className="btn bg-slate-800 hover:ring-2 ring-white text-white"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+
+      {/* <button
         className="bg-green-500 font-semibold hover:ring-2 duration-200 ring-white text-white rounded-md p-2 text-lg px-3"
         onClick={() => document.getElementById("model").showModal()}
       >
@@ -89,55 +169,21 @@ const DateTimeComp = () => {
       </button>
 
       <dialog id="model" className="modal">
-        <div className="modal-box bg-white dark:bg-slate-900">
-          <h2 className="text-center font-semibold text-xl border-cyan-400 mx-24 border-b-4">
+<div className="modal-box bg-white dark:bg-slate-900">
+          <h2 className="text-center font-semibold text-xl border-cyan-400 mx-36 border-b-2">
             Select Rental Date
           </h2>
-
 
           <form className="booking-form my-5">
             <div className={divcls}>
               <label>
-                Start Date:
-                <input
-                  type="date"
-                  name="startDate"
-                  value={formData.startDate}
-                  onChange={handleChange}
-                  required
-                  className={inpclass}
-                />
+                days :
+                <DatePicker />
               </label>
             </div>
             <div className={divcls}>
               <label>
-                Start Time:
-                <input
-                  type="time"
-                  name="startTime"
-                  value={formData.startTime}
-                  onChange={handleChange}
-                  required
-                  className={inpclass}
-                />
-              </label>
-            </div>
-            <div className={divcls}>
-              <label>
-                End Date:
-                <input
-                  type="date"
-                  name="endDate"
-                  value={formData.endDate}
-                  onChange={handleChange}
-                  required
-                  className={inpclass}
-                />
-              </label>
-            </div>
-            <div className={divcls}>
-              <label>
-                End Time:
+                Time:
                 <input
                   type="time"
                   name="endTime"
@@ -186,8 +232,8 @@ const DateTimeComp = () => {
               Close
             </button>
           </div>
-        </div>
-      </dialog>
+        </div>        
+      </dialog> */}
     </div>
   );
 };

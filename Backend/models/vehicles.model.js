@@ -50,7 +50,12 @@ const vehicleSchema = new mongoose.Schema({
   location: {
     type: String,
   },
-  overallRating: Number,
+  city: String,
+
+  overallRating: {
+    type: Number, default: 0
+  },
+
   reviews: [
     {
       // user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
