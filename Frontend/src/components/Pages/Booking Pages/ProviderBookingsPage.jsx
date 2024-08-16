@@ -1,48 +1,43 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
-import { UserContext } from "../../context/context";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../context/context";
 import axios from "axios";
-import Loader2 from "../loader/Loader2";
+import Loader2 from "../../loader/Loader2";
 import { Link } from "react-router-dom";
-import CarCard from "../Cards/CarCard";
+import CarCard from "../../Cards/CarCard";
+import BookingCard from "./BookingCard";
 
-const MyRides = () => {
+const ProviderBookingsPage = () => {
   const { user, url } = useContext(UserContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeView, setActiveView] = useState("active");
+  const [activeView, setActiveView] = useState("active"); // State to manage the active view
 
   const fetchBookings = async () => {
-    setLoading(true);
     try {
-      const res = await axios.get(`${url}/user/myrides/${user?._id}`);
-      if (res.data) {
-        setBookings(res.data);
-      }
-    } catch (err) {
-      console.error(err);
+      setLoading(true);
+      const res = await axios.get(`${url}/provider/find-bookings/${user._id}`);
+      setBookings(res?.data);
+      console.log(res?.data);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      fetchBookings();
-    }
+    fetchBookings();
   }, [user]);
 
-  const activeBookings = useMemo(() =>
-    bookings.filter((item) => item.status === "Ongoing" || item.status === "Booked"), 
-    [bookings]
+  const activeBookings = bookings.filter(
+    (item) => item.status === "Ongoing" || item.status === "Booked"
   );
 
-  const recentBookings = useMemo(() =>
-    bookings.filter((item) => item.status === "Completed"), 
-    [bookings]
-  );
+  const recentBookings = bookings.filter((item) => item.status === "Completed");
 
   return (
-    <div className="bookings-container">
+    <div>
+      {/* Button Toggle for Active and Recent Bookings */}
       <div className="flex justify-center my-5 space-x-4">
         <button
           onClick={() => setActiveView("active")}
@@ -70,16 +65,20 @@ const MyRides = () => {
             <div className="grid grid-cols-1 gap-4 h-auto mb-5 md:grid-cols-3 xl:grid-cols-4 px-5">
               {activeBookings.map((item) => (
                 <Link
-                  to={`/vehicledetails/${item.vehicle._id}`}
-                  key={item._id}
+                  to={`/BookedVehiclePage/${item._id}`}
+                  key={item.vehicle._id}
                 >
-                  <CarCard data={item.vehicle} status={item.status} />
+                  <BookingCard
+                    data={item.vehicle}
+                    status={item.status}
+                    user={item.user}
+                  />
                 </Link>
               ))}
             </div>
           ) : (
             <div className="grid place-items-center text-2xl  md:h-[50vh] h-[70vh] ">
-              No Active Bookings Found
+              No active bookings found
             </div>
           )}
         </div>
@@ -87,12 +86,9 @@ const MyRides = () => {
         <div className="my-10">
           {recentBookings.length > 0 ? (
             <div className="grid grid-cols-1 h-auto mb-5 md:grid-cols-4 px-5">
-              {recentBookings.map((booking) => (
-                <Link
-                  to={`/recentBookingsDetails/${booking._id}`}
-                  key={booking._id}
-                >
-                  <CarCard data={booking.vehicle} status={booking.status} />
+              {recentBookings.map((item) => (
+                <Link to={`/recentBookingsDetails/${item._id}`} key={item.vehicle._id}>
+                  <CarCard data={item.vehicle} status={item.status} />
                 </Link>
               ))}
             </div>
@@ -107,4 +103,4 @@ const MyRides = () => {
   );
 };
 
-export default MyRides;
+export default ProviderBookingsPage;

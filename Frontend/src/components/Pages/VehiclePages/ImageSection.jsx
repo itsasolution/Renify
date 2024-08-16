@@ -35,28 +35,20 @@ const ImageSection = ({ vehicle, setImage, image }) => {
   };
 
   return (
-    <div className="flex gap-1 md:gap-1 flex-col">
-      <div className="max-w-[700px] h-80 md:h-[80%] max-h-[700px] md:min-h-[500px] w-full">
-        <div
-          className="image-container rounded-xl shadow-md h-full p-1 w-full overflow-hidden bg-no-repeat"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleLeave}
-          onClick={openModal}
-          style={{
-            backgroundImage: `url(${image})`,
-            backgroundPosition: backgroundPosition,
-            backgroundSize: backSize,
-            cursor: "zoom-in",
-          }}
-        >
-          {/* Hidden image used for accessibility */}
-          {/* <img
-            className="image h-full w-full opacity-0"
-            src={`${image}`}
-            alt="img"
-          /> */}
-        </div>
-      </div>
+    <div className="flex z-10 gap-1 md:gap-1 flex-col">
+      <div
+        className="image-container max-w-[700px] lg:max-w-full lg:max-h-full h-80 max-h-[700px] md:min-h-[500px] xl:min-h-[65vh] w-full rounded-xl shadow-md p-1 overflow-hidden bg-no-repeat"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleLeave}
+        onClick={openModal}
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundPosition: backgroundPosition,
+          backgroundSize: backSize,
+          cursor: "zoom-in",
+        }}
+      ></div>
+
       <div className="flex items-center scroll-bar overflow-y-hidden w-full">
         {vehicle?.images?.map((img, index) => {
           return (

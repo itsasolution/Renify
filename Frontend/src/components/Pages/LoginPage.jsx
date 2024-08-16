@@ -42,7 +42,7 @@ export const LoginPage = ({ who }) => {
         toast.success("login Successfull!");
         setUser({ ...res.data?.userdata });
         localStorage.setItem("userdata", JSON.stringify(res.data.userdata));
-        navigate("/");
+        navigate(-1);
       }
     } catch (err) {
       if (err.response?.data) {

@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./components/Pages/LoginPage";
 import { SignINPage } from "./components/Pages/SignINPage";
 import { HomePage } from "./components/Pages/Homepage/HomePage";
-import { MyRides } from "./components/Pages/MyRides";
 import { ProviderRegister } from "./components/Provider/PoviderRegister";
 import AddVehicle from "./components/Provider/AddVehicle";
 import { MyVehicles } from "./components/Provider/MyVehicles";
@@ -12,7 +11,10 @@ import { VehicleDetails } from "./components/Pages/VehiclePages/VehicleDetails";
 import ProfilePage from "./components/Pages/Profile page/ProfilePage";
 import Examples from "./components/Helper model/Examples";
 import { VehicleEdit } from "./components/Provider/VehicleEdit";
-import Bookings from "./components/Provider/Bookings";
+import BookedVehiclePage from "./components/Pages/Booking Pages/BookedVehiclePage";
+import MyRides from "./components/Pages/MyRides";
+import RecentBookingDetails from "./components/Pages/Booking Pages/RecentBookingDetails";
+import ProviderBookingsPage from "./components/Pages/Booking Pages/ProviderBookingsPage";
 
 const AppRoutes = ({ user }) => {
   return (
@@ -22,7 +24,6 @@ const AppRoutes = ({ user }) => {
         <div className=" hidden md:block fixed left-[-25%] opacity-85 top-[0%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
         <div className=" hidden md:block fixed right-[-20%] top-[20%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
       </div>
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"><div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]"></div></div> */}
       <div className="z-20">
         <Routes>
           <Route path="/" exact element={<HomePage />} />
@@ -34,10 +35,15 @@ const AppRoutes = ({ user }) => {
             element={<LoginPage who={"provider"} />}
           />
           <Route path="/provider-sign-in" element={<ProviderRegister />} />
-          <Route path="/bookings" element={<Bookings />} />
+          <Route path="/ProviderBookingsPage" element={<ProviderBookingsPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/vehicles/:vtype" element={<VehiclesPage />} />
           <Route path="/vehicledetails/:id" element={<VehicleDetails />} />
+          <Route path="/BookedVehiclePage/:bookingId" element={<BookedVehiclePage />} />
+          <Route
+            path="/recentBookingsDetails/:bookingId"
+            element={<RecentBookingDetails />}
+          />
           <Route path="/vehicleEdit/:id" element={<VehicleEdit />} />
           <Route
             path="/profile"

@@ -30,13 +30,29 @@ body::-webkit-scrollbar-thumb {
   border-radius: 5px;
 }
 
+/* ################ */
+.floatEffect{
+  box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.1), -10px -10px 10px white;
+  transition: all 0.3s ease; 
+  background-color: inherit;
+}
+.floatEffect:hover{
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1),-10px -10px 10px white; 
+}
+
+.floatNav:hover{  
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.1), -5px -5px 10px rgb(249, 249, 249);
+  transition: all 0.3s ease; 
+  }
+
+
 .cardanime {
   animation: card 0.8s;
 }
 @keyframes card {
   from {
     opacity: 0;
-    scale: .9;
+    scale: 0.9;
   }
   to {
     scale: 1;

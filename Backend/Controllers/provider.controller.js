@@ -1,4 +1,6 @@
 const providerModel = require("../models/provider.model")
+const BookingModel = require("../models/bookings.model");
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bucket = require("../utils/firebase");
@@ -10,9 +12,9 @@ const createToken = (email) => {
 
 const signup = async (req, res) => {
 
-    const { username, email, name, address, password } = req.body
+    const { username, email, name, address, password, mobileNumber } = req.body
 
-    if (!username || !email || !address || !password) {
+    if (!username || !email || !address || !password    ) {
         return res.status(400).send('no data received');
     }
 
@@ -24,7 +26,7 @@ const signup = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);//salt=10
-        const userdata = await providerModel.create({ username, name, email, address, password: hashedPassword })
+        const userdata = await providerModel.create({ username, name, email, address, mobileNumber, password: hashedPassword })
 
         // logging-in the user create token 
         const token = createToken(email);
@@ -82,12 +84,15 @@ const myVehicles = async (req, res) => {
         res.status(401).send("User ID Needed")
 
     try {
-        const provider = await providerModel.findOne({ _id: req.body.uid }).populate("vehicles");
+        const provider = await providerModel.findById(req.body.uid).populate("vehicles");
+        if (provider)
+            res.status(200).json({ vehicles: provider.vehicles })
+        else {
+            res.send("provider Not found")
 
-        res.status(200).json({ vehicles: provider.vehicles })
-
+        }
     } catch (err) {
-        res.send(err)
+        res.send({ err: err.message })
     }
 
 }
@@ -190,6 +195,33 @@ const updateUser = async (req, res) => {
 
 }
 
+
+
+// BOOKING PArt
+// fetching active booking of currently available vehicle PROVIDER BOOKING PAGE
+const currentBooking = async (req, res) => {
+    try {
+        const { bookingId } = req.params;
+        const booking = await BookingModel.findOne({
+            _id: bookingId,
+            $or: [
+                { status: "Booked" },
+                { status: "Ongoing" }
+            ]
+        }).populate('user vehicle'); // Populate vehicle and provider details if needed
+
+        console.log(booking.user)
+        if (!booking) {
+            return res.status(404).json({ msg: 'No booking found for this user and vehicle' });
+        }
+
+        res.json(booking);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send({ message: err.message });
+    }
+}
+
 module.exports = {
-    login, signup, myVehicles, updateUser, DeleteUser
+    login, signup, myVehicles, updateUser, DeleteUser, currentBooking
 }

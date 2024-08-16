@@ -53,7 +53,6 @@ const VehicleDetailText = ({ vehicle }) => {
           </div>
         </div>
         <div className="flex flex-col scroll font-semibold md:mt-4 text-lg">
-          <span></span>
           <span>
             <div className="flex gap-1 items-center ">
               <BiUserCircle className="text-2xl text-gray-600 dark:text-slate-300" />
@@ -62,12 +61,11 @@ const VehicleDetailText = ({ vehicle }) => {
               </p>
             </div>
             <div className="flex items-start gap-2 my-1">
-  <MdOutlineLocationOn className="text-2xl text-gray-600 dark:text-slate-300" />
-  <p className="text-gray-700 font-semibold dark:text-gray-200 leading-snug">
-    Location: {vehicle?.location}
-  </p>
-</div>
-
+              <MdOutlineLocationOn className="text-2xl text-gray-600 dark:text-slate-300" />
+              <p className="text-gray-700 font-semibold dark:text-gray-200 leading-snug">
+                Location: {vehicle?.location}
+              </p>
+            </div>
           </span>
           <div className="flex gap-1.5 items-center my-1">
             <FaRegCircleCheck className="text-xl mx-1 text-gray-600 dark:text-slate-300" />

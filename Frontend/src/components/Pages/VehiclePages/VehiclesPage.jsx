@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import CarCard from "../../Cards/CarCard";
 import { UserContext } from "../../../context/context";
 import Paginate from "./Pagination code/Pagination";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IoMdRefresh } from "react-icons/io";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
@@ -25,10 +25,10 @@ const VehiclesPage = () => {
 
   useEffect(() => {
     fetchVehicles(currentPage, filters);
-  }, [currentPage, filters]);
+  }, [currentPage]);
 
   const fetchVehicles = async (page, filters) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const query = new URLSearchParams({
         page,
@@ -124,11 +124,11 @@ const VehiclesPage = () => {
         </span>
 
         <span
-          onClick={handleRefresh}
-          className="group cursor-pointer bg-slate-800 flex items-center rounded-md px-2 h-10 gap-2 dark:bg-sky-500 hover:ring-2 ring-white text-white text-lg"
+          onClick={()=>handleRefresh()}
+          className="group cursor-pointer bg-slate-700 flex items-center rounded-md px-2 h-10 gap-2 dark:bg-sky-500 hover:ring-2 ring-white text-white text-lg"
         >
-          Refresh
-          <IoMdRefresh className="text-2xl group-hover:rotate-[440deg] duration-500" />
+          Apply
+          <IoMdRefresh className="text-2xl group-hover:rotate-[400deg] duration-500" />
         </span>
       </div>
 
@@ -137,17 +137,14 @@ const VehiclesPage = () => {
           <ImSpinner9 className="text-5xl animate-spin" />
         </div>
       ) : vehicles?.length > 0 ? (
-        <div className="mt-15 grid grid-cols-1 mb-5 md:grid-cols-4 p-5 ">
+        <div className="mt-15 grid grid-cols-1 place-items-center mb-5 gap-3 md:grid-cols-4 p-5 ">
           {vehicles.map((item) => (
-            <div className="my-4" key={item._id}>
-              <a
-                href={`/vehicledetails/${item?._id}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <CarCard data={item} />
-              </a>
-            </div>
+            <Link
+              to={`/vehicledetails/${item?._id}`}
+              key={item._id}
+            >
+              <CarCard data={item} />
+            </Link>
           ))}
         </div>
       ) : (

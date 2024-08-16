@@ -7,13 +7,13 @@ import FormTemplate from "../FormTemplate/FormTemplate";
 
 export const ProviderRegister = () => {
   const { setUser, url } = useContext(UserContext);
-  const fields = ["Username", "Name", "Email", "Password", "Address"];
+  const fields = ["Username", "Name", "Email", "Password", "Address","Contact"];
 
   const navigate = useNavigate();
 
   // making request
   const submit = async (data) => {
-    const { Username, Name, Email, Password, Address } = data;
+    const { Username, Name, Email, Password, Address, Contact } = data;
 
     const providerInfo = {
       username: Username,
@@ -21,6 +21,7 @@ export const ProviderRegister = () => {
       email: Email,
       password: Password,
       address: Address,
+      mobileNumber: Contact,
     };
 
     try {
@@ -43,8 +44,6 @@ export const ProviderRegister = () => {
       }
     }
   };
-
-
 
   return (
     <>

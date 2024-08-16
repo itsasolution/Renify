@@ -6,9 +6,8 @@ var logger = require('morgan');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-var usersModel = require('./models/user.model');
 const session = require('express-session');
-const passport = require('passport');
+// const passport = require('passport');
 const flash = require("connect-flash");
 const cors = require("cors")
 var app = express();
@@ -36,8 +35,8 @@ app.use(session({
   secret: "Astronomer"
 }))
 
-app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.initialize())
+// app.use(passport.session())
 // //serialize the user's unique identifier (like user ID) into the session, allowing Passport to later retrieve the user details when needed.
 // passport.serializeUser(usersModel.serializeUser())
 

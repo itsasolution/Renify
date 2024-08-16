@@ -11,7 +11,9 @@ const BookingSchema = new mongoose.Schema({
         ref: 'Provider',
         required: true
     },
-    amount: Number,
+    cost:  { type: Number, required: true },
+    passCode:  { type: Number, required: true },
+    journeyTime:  { type: String, required: true },
     vehicle: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Vehicle',
@@ -23,7 +25,7 @@ const BookingSchema = new mongoose.Schema({
     endDate: { type: Date, required: true },
     status: {
         type: String,
-        enum: ['booked', 'completed'], default: 'booked'
+        enum: ['Booked', 'Completed', "Ongoing"], default: 'Booked'
     }
 });
 

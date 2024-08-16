@@ -109,12 +109,10 @@ export const VehicleEdit = () => {
 
   return (
     <>
-      <Link to={"/vehicles"}>
-        <div className="hidden md:flex items-center group font-semibold m-2 w-14 justify-between">
+        <div onClick={()=>navigate(-1)} className="cursor-pointer hidden md:flex items-center group font-semibold m-2 w-14 justify-between">
           <IoIosArrowBack className="group-hover:translate-x-1 duration-300" />
           Back
         </div>
-      </Link>
 
       <div className="grid md:grid-cols-2 grid-cols-1 md:gap-6 mt-5">
         {/* Image Section */}

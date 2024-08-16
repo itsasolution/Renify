@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import Menu from "./Menu";
 import { UserContext } from "../../context/context";
 import ProfileContainer from "./ProfileContainer";
@@ -34,41 +34,62 @@ export const Navbar = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const navcls =
-    "dark:focus:text-cyan-40 hover:ring-1 dark:ring-white duration-300 focus:border-b-2 border-blue-600 p-1 px-2 rounded-md";
+  // navBar
+  const navLinkClasses = (isActive) =>
+    `duration-300 hover:shadow-md dark:hover:ring-1 ring-cyan-400  p-1.5 px-2 rounded-md ${
+      isActive
+        ? " font-semibold bg-slate-200/60 dark:bg-transparent dark:text-cyan-300 ring-cyan-400  shadow-md"
+        : "text-gray-700 dark:text-gray-300"
+    }`;
 
   const nav = (
     <>
-      <Link to="/" className={navcls}>
+      <NavLink to="/" className={({ isActive }) => navLinkClasses(isActive)}>
         Home
-      </Link>
+      </NavLink>
       {user?.vehicles ? (
         <>
-          <Link to="/myvehicles" className={navcls}>
+          <NavLink
+            to="/myvehicles"
+            className={({ isActive }) => navLinkClasses(isActive)}
+          >
             My Vehicles
-          </Link>
-          <Link to="/addvehicle" className={navcls}>
+          </NavLink>
+          <NavLink
+            to="/addvehicle"
+            className={({ isActive }) => navLinkClasses(isActive)}
+          >
             Add Vehicle
-          </Link>
-          <Link to="/bookings" className={navcls}>
+          </NavLink>
+          <NavLink
+            to="/ProviderBookingsPage"
+            className={({ isActive }) => navLinkClasses(isActive)}
+          >
             Bookings
-          </Link>
+          </NavLink>
         </>
       ) : (
         <>
-          <Link to="/vehicles/all" className={navcls}>
+          <NavLink
+            to="/vehicles/all"
+            className={({ isActive }) => navLinkClasses(isActive)}
+          >
             Vehicles
-          </Link>
-          <Link to="/myrides" className={navcls}>
+          </NavLink>
+          <NavLink
+            to="/myrides"
+            className={({ isActive }) => navLinkClasses(isActive)}
+          >
             My Rides
-          </Link>
-          <Link to="/contact" className={navcls}>
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => navLinkClasses(isActive)}
+          >
             Contact
-          </Link>
+          </NavLink>
         </>
       )}
-
-      {/* Theme controller */}
       <label
         title="Change Theme"
         className="relative grid justify-between text-[16px] md:ml-0 md:p-0 md:items-center swap swap-rotate mr-4"
@@ -118,7 +139,7 @@ export const Navbar = () => {
       {/* Hamburger menu */}
       <Menu nav={nav} />
       {/* LOGO */}
-      <Link to="/" className="flex gap-3 text-xl">
+      <Link to="/" className="flex font-semibold gap-3 text-xl">
         <span className="h-8 flex items-center logoanime">
           <img
             src={`${process.env.PUBLIC_URL}/logo.png`}
@@ -129,10 +150,10 @@ export const Navbar = () => {
         Renify
       </Link>
       {/* Nav links */}
-      <div
-        className={`flex`}
-      >
-        <div className=" font-semibold justify-evenly items-center gap-3 md:min-w-[650px] hidden md:flex">{nav}</div>
+      <div className={`flex`}>
+        <div className=" justify-evenly items-center gap-3 md:min-w-[650px] hidden md:flex">
+          {nav}
+        </div>
         {/* User profile */}
         <ProfileContainer url={url} setUser={setUser} user={user} />
       </div>

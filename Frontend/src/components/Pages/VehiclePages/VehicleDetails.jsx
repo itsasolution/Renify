@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { IoIosArrowBack } from "react-icons/io";
 import axios from "axios";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/context";
-import DateTimeSchedular from "../../Date and time picker/DateTimeSchedular";
+import DateTimePicker from "./DateTimePicker";
 import CardSlider from "../../Cards/CardSlider";
 import ImageSection from "./ImageSection";
 import ReviewForm from "./ReviewForm";
 import ModelRed from "../../Helper model/ModelRed";
 import { CircularProgress } from "@mui/material";
-import DateTimeComp from "../../Date and time picker/DateTimeComp";
 import Reviews from "./Reveiws";
 import VehicleDetailText from "./VehicleDetailText";
-import DateRange from "../../Date and time picker/DateRange";
+import BookingDetails from "../Booking Pages/BookingDetails";
 
 export const VehicleDetails = () => {
   const { user, url } = useContext(UserContext);
@@ -41,46 +39,43 @@ export const VehicleDetails = () => {
       });
 
     // booking status
-    findBooking();
-  }, []);
+    CheckBookingOfUser();
+  }, [id]);
 
   // booking status
-  const findBooking = () => {
+  const CheckBookingOfUser = () => {
     axios
-      .post(`${url}/vehicles/checkBooking`, { uid: user?._id, vid: id })
+      .post(`${url}/user/checkBooking`, { uid: user?._id, vid: id })
       .then((res) => {
-        if (res) {
-          setBooking(res.data.booking);
-          // console.log(booking);
-        }
+        setBooking(res.data.booking);
+        // console.log(booking);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  const [dateData, setDateData] = useState(undefined);
+  const [dateAndCost, setDateAndCost] = useState(undefined);
 
   // getdates
-  const getDate = (date, showDate) => {
-    setDateData(date);
-    console.log(dateData);
+  const getDate = (dateAndCost) => {
+    setDateAndCost(dateAndCost);
   };
 
   // booking ride
   const Bookeride = () => {
-    if (dateData) {
+    if (dateAndCost) {
       const data = {
         id: id, //vehicle
         userId: user._id,
-        ...dateData, // spreading datedata
+        ...dateAndCost, // spreading dateAndCost
+        passCode: Math.floor(1000 + Math.random() * 9000),
       };
       setLoader(true);
       axios
-        .post("http://localhost:4000/vehicles/book", { ...data })
+        .post(`${url}/user/bookVehicle`, { ...data })
         .then((res) => {
           if (res.data) {
-            console.log("Book response: ", res.data);
             setBooking(res.data.booking);
             toast.success("Vehicle Booked");
           }
@@ -99,7 +94,7 @@ export const VehicleDetails = () => {
   const cancel = () => {
     setLoader(true);
     axios
-      .post(`${url}/vehicles/cancelBooking`, { uid: user._id, vid: id })
+      .get(`${url}/user/cancelBooking/${booking?._id}`)
       .then((res) => {
         if (res) {
           setBooking({});
@@ -108,118 +103,56 @@ export const VehicleDetails = () => {
         setLoader(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setLoader(false);
         // toast.error(err?.response?.data)
       });
+    setDateAndCost(undefined);
   };
 
   return (
     <>
-      <Link to={"/vehicles"}>
-        <div className="hidden md:flex items-center group font-semibold m-2 w-14 justify-between">
-          <IoIosArrowBack className="group-hover:translate-x-1 duration-300" />
-          Back
-        </div>
-      </Link>
-
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-2 mt-3 px-1 md:px-4">
+      <div className="grid  md:grid-cols-2 items-start grid-cols-1 gap-2 mt-3 px-1 md:px-4">
         {/* Image Section */}
         <ImageSection vehicle={vehicle} setImage={setImage} image={image} />
-        <div className="md:p-4 p-2  dark:bg-slate-900 bg-white  rounded-xl ">
+
+        <div className="md:p-4 p-2  dark:bg-slate-900 bg-white/75 shadow hover:shadow-md duration-200  rounded-xl ">
           <VehicleDetailText vehicle={vehicle} />
 
           {/* DateTime Scheduler */}
-          {!booking?.startDate && <DateTimeSchedular getDate={getDate} />}
-          {/* <DateTimeComp getDate={getDate} /> */}
-          {/* <DateRange /> */}
+          {!booking?.startDate ? (
+            <DateTimePicker getDate={getDate} vehicle={vehicle} />
+          ) : (
+            <>
+              <div className="p-4 bg-gray-100 dark:bg-gray-800/90 rounded-lg shadow-lg text-center max-w-[500px] mx-auto">
+                <span className="inline-block px-4 py-2 bg-cyan-500 text-white font-semibold rounded-full shadow-md text-xl mb-2">
+                  Pass Code: {booking.passCode}
+                </span>
+                <p className="mt-2 text-gray-700 dark:text-gray-200 text-sm">
+                  Share this passcode with the vehicle owner to start your ride.
+                </p>
+              </div>
 
-          {booking?.startDate && (
-            <table className="min-w-full my-4 border-collapse border border-gray-300">
-              <tbody>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 font-semibold">
-                    Amount:
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {booking.amount}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 font-semibold">
-                    Booking Date:
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {new Date(booking?.bookingDate).toLocaleString(undefined, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit",
-                      hour12: true,
-                    })}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 font-semibold">
-                    Start Date:
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {new Date(booking?.startDate).toLocaleString(undefined, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit",
-                      hour12: true,
-                    })}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 font-semibold">
-                    End Date:
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {new Date(booking?.endDate).toLocaleString(undefined, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit",
-                      hour12: true,
-                    })}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 font-semibold">
-                    Status:
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {booking.status}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <BookingDetails booking={booking} />
+            </>
           )}
 
-          <div className="flex flex-col items-center">
-            {/* Booking and Cancel Function */}
+          {/* Booking and Cancel Function */}
+          <div className="flex flex-col items-center ">
             {user?._id ? (
               booking?.user ? (
-                <ModelRed
-                  btnName="Cancel Booking"
-                  message="Are You Sure You Want to cancel Your Ride"
-                  heading="Cancel Booking"
-                  actionName="Cancel Ride"
-                  fn={cancel}
-                  bgclr="bg-rose-600"
-                  cls="w-[50%] btn hover:bg-rose-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-rose-600"
-                />
+                // ongoing can't cancel only by owner
+                booking.status !== "Ongoing" && (
+                  <ModelRed
+                    btnName="Cancel Booking"
+                    message="Are You Sure You Want to cancel Your Ride"
+                    heading="Cancel Booking"
+                    actionName="Cancel Ride"
+                    fn={cancel}
+                    bgclr="bg-rose-600"
+                    cls="w-[40%] btn hover:bg-rose-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-rose-600"
+                  />
+                )
               ) : (
                 <button
                   className="w-[50%] btn hover:bg-green-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500"
@@ -234,7 +167,7 @@ export const VehicleDetails = () => {
               )
             ) : (
               <Link to={"/user-login"}>
-                <button className="w-full btn hover:ring-2 border-none h-12 ring-white text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500">
+                <button className="w-full btn hover:ring-2 border-none h-12 ring-white text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 px-5 bg-green-500">
                   Login to Book Ride
                 </button>
               </Link>

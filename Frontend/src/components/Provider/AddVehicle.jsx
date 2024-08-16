@@ -65,9 +65,9 @@ const AddVehicle = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto my-2 p-5  "
+      className="max-w-md dark:bg-slate-900 bg-gray-white outline-double dark:outline-none outline-gray-200  shadow-md rounded-xl  md:mx-auto m-2 md:my-5  my-10 p-5  "
     >
-      <h1 className="text-xl font-semibold text-center border-b-4 pb-1 mx-32 mb-3 border-blue-500 ">
+      <h1 className="text-xl font-semibold text-center border-b-4 pb-1 md:mx-32  mx-28 mb-3 border-blue-500 ">
         Add Vehicle
       </h1>
 

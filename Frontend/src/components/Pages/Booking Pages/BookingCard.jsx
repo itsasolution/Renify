@@ -1,7 +1,6 @@
-import { MdOutlineLocationOn } from "react-icons/md";
 
-const CarCard = ({ data, status }) => {
-  const { brand, rentPerHour, rentPerDay, location, model, images } = data;
+const BookingCard = ({ data, status,user }) => {
+  const { brand, model, images } = data;
   return (
     <div className="group cardanime floatEffect relative z-10 w-auto min-w-60 max-w-80 lg:max-w-[340px] rounded-xl m-1.5 h-full overflow-hidden bg-gradient-to-br from-white  via-sky-50 to-sky-100 dark:bg-gradient-to-bl  dark:from-[#00293f] dark:via-blue-950 dark:to-slate-950  duration-200 hover:-translate-y-[2px] dark:hover:ring-green-400 dark:ring-1 dark:hover:ring-2 ring-white  ">
       <div className="h-60 w-full">
@@ -49,30 +48,17 @@ const CarCard = ({ data, status }) => {
             ))}
           </div>
         </div>
-        <div className="price-details">
+        <div className="">
           <div className="">
-            Rent/hour : ₹
-            <span className="text-green-600 mx-1 font-semibold">
-              {rentPerHour}
+          Renter : 
+            <span className="font-semibold mx-1 ">
+              {user.name}
             </span>
           </div>
-          <div className="">
-            Rent/Day : ₹
-            <span className="text-green-600 mx-1 font-semibold">
-              {rentPerDay}
-            </span>
-          </div>
-        </div>
-        {/* <span className="discount">Discount: {discount}</span> */}
-        <div className="flex gap-1 items-center my-1">
-          <MdOutlineLocationOn className="text-xl text-gray-600 dark:text-slate-300" />
-          <p className="text-gray-700 font-semibold dark:text-gray-200 line-clamp-1">
-            {location}
-          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default CarCard;
+export default BookingCard;

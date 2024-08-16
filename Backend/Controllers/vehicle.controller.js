@@ -66,8 +66,6 @@ const filterVehicle = async (req, res) => {
     res.json(res.paginatedResults);
 }
 
-
-
 // Pagination middleware
 const paginate = async (req, res, next) => {
 

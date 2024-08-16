@@ -3,7 +3,6 @@ import "./social.css";
 import mail from "./Image/mail_png.png";
 import face from "./Image/facebo.png";
 import microsoft from "./Image/microsoft.png";
-import google from "./Image/google.png";
 import twitter from "./Image/twiter_png.png";
 // import twitter from "./Image/twitter_3d.png";
 import telegram from "./Image/telegram_png.png";
@@ -28,8 +27,7 @@ export const SocialMedia = () => {
   return (
     <div className="media-div md:hover:scale-105 duration-500 " title="Click to Pause">
       <div
-        // className="d1 animat bg-[#9FFB17]/80 dark:bg-[#060665]/30 bg-[radial-gradient(circle_farthest-side,rgba(255,128,182,.15),rgba(255,255,255,0))]"
-        className="d1 animat from-green-400 to-[#9FFB17] bg-gradient-to-tr dark:from-blue-800/70 dark:to-fuchsia-900/50 shadow-cyan-500 "
+        className="d1 float animat from-green-400 to-[#9FFB17] bg-gradient-to-tr dark:from-blue-800/70 dark:to-fuchsia-900/50 shadow-cyan-500 "
         onClick={toggleAnimation}
         ref={el => el && animatRefs.current.push(el)}
       >

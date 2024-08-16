@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   return (
-    <div className="duration-300 bg-white/95 text-blue-950 dark:bg-slate-950 dark:text-white">
+    <div className="duration-300 bg-[#f9f9f9] text-blue-950 dark:bg-slate-950 dark:text-white">
       <Navbar />
       {loader ? (
         <Loader />

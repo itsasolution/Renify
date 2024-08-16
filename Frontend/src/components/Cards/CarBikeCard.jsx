@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 
 const CarBikeCard = ({ type }) => {
   return (
-    <div className="group relative md:w-96 overflow-hidden text-white bg-white dark:bg-slate-800  px-6 py-10 md:shadow-xl  transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm rounded-lg sm:px-10">
+    // <div className="group relative md:w-96 overflow-hidden text-white  dark:bg-slate-800 px-6 py-10 transition-all duration-300 rounded-lg ">
+      <div className="group relative md:w-96 overflow-hidden text-white bg-white dark:bg-slate-800  px-6 py-10 md:shadow-xl  transition-all duration-300 hover:shadow-2xl  rounded-lg ">
       {/* main bg expand */}
-      <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-gradient-to-br from-sky-400/90 to-cyan-300/90 transition-all duration-700  group-hover:scale-[10]"></span>
+      <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-gradient-to-br from-sky-400/90 to-cyan-300/90 transition-all duration-700 group-hover:scale-[10]"></span>
       <span className="absolute top-10 z-2 h-20 w-20  rounded-full bg-gradient-to-r from-fuchsia-600/90 to-rose-500/90 transition-all duration-700 scale-[10] group-hover:scale-[1]"></span>
       <div className="relative z-10 mx-auto max-w-md ">
         <div className="relative w-full ">
@@ -59,7 +60,7 @@ const CarBikeCard = ({ type }) => {
         <div className="pt-5 text-base font-semibold leading-7">
           <p>
             <Link
-              to={`${type === "cars" ? "/vehicles/car" : "/vehicles/bike"}`}
+              to={`${type === "Cars" ? "/vehicles/car" : "/vehicles/bike"}`}
               className="flex gap-2 items-center transition-all w-32 duration-300 ring-1 hover:ring-2 rounded-md p-2 ring-white"
             >
               <span>Check Out</span>

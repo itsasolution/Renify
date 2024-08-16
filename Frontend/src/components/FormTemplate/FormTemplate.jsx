@@ -67,7 +67,7 @@ const FormTemplate = ({ fields, btnType, submit }) => {
           return (
             <div key={i} className="relative z-0 w-full mb-5 ">
               <input
-                type="text"
+                type={field === "Contact" ? "number" : "text"}
                 {...register(field, { required: `${field} is required` })}
                 className={inputClass}
                 placeholder=" "
@@ -89,7 +89,11 @@ const FormTemplate = ({ fields, btnType, submit }) => {
             className={`inline-block w-full rounded px-7 py-2 my-2 font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-300 ease-in-out hover:bg-primary-accent-300 hover:shadow focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 bg-slate-900 hover:bg-slate-800 dark:bg-cyan-400 dark:hover:text-black dark:hover:bg-cyan-300 
             ${isSubmitting ? "cursor-not-allowed dark:hover:bg-cyan-200" : ""}`}
           >
-            {isSubmitting ? <CircularProgress color="inherit" thickness={5} size={25} /> : btnType}
+            {isSubmitting ? (
+              <CircularProgress color="inherit" thickness={5} size={25} />
+            ) : (
+              btnType
+            )}
           </button>
         </div>
       </form>

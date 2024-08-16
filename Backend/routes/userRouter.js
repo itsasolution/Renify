@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, signup, DeleteUser, updateUser,myrides } = require('../Controllers/user.controller');
+const { login, signup, DeleteUser, updateUser, myrides, checkUserBooking, cancelBooking, bookVehicle } = require('../Controllers/user.controller');
 const upload = require('../utils/multer');
 const router = express.Router();
 
@@ -25,6 +25,9 @@ router.get("/logout", (req, res) => {
     res.status(200).json({ message: 'Logged out successfully' });
 });
 
-router.get("/myrides/:uid",myrides)
-
+// BOOKINGS
+router.post("/bookVehicle", bookVehicle)
+router.post("/checkBooking", checkUserBooking)
+router.get("/myrides/:uid", myrides)
+router.get("/cancelBooking/:bookingId", cancelBooking)
 module.exports = router;

@@ -1,9 +1,11 @@
 const userModel = require("../models/user.model");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const multer = require("multer");
 const bucket = require("../utils/firebase");
 require("dotenv").config();
+const BookingModel = require("../models/bookings.model");
+const vehiclesModel = require("../models/vehicles.model");
+
 
 // Utility function to remove spaces from a string
 const removeSpaces = (str) => str.replace(/\s+/g, '');
@@ -89,34 +91,6 @@ const DeleteUser = async (req, res) => {
     }
 
 }
-const myrides = async (req, res) => {
-    if (!req.params.uid)
-        return res.status(400).json({ err: "user id missing" })
-
-    try {
-        const user = await userModel.findOne({ _id: req.params.uid })
-            .populate({
-                path: 'myRides',   // Populates the 'myRides' field which references bookings
-                populate: {
-                    path: 'vehicle', // Populates the 'vehicle' field inside each booking
-                    model: 'Vehicle'
-                }
-            });
-
-        if (!user) {
-            return res.status(404).send("User not found");
-        }
-
-        // Extract vehicles from the populated myRides(bookings arr)
-        const vehicles = user.myRides.map(ride => ride.vehicle);
-
-        return res.status(200).json(vehicles);
-
-    } catch (err) {
-        console.error("Error fetching user with bookings and vehicles:", err);
-        return res.status(500).send("Internal server error");
-    }
-}
 
 
 // delete files from firebase
@@ -195,6 +169,137 @@ const updateUser = async (req, res) => {
 
 }
 
+
+// BOOKING SECTION
+
+const bookVehicle = async (req, res) => {
+    const { id, userId, bookingDate, journeyTime, passCode, cost, startDate, endDate } = req.body;
+
+    try {
+        const vehicle = await vehiclesModel.findById(id);
+        if (!vehicle) {
+            return res.status(404).send("Vehicle not found");
+        }
+        const booking = await BookingModel.create({
+            user: userId,
+            vehicle: id,
+            provider: vehicle.providerId,
+            bookingDate, startDate, endDate, journeyTime, cost, passCode
+
+        });
+
+        vehicle.bookings.push(booking._id);
+        vehicle.availability = false;
+        await vehicle.save();
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+        user.myRides.push(booking._id);
+        await user.save();
+
+        booking.provider = vehicle.providerId;
+        await booking.save()
+
+        res.status(201).json({ booking });
+    } catch (err) {
+        res.status(500).send({ err, message: err.message });
+    }
+};
+
+
+
+
+
+
+
+
+
+const myrides = async (req, res) => {
+    if (!req.params.uid)
+        return res.status(400).json({ err: "user id missing" })
+
+    try {
+        const user = await userModel.findOne({ _id: req.params.uid })
+            .populate({
+                path: 'myRides',   // Populates the 'myRides' field which references bookings
+                populate: {
+                    path: 'vehicle', // Populates the 'vehicle' field inside each booking
+                    model: 'Vehicle'
+                }
+            });
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+        const bookings = user.myRides;
+        return res.status(200).json(bookings);// arrays
+
+    } catch (err) {
+        console.error("Error fetching user with bookings and vehicles:", err);
+        return res.status(500).send({ err: err.message });
+    }
+}
+
+// FindBooking User for current vehicle
+const checkUserBooking = async (req, res) => {
+    const { uid, vid } = req.body;
+
+    try {
+        const booking = await BookingModel.findOne({
+            user: uid,
+            vehicle: vid,
+            status: { $in: ['Ongoing', 'Booked'] }
+        }).populate("provider");
+        console.log(booking)
+        if (!booking) {
+            res.status(404).send("No bookings found");
+        }
+        else
+            res.status(200).json({ booking });
+
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+
+
+const cancelBooking = async (req, res) => {
+    if (!req.params.bookingId) {
+        res.status(401).send("Booing id missing")
+    }
+    try {
+        const booking = await BookingModel.findByIdAndDelete(req.params.bookingId);
+
+        if (!booking) {
+            return res.status(404).send("Booking not found");
+        }
+
+        // Remove booking from user's myRides
+        const user = await userModel.findById(booking.user);// userId
+        if (user) {
+            user.myRides.pull(booking._id);
+            await user.save();
+        }
+
+        // Update vehicle's availability
+        const vehicle = await vehiclesModel.findById(booking.vehicle);
+        if (vehicle) {
+            vehicle.bookings.pull(booking._id);
+            vehicle.availability = true;
+            await vehicle.save();
+        }
+
+        res.status(200).send("Booking cancelled");
+    } catch (err) {
+        res.status(500).send({ err, message: err.message });
+    }
+};
+
+
+
 module.exports = {
-    login, signup, DeleteUser, updateUser, myrides
+    login, signup, DeleteUser, updateUser, myrides, checkUserBooking, cancelBooking, bookVehicle
 }

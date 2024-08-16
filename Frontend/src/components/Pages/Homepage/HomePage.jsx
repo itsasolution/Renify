@@ -49,17 +49,17 @@ export const HomePage = () => {
           </div> */}
         </div>
       </div>
-      <div className="grid bg-white/90 z-20 dark:bg-slate-900/90 rounded-lg md:p-4 p-2 gap-2 md:gap-5 grid-cols-1  md:h-auto  md:m-5  md:grid-cols-2">
+      <div className="grid dark:bg-slate-900/90 bg-gray-100 place-items-center rounded-lg md:p-4 p-2 gap-2 md:gap-5 grid-cols-1  md:h-auto  md:m-5  md:grid-cols-2">
         <CarBikeCard type="Bikes" />
         <CarBikeCard type="Cars" />
       </div>
 
       <div className="dark:bg-slate-950/80 ">
         <CardSlider />
-        <div className=" text-center ">
+        <div className=" text-center my-3 ">
           <Link
             to={"/vehicles/all"}
-            className="text-xl btn text-white hover:text-white  hover:bg-gradient-to-tr bg-gradient-to-t hover:scale-105 duration-300 from-sky-500 shadow-md hover:shadow to-sky-600"
+            className="text-xl btn border-none dark:hover:ring-2 ring-white  text-white bg-gradient-to-tr via-sky-400  duration-300 from-sky-500 shadow-md hover:shadow-xl  to-sky-600"
           >
             See All Vehicles
           </Link>
@@ -82,17 +82,19 @@ export const HomePage = () => {
               colors="primary:#110a5c,secondary:#ebe6ef"
               style={{ width: "50px", height: "50px" }}
             ></lord-icon>
-            Safest Rides
+            Rent the Perfect Ride, Anytime, Anywhere!
           </h1>
 
-          <div className="text-base md:text-lg mt-3 md:mt-10">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi vel
-            saepe ab in tenetur, iste aliquid laboriosam eius doloremque
-            architecto corrupti consequatur ipsum optio similique officia modi
-            molestias aut. Unde. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Nisi vel saepe ab in tenetur, iste aliquid
-            laboriosam eius doloremque architecto corrupti consequatur ipsum
-            optio similique officia modi molestias aut. Unde.
+          <div className="text-base md:text-xl mt-3 md:mt-10 text-justify">
+            Isn't just a slogan; it's a promise to provide you with the freedom
+            to explore without limits. Whether you're planning a quick city
+            commute, a weekend getaway, or a cross-country adventure, our
+            diverse fleet of cars and bikes is at your fingertips. With a
+            seamless booking process, flexible rental options, and 24/7
+            availability, you can choose the vehicle that suits your journey and
+            hit the road with confidence. No matter where you are or what time
+            it is, we're here to ensure that the perfect ride is always just a
+            click away.
           </div>
         </div>
       </div>
@@ -111,14 +113,16 @@ export const HomePage = () => {
             ></lord-icon>
             Earn with us
           </h1>
-          <div className="text-base md:text-lg mt-3 md:mt-10">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi vel
-            saepe ab in tenetur, iste aliquid laboriosam eius doloremque
-            architecto corrupti consequatur ipsum optio similique officia modi
-            molestias aut. Unde. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Nisi vel saepe ab in tenetur, iste aliquid
-            laboriosam eius doloremque architecto corrupti consequatur ipsum
-            optio similique officia modi molestias aut. Unde.
+          <div className="text-base md:text-lg mt-3 md:mt-10 text-justify">
+            "Earn with Us" is an opportunity to turn your vehicle into a source
+            of income with ease. Whether you own a car or a bike, you can
+            partner with us to list your vehicle on our platform and start
+            earning right away. We handle the logistics, from bookings to
+            customer support, so you can sit back and enjoy a steady stream of
+            passive income. With our wide-reaching customer base and secure
+            payment system, your vehicle is in good hands, and you'll be paid on
+            time, every time. Join our community of providers and make your
+            vehicle work for you.
           </div>
         </div>
         <div className=" md:w-1/2 flex h-full flex-col px-3 pt-5 md:pt-0 md:h-full justify-center items-center">
