@@ -2,10 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "./bin/www",
+            "src": "bin/www",
             "use": "@vercel/node"
         }
     ],
-    "routes": [ {"source": "/(.*)", "destination": "/"}
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "bin/www"
+        }
     ]
 }
