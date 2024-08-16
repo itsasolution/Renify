@@ -17,7 +17,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(cors())
 // ___________________________________________________________________________
-const FRONTEND_ORIGIN = 'http://localhost:3000';
+// const FRONTEND_ORIGIN = 'http://localhost:3000';
+const FRONTEND_ORIGIN = 'https://renify.vercel.app';
 
 app.use(cors({
   origin: FRONTEND_ORIGIN,
