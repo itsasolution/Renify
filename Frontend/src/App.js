@@ -22,18 +22,14 @@ function App() {
     window.onload = () => {
       setLoader(false);
     };
-  }, []);
 
-  useEffect(() => {
-    setLoader(true);
-
-    // Fake delay to simulate loading process
     const timeoutId = setTimeout(() => {
       setLoader(false);
-    }, 500); // Adjust the delay if needed
+    }, 1000); // Adjust the delay if needed
 
     return () => clearTimeout(timeoutId);
   }, [location.pathname]);
+
 
   return (
     <div className="duration-300 bg-[#f9f9f9] text-blue-950 dark:bg-slate-950 dark:text-white">
