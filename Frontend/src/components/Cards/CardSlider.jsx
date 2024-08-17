@@ -55,7 +55,7 @@ const CardSlider = () => {
 
   useEffect(() => {
     getitems();
-  }, [url]);
+  }, []);
 
   return (
     <>
