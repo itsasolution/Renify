@@ -8,6 +8,7 @@ const Loader = () => {
       <div className="waves"></div>
       <div className="waves"></div>
       <div className="waves"></div>
+      <div className="waves"></div>
     </div>
   );
 };
