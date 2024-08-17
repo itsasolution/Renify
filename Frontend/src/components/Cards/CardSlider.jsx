@@ -4,11 +4,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CarCard from "./CarCard";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../context/context";
 
 const CardSlider = () => {
   const [vehicles, setVehicles] = useState([]);
-  const { url } = useContext(UserContext);
+  const { url, setLoader } = useContext(UserContext);
 
   const settings = {
     dots: true,
@@ -40,32 +41,30 @@ const CardSlider = () => {
     ],
   };
 
-  useEffect(() => {
-    const getitems = async () => {
-      try {
-        const res = await axios.get(`${url}/vehicles?type=all`);
-        // console.log(res.data);
-        setVehicles(res.data.results);
-      } catch (err) {
-        console.log("error:", err);
-      }
-    };
+  const getitems = async () => {
+    setLoader(true);
+    try {
+      const res = await axios.get(`${url}/vehicles?type=all?availability=true`);
+      // console.log(res.data);
+      setVehicles(res.data.results);
+    } catch (err) {
+      console.log("error:", err);
+    } finally {
+      setLoader(false);
+    }
+  };
 
+  useEffect(() => {
     getitems();
-  }, []);
+  }, [url]);
 
   return (
     <>
       <Slider {...settings} className="m-10 ">
         {vehicles?.map((data) => (
-          <a
-            href={`/vehicledetails/${data?._id}`}
-            target="_blank"
-            rel="noreferrer"
-            key={data?._id}
-          >
+          <Link to={`/vehicledetails/${data?._id}`} key={data?._id}>
             <CarCard data={data} />
-          </a>
+          </Link>
         ))}
       </Slider>
     </>
