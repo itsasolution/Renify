@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import toast from "react-hot-toast";
 import CarCard from "./CarCard";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -42,12 +43,12 @@ const CardSlider = () => {
   };
 
   const getitems = async () => {
-    setLoader(true);
     try {
       const res = await axios.get(`${url}/vehicles?type=all?availability=true`);
       // console.log(res.data);
       setVehicles(res.data.results);
     } catch (err) {
+      toast.error("Error Fetching Vehicles");
       console.log("error:", err);
     } finally {
       setLoader(false);
