@@ -42,7 +42,6 @@ const CardSlider = () => {
   };
 
   const getitems = async () => {
-    setLoader(true);
     try {
       const res = await axios.get(`${url}/vehicles?type=all?availability=true`);
       // console.log(res.data);
