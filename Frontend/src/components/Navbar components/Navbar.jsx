@@ -20,7 +20,7 @@ export const Navbar = () => {
   }, []);
 
   // Theme management
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const element = document.documentElement;
 
   useEffect(() => {
