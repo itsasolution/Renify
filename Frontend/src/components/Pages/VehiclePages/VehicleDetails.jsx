@@ -154,16 +154,27 @@ export const VehicleDetails = () => {
                   />
                 )
               ) : (
-                <button
-                  className="w-[50%] btn hover:bg-green-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500"
-                  onClick={() => Bookeride()}
-                >
-                  {loader ? (
-                    <CircularProgress color="inherit" thickness={5} size={25} />
+                // IF AVAILABLE THEN ONLY BOOK
+                <>
+                  {vehicle?.availability === false ? (
+                    <span className="text-lg ring-1 rounded-full p-2 px-3 dark:ring-white ring-black ">Not Available</span>
                   ) : (
-                    "Book Ride"
+                    <button
+                      className="w-[50%] btn hover:bg-green-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500"
+                      onClick={() => Bookeride()}
+                    >
+                      {loader ? (
+                        <CircularProgress
+                          color="inherit"
+                          thickness={5}
+                          size={25}
+                        />
+                      ) : (
+                        "Book Ride"
+                      )}
+                    </button>
                   )}
-                </button>
+                </>
               )
             ) : (
               <Link to={"/user-login"}>

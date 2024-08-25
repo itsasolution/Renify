@@ -4,7 +4,6 @@ import { UserContext } from "../../../context/context";
 import Paginate from "./Pagination code/Pagination";
 import { Link, useParams } from "react-router-dom";
 import { IoMdRefresh } from "react-icons/io";
-import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 
 const VehiclesPage = () => {
@@ -21,6 +20,7 @@ const VehiclesPage = () => {
     type: vtype || "all",
     price: "",
     limit: "10",
+    availability: "all",
   });
 
   useEffect(() => {
@@ -81,8 +81,8 @@ const VehiclesPage = () => {
   return (
     <>
       {/* filters */}
-      <div className="flex ml-4 mt-3 flex-wrap gap-2 items-center">
-        <label className="  text-lg flex gap-3 ">
+      <div className="flex md:ml-4 ml-2 mt-3 flex-wrap md:gap-2 gap-1 items-center">
+        <label className="text-lg flex gap-3 ">
           Type:
           <select
             className={selectCLS}
@@ -95,7 +95,20 @@ const VehiclesPage = () => {
             <option value="bike">Bike</option>
           </select>
         </label>
-        <label className=" m-3 text-lg flex gap-3">
+        <label className="text-lg flex gap-3 ">
+          Availability:
+          <select
+            className={selectCLS}
+            name="availability"
+            value={filters.availability}
+            onChange={handleFilterChange}
+          >
+            <option value="all">All</option>
+            <option value={true}>Yes</option>
+            <option value={false}>No</option>
+          </select>
+        </label>
+        <label className="m-3 text-lg flex gap-3">
           Price:
           <select
             className={selectCLS}
@@ -124,11 +137,11 @@ const VehiclesPage = () => {
         </span>
 
         <span
-          onClick={()=>handleRefresh()}
-          className="group cursor-pointer bg-slate-700 flex items-center rounded-md px-2 h-10 gap-2 dark:bg-sky-500 hover:ring-2 ring-white text-white text-lg"
+          onClick={() => handleRefresh()}
+          className="group cursor-pointer bg-slate-700 flex items-center justify-between rounded-md p-1 px-2 gap-2 dark:bg-sky-500 hover:ring-2 ring-white text-white"
         >
           Apply
-          <IoMdRefresh className="text-2xl group-hover:rotate-[400deg] duration-500" />
+          <IoMdRefresh className="text-xl group-hover:rotate-[360deg] duration-500" />
         </span>
       </div>
 
@@ -139,10 +152,7 @@ const VehiclesPage = () => {
       ) : vehicles?.length > 0 ? (
         <div className="mt-15 grid grid-cols-1 place-items-center mb-5 gap-3 md:grid-cols-4 p-5 ">
           {vehicles.map((item) => (
-            <Link
-              to={`/vehicledetails/${item?._id}`}
-              key={item._id}
-            >
+            <Link to={`/vehicledetails/${item?._id}`} key={item._id}>
               <CarCard data={item} />
             </Link>
           ))}

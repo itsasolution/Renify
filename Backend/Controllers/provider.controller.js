@@ -146,7 +146,7 @@ const updateUser = async (req, res) => {
     // deleting previous avatar
     if (user.avatar && req.file) {
         await deleteImage(user.avatar).catch(err => {
-            console.log("err: ", err)
+            console.error("err: ", err)
         })
     }
     const uploadFile = async () => {
@@ -181,7 +181,7 @@ const updateUser = async (req, res) => {
 
         // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;
-        console.log(update)
+        // console.log(update)
 
         const user = await providerModel.findByIdAndUpdate(req.params.uid, update, { new: true }); // new return updated user details
 
@@ -210,7 +210,6 @@ const currentBooking = async (req, res) => {
             ]
         }).populate('user vehicle'); // Populate vehicle and provider details if needed
 
-        console.log(booking.user)
         if (!booking) {
             return res.status(404).json({ msg: 'No booking found for this user and vehicle' });
         }

@@ -38,7 +38,7 @@ const completeRide = async (req, res) => {
             res.status(200).send(booking);
         }
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).send({ error, message: error.message });
     }
 }
@@ -70,7 +70,7 @@ const findProviderBooking = async (req, res) => {
         const bookings = await BookingModel.find({ provider: providerId }).populate('user vehicle');
         res.status(200).send(bookings);
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).send({ err: error.message });
     }
 }

@@ -1,6 +1,23 @@
-const { now } = require("mongoose");
 const vehiclesModel = require("../models/vehicles.model");
 const VehicleModel = require("../models/vehicles.model");
+
+
+const getAllVehicles = async (req, res) => {
+
+    try {
+
+        const vehicles = await vehiclesModel.find({ availability: true })?.populate('providerId');
+        if (!vehicles) {
+            res.status(404).send("Vehicle Not found !")
+        }
+
+        res.status(200).json(vehicles);
+
+    } catch (err) {
+        res.send(err);
+    }
+
+}
 
 const OverallRating = async (vehicle) => {
     try {
@@ -19,7 +36,6 @@ const OverallRating = async (vehicle) => {
         let overallRating = sum / totalReviews;
         overallRating = overallRating.toFixed(1);
 
-        console.log(overallRating)
 
         return overallRating;
     } catch (error) {
@@ -73,15 +89,18 @@ const paginate = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    let filterParams = {}
+    let filterParams = {};
+
+    if (req.query.type && req.query.type !== "all") {
+        filterParams.type = req.query.type;
+    }
+
+    if (req.query.availability && req.query.availability !== "all") {
+        filterParams.availability = req.query.availability === "true";
+    }
+
     try {
-        let results;
-
-        if (req.query.type == "all")
-            results = await VehicleModel.find().limit(limit).skip(skip).exec();
-
-        else
-            results = await VehicleModel.find({ type: req.query.type }).limit(limit).skip(skip).exec();
+        const results = await VehicleModel.find(filterParams).limit(limit).skip(skip).exec();
 
         const totalDocuments = await VehicleModel.countDocuments().exec();
 
@@ -104,6 +123,9 @@ const paginate = async (req, res, next) => {
     }
 
 };
+
+
+
 
 const updateVehicle = async (req, res) => {
     if (req.params.id) {
@@ -140,5 +162,5 @@ const deleteVehicle = async (req, res) => {
 
 
 module.exports = {
-    findvehicle, filterVehicle, addReview, paginate, updateVehicle, deleteVehicle
+    findvehicle, filterVehicle, addReview, paginate, updateVehicle, deleteVehicle, getAllVehicles
 }

@@ -44,9 +44,8 @@ const CardSlider = () => {
 
   const getitems = async () => {
     try {
-      const res = await axios.get(`${url}/vehicles?type=all?availability=true`);
-      // console.log(res.data);
-      setVehicles(res.data.results);
+      const res = await axios.get(`${url}/vehicles/getAllVehicles`);
+      setVehicles(res.data);
     } catch (err) {
       toast.error("Error Fetching Vehicles");
       console.log("error:", err);

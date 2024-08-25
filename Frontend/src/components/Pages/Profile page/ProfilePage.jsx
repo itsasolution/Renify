@@ -101,7 +101,7 @@ const ProfilePage = () => {
           </h3>
 
           <div className="mt-9 md:px-5 px-3 ">
-            <table className="w-full text-blueGray-400 font-semibold border-collapse">
+            <table className="w-full text-blueGray-400 font-semibold border">
               <tbody>
                 <tr className="border-y border-gray-300">
                   <td className="md:w-32 w-28 py-3 px-2 text-left border-r border-gray-300">

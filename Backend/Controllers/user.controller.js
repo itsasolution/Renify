@@ -180,6 +180,11 @@ const bookVehicle = async (req, res) => {
         if (!vehicle) {
             return res.status(404).send("Vehicle not found");
         }
+
+        if (vehicle.availability === false)
+            return res.send("Vehicle Not Available");
+
+
         const booking = await BookingModel.create({
             user: userId,
             vehicle: id,
@@ -252,7 +257,6 @@ const checkUserBooking = async (req, res) => {
             vehicle: vid,
             status: { $in: ['Ongoing', 'Booked'] }
         }).populate("provider");
-        console.log(booking)
         if (!booking) {
             res.status(404).send("No bookings found");
         }
@@ -272,6 +276,7 @@ const cancelBooking = async (req, res) => {
     }
     try {
         const booking = await BookingModel.findByIdAndDelete(req.params.bookingId);
+
 
         if (!booking) {
             return res.status(404).send("Booking not found");

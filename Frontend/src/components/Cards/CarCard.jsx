@@ -13,7 +13,7 @@ const CarCard = ({ data, status }) => {
       </div>
 
       <div className="flex-col px-3 py-1 mt-1 relative">
-        <span className=" absolute top-1 font-semibold text-green-400 right-2">
+        <span className="absolute top-1 right-2 rounded-full text-sm px-2 ring-1 dark:bg-slate-600">
           {status}
         </span>
 

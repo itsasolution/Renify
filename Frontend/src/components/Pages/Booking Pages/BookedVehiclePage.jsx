@@ -45,7 +45,7 @@ export const BookedVehiclePage = () => {
       .then((res) => {
         toast.success("Ride Completed!");
         setBooking(res?.data);
-        navigate(`/recentBookingsDetails/${booking._id}`)
+        navigate(`/recentBookingsDetails/${booking._id}`);
       })
       .catch((err) => {
         toast.error("Error Complete !");
@@ -71,15 +71,14 @@ export const BookedVehiclePage = () => {
     }
   };
 
-  
   const navigate = useNavigate();
   // Handle Booking Cancellation
   const cancel = async () => {
     setLoader(true);
     try {
-      const res = await axios.post(`${url}/vehicles/cancelBooking`, {
-        Bookingid: booking._id,
-      });
+      const res = await axios.get(
+        `${url}/provider/cancelBooking/${booking._id}`
+      );
       if (res) {
         setBooking({});
         toast.success("Booking Cancelled");
