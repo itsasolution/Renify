@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 import { Toaster } from 'react-hot-toast';
 import AppRoutes from './AppRoutes';
 import ScrollToTop from "./components/ScrollToTop";
-import Loader from "./components/loader/Loader";
+import Loader2 from "./components/loader/Loader2";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Navbar } from "./components/Navbar components/Navbar";
@@ -35,7 +35,7 @@ function App() {
     <div className="duration-300 bg-[#f9f9f9] text-blue-950 dark:bg-slate-950 dark:text-white">
       <Navbar />
       {loader ? (
-        <Loader />
+        <Loader2 />
       ) : (
         <>
           <ScrollToTop />
