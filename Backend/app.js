@@ -36,14 +36,6 @@ app.use(session({
   secret: "Astronomer"
 }))
 
-// app.use(passport.initialize())
-// app.use(passport.session())
-// //serialize the user's unique identifier (like user ID) into the session, allowing Passport to later retrieve the user details when needed.
-// passport.serializeUser(usersModel.serializeUser())
-
-// // The counterpart to serializeUser is deserializeUser, which allows you to retrieve the full user object based on the serialized data stored in the session.
-// passport.deserializeUser(usersModel.deserializeUser())
-
 app.use(flash())
 
 // _____________________________________
@@ -53,8 +45,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-
+// app.use('/', indexRouter);
+app.get("/",(req,res)=>{
+  res.send("Working Good....")
+})
+app.listen(4000)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

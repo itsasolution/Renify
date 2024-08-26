@@ -26,8 +26,11 @@ router.use('/ADDVEHICLES', addVehicles);
 
 router.get("/", (req, res) => {
     res.status(200).send("Everthing is working fine...")
-    // res.cookie("name", "Piyush")
-    // res.send("cookie tutorial Press 'i' on left of localhost:4000\nused to end small piece of data to server ")
+})
+
+router.get("/cookie", (req, res) => {
+    res.cookie("name", "Piyush")
+    res.send("cookie tutorial Press 'i' on left of localhost:4000\nused to end small piece of data to server ")
 })
 
 module.exports = router;
