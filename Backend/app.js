@@ -26,8 +26,6 @@ app.use(cors({
 }));
 // ___________________________________________________________________________
 
-app.listen(4000)
-
 
 // ________________________________________
 //always write sessions before logger 
@@ -55,7 +53,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-
+app.listen(4000)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -69,7 +67,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status || 501);
   res.render('error');
 });
 
