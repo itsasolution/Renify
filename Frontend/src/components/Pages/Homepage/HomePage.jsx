@@ -11,7 +11,7 @@ export const HomePage = () => {
   return (
     <>
       <div className=" homeAnime translate-y-[-55px] bg-gradient-to-br from-sky-200 via-white to-violet-200 dark:from-violet-950 dark:via-black dark:to-purple-950 h-screen duration-300 overflow-hidden md:overflow-visible ">
-        <div className="group relative flex flex-col-reverse justify-center  h-full md:flex-row items-center pt-7 md:pt-0 md:mx-5 duration-300 ">
+        <div className="group relative flex justify-center h-full md:flex-row items-center md:mx-5 duration-300 ">
           {/* effect */}
 
           <div className="dark:block hidden">
@@ -42,13 +42,16 @@ export const HomePage = () => {
                 </ul>
               </div>
             </div>
+            <Link
+              to={"/vehicles/all"}
+              className="btn mt-7 md:mt-10 bg-sky-400 text-white border-none ring-2 ring-white text-lg"
+            >
+              Explore Rides
+            </Link>
           </div>
-          {/* <div className="img-shadow mb-5 md:mb-0 md:w-[60%] grid grid-cols-2 ">
-            <img src="./bikelg.png" className="scale-[.7]  w-full " alt="" />
-            <img src="./mustung.png" className="scale-[1.2] w-full " alt="" />
-          </div> */}
         </div>
       </div>
+
       <div className="grid dark:bg-slate-900/90 bg-gray-100 place-items-center rounded-lg md:p-4 p-2 gap-2 md:gap-5 grid-cols-1  md:h-auto  md:m-5  md:grid-cols-2">
         <CarBikeCard type="Bikes" />
         <CarBikeCard type="Cars" />
@@ -104,11 +107,10 @@ export const HomePage = () => {
           <h1 className="w-full flex items-center font-bold text-2xl text-cyan-600  dark:text-teal-300">
             {/* Location */}
             <lord-icon
-              src="https://cdn.lordicon.com/iikoxwld.json"
+              src="https://cdn.lordicon.com/qnwzeeae.json"
               trigger="loop"
               delay="1500"
-              state="in-jump-dynamic"
-              colors="primary:#e8308c"
+              state="in-reveal"
               style={{ width: "50px", height: "50px" }}
             ></lord-icon>
             Earn with us

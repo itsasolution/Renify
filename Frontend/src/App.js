@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "./context/context";
 import { useLocation } from "react-router-dom";
+import MobileNavMenu from "./components/Navbar components/MobileNavMenu";
 
 function App() {
   const { user, loader, setLoader } = useContext(UserContext);
@@ -18,15 +19,12 @@ function App() {
 
   useEffect(() => {
     setLoader(true);
-    // This will be called when the window has completely loaded
     window.onload = () => {
       setLoader(false);
     };
-
     const timeoutId = setTimeout(() => {
       setLoader(false);
-    }, 1000); // Adjust the delay if needed
-
+    }, 800);
     return () => clearTimeout(timeoutId);
   }, [location.pathname]);
 
@@ -34,6 +32,7 @@ function App() {
   return (
     <div className="duration-300 bg-[#f9f9f9] text-blue-950 dark:bg-slate-950 dark:text-white">
       <Navbar />
+      <MobileNavMenu />
       {loader ? (
         <Loader2 />
       ) : (
