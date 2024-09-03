@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const CarBikeCard = ({ type }) => {
   return (
     // <div className="group relative md:w-96 overflow-hidden text-white  dark:bg-slate-800 px-6 py-10 transition-all duration-300 rounded-lg ">
-      <div className="group relative md:w-96 overflow-hidden text-white bg-white dark:bg-slate-800  px-6 py-10 md:shadow-xl  transition-all duration-300 hover:shadow-2xl  rounded-lg ">
+    <div className="group relative md:w-96 overflow-hidden text-white bg-white dark:bg-slate-800  px-6 py-10 md:shadow-xl  transition-all duration-300 hover:shadow-2xl  rounded-lg ">
       {/* main bg expand */}
       <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-gradient-to-br from-sky-400/90 to-cyan-300/90 transition-all duration-700 group-hover:scale-[10]"></span>
       <span className="absolute top-10 z-2 h-20 w-20  rounded-full bg-gradient-to-r from-fuchsia-600/90 to-rose-500/90 transition-all duration-700 scale-[10] group-hover:scale-[1]"></span>
@@ -27,27 +27,27 @@ const CarBikeCard = ({ type }) => {
           {type === "Cars" ? (
             <>
               <img
-                className="h-full absolute opacity-0 delay-100 duration-700 group-hover:opacity-100"
-                src={`${process.env.PUBLIC_URL}/logo.png`}
-                alt="sdf"
-              />
-              <img
                 className="h-full opacity-100 scale-150 duration-700 group-hover:opacity-0"
                 src={`${process.env.PUBLIC_URL}/Mustung.png`}
-                alt="sdf"
+                alt="car img1"
+              />
+              <img
+                className="h-full absolute opacity-0 delay-100 duration-700 group-hover:opacity-100"
+                src={`${process.env.PUBLIC_URL}/logo.png`}
+                alt="car img2"
               />
             </>
           ) : (
             <>
               <img
-                className="h-full absolute scale-[1.5] opacity-0 delay-100 duration-700 group-hover:opacity-100"
-                src={`${process.env.PUBLIC_URL}/bike2.png`}
-                alt="sdf"
-              />
-              <img
                 className="h-full opacity-100 scale-[1.3] duration-700 group-hover:opacity-0"
                 src={`${process.env.PUBLIC_URL}/bikelg.png`}
-                alt="sdf"
+                alt="bike img1"
+              />
+              <img
+                className="h-full absolute scale-[1.5] opacity-0 delay-100 duration-700 group-hover:opacity-100"
+                src={`${process.env.PUBLIC_URL}/bike2.png`}
+                alt="bike img2"
               />
             </>
           )}

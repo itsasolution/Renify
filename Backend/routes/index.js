@@ -7,14 +7,13 @@ var addVehicles = require('./ADDVEHICLES');
 
 const { default: mongoose } = require('mongoose');
 
-try {
-    let Mongourl = process.env.mongoUrl || "mongodb://127.0.0.1:27017/Renify";
+let Mongourl = process.env.mongoUrl || "mongodb://127.0.0.1:27017/Renify";
 
-    mongoose.connect(Mongourl)
+mongoose.connect(Mongourl).then(() =>
     console.log("DB connection success")
-} catch (err) {
+).catch(err => {
     console.log("dataBase error" + err)
-}
+})
 
 
 router.use("/user", userRouter)

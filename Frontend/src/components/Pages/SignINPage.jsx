@@ -223,7 +223,7 @@ export const SignINPage = () => {
                     to={"/user-login"}
                     className="transition duration-150 ease-in-out text-cyan-500 hover:text-cyan-300 focus:text-danger-600 active:text-danger-700"
                   >
-                    &nbsp;Login
+                    &nbsp;Sign-In
                   </Link>
                 </p>
               </div>
