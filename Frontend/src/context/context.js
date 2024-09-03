@@ -6,7 +6,7 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
 
     // const url = "http://localhost:4000";
-    const url = "https://renify-backend.vercel.app/";
+    const url = "https://renify-backend.vercel.app";
 
 
     // State to hold user information
