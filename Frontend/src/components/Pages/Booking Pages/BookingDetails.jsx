@@ -1,7 +1,6 @@
 import React from "react";
 
 const BookingDetails = ({ booking }) => {
-
   const dateOptions = {
     year: "numeric",
     month: "long",
@@ -66,10 +65,14 @@ const BookingDetails = ({ booking }) => {
               </td>
             </tr>
           </tbody>
+        </table>
 
-          {booking?.provider?.name && (
-            <>
-              <h2 className="text-xl font-semibold m-2">owner details</h2>
+        {booking?.provider?.name && (
+          <>
+            <h2 className="text-xl mt-5 font-semibold text-center m-2 ">
+              owner details
+            </h2>
+            <table className="min-w-full text-left table-fixed border-collapse">
               <tbody>
                 <tr className={rowClass}>
                   <td className={`${labelClass} ${cellClass} ${dividerClass}`}>
@@ -92,9 +95,9 @@ const BookingDetails = ({ booking }) => {
                   </td>
                 </tr>
               </tbody>
-            </>
-          )}
-        </table>
+            </table>
+          </>
+        )}
       </div>
     </>
   );

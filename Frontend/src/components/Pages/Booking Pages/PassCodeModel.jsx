@@ -28,7 +28,7 @@ const PassCodeModel = ({ startRide, orgPassCode }) => {
 
       <dialog id="open" className="modal">
         <div className="model-box">
-          <div className="relative  bg-slate-800 h-[300px] w-[400px] flex flex-col items-center justify-center rounded-xl">
+          <div className="relative  bg-slate-800 h-[300px] md:w-[400px] w-[300px] flex flex-col items-center justify-center rounded-xl">
             {error && (
               <p className=" absolute top-6 font-semibold text-red-500 mb-3 text-lg text-center">{error}</p>
             )}

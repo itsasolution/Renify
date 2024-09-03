@@ -118,7 +118,7 @@ export const VehicleEdit = () => {
         {/* Image Section */}
         <ImageSection vehicle={vehicle} setImage={setImage} image={image} />
 
-        <div className="p-4">
+        <div className="p-4 bg-slate-100 rounded-md dark:bg-slate-900">
           {editMode ? (
             <>
               <div className="m-2 grid md:grid-cols-2 md:gap-5">
