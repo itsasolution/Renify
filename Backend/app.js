@@ -6,9 +6,6 @@ var logger = require('morgan');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-const session = require('express-session');
-// const passport = require('passport');
-const flash = require("connect-flash");
 const cors = require("cors")
 var app = express();
 
@@ -25,19 +22,6 @@ app.use(cors())
 //   credentials: true // This ensures cookies are included in the requests
 // }));
 
-// ___________________________________________________________________________
-
-
-// ________________________________________
-//always write sessions before logger 
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  secret: "Astronomer"
-}))
-
-app.use(flash())
-
 // _____________________________________
 app.use(logger('dev'));
 app.use(express.json());
@@ -45,11 +29,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
-app.get("/",(req,res)=>{
-  res.send("Working Good....")
+app.use('/', indexRouter);
+
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
 })
-app.listen(4000)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -63,7 +49,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 501);
+  res.status(err.status || 500);
   res.render('error');
 });
 
