@@ -3,7 +3,6 @@ import { IoIosArrowBack } from "react-icons/io";
 import axios from "axios";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { UserContext } from "../../context/context";
 import ImageSection from "../Pages/VehiclePages/ImageSection";

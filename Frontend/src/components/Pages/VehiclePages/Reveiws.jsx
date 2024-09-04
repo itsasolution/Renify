@@ -21,8 +21,9 @@ const Reviews = ({ reviews }) => {
         >
           {allReviewsVisible ? "Hide Reviews" : "Show All Reviews"}
         </button>
+        {/* Reviews container */}
         <div
-          className={`overflow-y-scroll scroll bg-slate-200 flex flex-wrap dark:bg-slate-900/90 rounded-md  p-1 ${
+          className={`overflow-y-scroll scroll bg-slate-200 flex flex-wrap justify-center md:justify-normal dark:bg-slate-900/90 rounded-md p-1 ${
             allReviewsVisible ? "h-fit" : "h-40"
           }`}
         >
@@ -37,7 +38,7 @@ const Reviews = ({ reviews }) => {
               ) : (
                 <article
                   key={index}
-                  className={`z-10 m-1 w-[300px] p-1 py-2 dark:bg-gradient-to-tr bg-gradient-to-t from-sky-200/30 to-slate-100   dark:from-blue-950/90 dark:to-slate-800/80 shadow hover:shadow-md rounded-md leading-5 overflow-hidden hover:-translate-y-0.5 ring-1 ring-sky-600 hover:ring-sky-400  duration-200 ${
+                  className={`z-10 m-1 md:w-[300px] w-full p-1 py-2 dark:bg-gradient-to-tr bg-gradient-to-t from-sky-200/30 to-slate-100 dark:from-blue-950/90 dark:to-slate-800/80 shadow hover:shadow-md rounded-md leading-5 overflow-hidden hover:-translate-y-0.5 ring-1 ring-sky-600 hover:ring-sky-400  duration-200 ${
                     expandedReviewIndex === index ? "h-fit" : "h-36"
                   }`}
                 >
@@ -50,7 +51,7 @@ const Reviews = ({ reviews }) => {
                         src={`${process.env.PUBLIC_URL}/profile.webp`}
                         alt=""
                       />
-                      <div className="font-medium ">
+                      <div className="font-medium">
                         <p>
                           {review?.user}
                           <time
@@ -66,7 +67,7 @@ const Reviews = ({ reviews }) => {
                         </p>
                       </div>
                     </div>
-                    {/* rating */}
+                    {/* Stars rating*/}
                     <div className="flex items-center mb-3 space-x-1 mr-2 rtl:space-x-reverse">
                       {Array.from({ length: review.rating }).map((_, i) => (
                         <svg

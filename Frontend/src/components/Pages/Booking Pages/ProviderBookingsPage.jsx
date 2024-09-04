@@ -87,7 +87,10 @@ const ProviderBookingsPage = () => {
           {recentBookings.length > 0 ? (
             <div className="grid grid-cols-1 h-auto mb-5 md:grid-cols-4 px-5">
               {recentBookings.map((item) => (
-                <Link to={`/recentBookingsDetails/${item._id}`} key={item.vehicle._id}>
+                <Link
+                  to={`/recentBookingsDetails/${item._id}`}
+                  key={item.vehicle._id}
+                >
                   <CarCard data={item.vehicle} status={item.status} />
                 </Link>
               ))}

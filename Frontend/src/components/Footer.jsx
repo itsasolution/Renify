@@ -13,18 +13,18 @@ function Footer() {
   return (
     <div>
       <hr />
-      <footer className="footer  footer-center md:p-10 gap-2.5 py-2.5 bg-gradient-to-b from-slate-900 to-slate-950 text-white">
-        <nav className="grid grid-flow-col text-lg gap-4">
+      <footer className="footer footer-center md:p-10 gap-2.5 py-2.5 bg-gradient-to-b from-slate-900 to-slate-950 text-white">
+        <nav className="mt-10 md:mt-5 grid grid-flow-col text-lg md:gap-4 ">
           <a href="/#" className=" p-1  duration-200 hover:-translate-y-1">
             About us
           </a>
-          <a href="/#" className="p-1 duration-200 hover:-translate-y-1">
+          <a href="/#" className="duration-200 hover:-translate-y-1">
             Contact
           </a>
-          <a href="/#" className="p-1 duration-200 hover:-translate-y-1">
+          <a href="/#" className="duration-200 hover:-translate-y-1">
             Become Provider
           </a>
-          <a href="/#" className="p-1 duration-200 hover:-translate-y-1">
+          <a href="/#" className="duration-200 hover:-translate-y-1">
             help
           </a>
         </nav>
@@ -39,8 +39,8 @@ function Footer() {
               ></lord-icon> */}
             </div>
             <div className="flex md:flex-row gap-2 flex-col text-slate-300 my-3 text-xl">
-              Connect With Us :
-              <span className="flex ">
+              Connect with us 
+              <span className="flex mt-3 md:mt-0">
                 <FaFacebookF className={`${iconsClass} text-sky-400`} />
                 <FaTwitter className={`${iconsClass}   text-cyan-400`} />
                 <FaPinterest className={`${iconsClass} text-red-600`} />

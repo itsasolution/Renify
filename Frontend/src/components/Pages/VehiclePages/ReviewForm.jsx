@@ -23,14 +23,14 @@ const ReviewForm = ({ user, vid }) => {
       .post(`${url}/vehicles/addreview/${vid}`, newReview)
       .then((res) => {
         toast.success("Review Added");
+
+        window.location.reload();
+        reset(); // Reset the form after successful submission
       })
       .catch((err) => {
         alert("error");
         console.log(err);
       });
-
-    window.location.reload();
-    reset(); // Reset the form after successful submission
   };
 
   return !user ? (

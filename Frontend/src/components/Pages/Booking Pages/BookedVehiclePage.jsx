@@ -4,7 +4,6 @@ import { useParams, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import ImageSection from "../VehiclePages/ImageSection";
 import BookingDetails from "./BookingDetails";
-import { CircularProgress } from "@mui/material";
 import { UserContext } from "../../../context/context";
 import ModelRed from "../../Helper model/ModelRed";
 import PassCodeModel from "./PassCodeModel";

@@ -124,14 +124,26 @@ export const VehicleDetails = () => {
             <DateTimePicker getDate={getDate} vehicle={vehicle} />
           ) : (
             <>
-              <div className="p-4 bg-gray-100 dark:bg-gray-800/90 rounded-lg shadow-lg text-center max-w-[500px] mx-auto">
-                <span className="inline-block px-4 py-2 bg-cyan-500 text-white font-semibold rounded-full shadow-md text-xl mb-2">
-                  Pass Code: {booking.passCode}
-                </span>
-                <p className="mt-2 text-gray-700 dark:text-gray-200 text-sm">
-                  Share this passcode with the vehicle owner to start your ride.
-                </p>
-              </div>
+              {booking.status === "Ongoing" ? (
+                <div className="p-2 rounded-lg md:mt-2 mt-8 text-center mx-auto text-xl">
+                  <span className="bg-gray-100 p-4 pr-0 py-2.5 rounded-full dark:bg-gray-800/90">
+                    status &nbsp;
+                    <span className="m-1 px-4 py-2 bg-cyan-500 text-white font-semibol rounded-full shadow-md ">
+                      Ongoing
+                    </span>
+                  </span>
+                </div>
+              ) : (
+                <div className="p-4 bg-gray-100 dark:bg-gray-800/90 rounded-lg shadow-lg text-center max-w-[500px] mx-auto">
+                  <span className="inline-block px-4 py-2 bg-cyan-500 text-white font-semibold rounded-full shadow-md text-xl mb-2">
+                    Pass Code: {booking.passCode}
+                  </span>
+                  <p className="mt-2 text-gray-700 dark:text-gray-200 text-sm">
+                    Share this passcode with the vehicle owner to start your
+                    ride.
+                  </p>
+                </div>
+              )}
 
               <BookingDetails booking={booking} />
             </>
@@ -157,7 +169,9 @@ export const VehicleDetails = () => {
                 // IF AVAILABLE THEN ONLY BOOK
                 <>
                   {vehicle?.availability === false ? (
-                    <span className="text-lg ring-1 rounded-full p-2 px-3 dark:ring-white ring-black ">Not Available</span>
+                    <span className="text-lg ring-1 rounded-full p-2 px-3 dark:ring-white ring-black ">
+                      Not Available
+                    </span>
                   ) : (
                     <button
                       className="w-[50%] btn hover:bg-green-500 hover:ring-2 ring-white border-none h-12 text-white text-base align-middle shadow-md rounded-full flex items-center justify-center p-3 bg-green-500"

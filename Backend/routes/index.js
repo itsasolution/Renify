@@ -7,7 +7,7 @@ var addVehicles = require('./ADDVEHICLES');
 
 const { default: mongoose } = require('mongoose');
 
-let Mongourl = process.env.mongoUrl || "mongodb://127.0.0.1:27017/Renify";
+let Mongourl = process.env.MONGO_URL;
 
 mongoose.connect(Mongourl).then(() =>
     console.log("DB connection success")

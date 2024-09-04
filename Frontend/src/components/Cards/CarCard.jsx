@@ -22,7 +22,7 @@ const CarCard = ({ data, status }) => {
       </div>
 
       <div className="flex-col px-3 py-1 mt-1 relative">
-        <span className="absolute top-1 right-2 rounded-full text-sm px-2 ring-1 dark:bg-slate-600">
+        <span className={`absolute top-1 right-2 rounded-full text-sm px-2 bg-sky-200 dark:bg-sky-700/50 shadow-sm`}>
           {status ? status : availability ? "Available" : "Not Available"}
         </span>
 

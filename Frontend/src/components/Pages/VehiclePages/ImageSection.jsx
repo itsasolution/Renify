@@ -35,7 +35,7 @@ const ImageSection = ({ vehicle, setImage, image }) => {
   };
 
   return (
-    <div className="flex z-10 gap-1 md:gap-1 flex-col">
+    <div className="flex z-10 gap-1 bg-gray-100 shadow-md rounded-md dark:bg-gray-900/90 md:gap-1 flex-col">
       <div
         className="image-container max-w-[700px] lg:max-w-full lg:max-h-full h-80 max-h-[700px] md:min-h-[500px] xl:min-h-[65vh] w-full rounded-xl shadow-md p-1 overflow-hidden bg-no-repeat"
         onMouseMove={handleMouseMove}
