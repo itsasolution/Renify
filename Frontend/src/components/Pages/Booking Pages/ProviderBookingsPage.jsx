@@ -62,7 +62,7 @@ const ProviderBookingsPage = () => {
       ) : activeView === "active" ? (
         <div className="my-10">
           {activeBookings.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 h-auto mb-5 md:grid-cols-3 xl:grid-cols-4 px-5">
+            <div className="mt-15 grid grid-cols-1 place-items-center mb-5 gap-3 md:grid-cols-4 p-5 ">
               {activeBookings.map((item) => (
                 <Link
                   to={`/BookedVehiclePage/${item._id}`}
@@ -85,7 +85,7 @@ const ProviderBookingsPage = () => {
       ) : (
         <div className="my-10">
           {recentBookings.length > 0 ? (
-            <div className="grid grid-cols-1 h-auto mb-5 md:grid-cols-4 px-5">
+            <div className="mt-15 grid grid-cols-1 place-items-center mb-5 gap-3 md:grid-cols-4 p-5 ">
               {recentBookings.map((item) => (
                 <Link
                   to={`/recentBookingsDetails/${item._id}`}
