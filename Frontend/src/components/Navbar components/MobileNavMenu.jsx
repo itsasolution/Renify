@@ -58,7 +58,7 @@ const MobileNavMenu = () => {
 
   return (
     <div
-      className={`md:hidden fixed bottom-0 w-full z-20 bg-sky-100/90 dark:bg-slate-800/90 h-[60px] backdrop-blur-sm flex items-center justify-center rounded-t-xl transition-transform duration-300 ${
+      className={`md:hidden fixed bottom-0 w-full z-20  bg-sky-100/90 dark:bg-slate-800/90 h-[60px] backdrop-blur-sm flex items-center justify-center rounded-t-xl transition-transform duration-300 ${
         show ? "translate-y-0" : "translate-y-[130%]"
       }`}
     >
