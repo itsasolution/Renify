@@ -7,7 +7,7 @@ var addVehicles = require('./ADDVEHICLES');
 
 const { default: mongoose } = require('mongoose');
 
-let Mongourl = process.env.MONGO_URL;
+let Mongourl = process.env.mongoUrl;
 
 mongoose.connect(Mongourl).then(() =>
     console.log("DB connection success")
