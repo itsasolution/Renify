@@ -41,8 +41,9 @@ const CarBikeCard = ({ type }) => {
             <>
               <img
                 className="h-full opacity-100 scale-[1.3] duration-700 group-hover:opacity-0"
-                src={`${process.env.PUBLIC_URL}/bikelg.png`}
-                alt="bike img1"
+                src={`${process.env.PUBLIC_URL}/bike1.png`}
+                // src={`bike1.png`}
+                alt="bike1"
               />
               <img
                 className="h-full absolute scale-[1.5] opacity-0 delay-100 duration-700 group-hover:opacity-100"
