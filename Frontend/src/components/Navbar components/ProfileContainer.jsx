@@ -19,30 +19,30 @@ const ProfileContainer = ({ url, setUser, user }) => {
   };
   return (
     <div className="dropdown dropdown-end ">
-      <div tabIndex={0} role="button" className="">
-        {/* profile img */}
+      {/* profile img */}
+      <div
+        tabIndex={0}
+        role="button"
+        className="w-10 h-10  grid place-items-center rounded-full shadow-md bg-slate-200"
+      >
         {user?.avatar ? (
-          <div className="w-11 h-11  grid place-items-center rounded-full shadow-md bg-slate-200">
-            <img
-              alt="profile"
-              style={{
-                backgroundImage: `url(${user?.avatar})`,
-                backgroundPosition: "cover",
-              }}
-              className="rounded-full h-full w-full overflow-hidden ring-1 hover:ring-2 ring-slate-100 duration-200 animate-pin"
-              src={user.avatar}
-            />
-          </div>
+          <img
+            alt="profile"
+            style={{
+              backgroundImage: `url(${user?.avatar})`,
+              backgroundPosition: "cover",
+            }}
+            className="rounded-full h-full w-full overflow-hidden ring-1 hover:ring-2 ring-slate-100 duration-200 animate-pin"
+            src={user.avatar}
+          />
         ) : (
-          <div className="w-10 h-10 grid place-items-center rounded-full shadow-md hover:ring-1 ring-black bg-slate-200">
-            <lord-icon
-              src="https://cdn.lordicon.com/bgebyztw.json"
-              trigger="hover"
-              delay="1000"
-              state="hover-jumping"
-              style={{ width: "80%", height: "80%" }}
-            ></lord-icon>
-          </div>
+          <lord-icon
+            src="https://cdn.lordicon.com/bgebyztw.json"
+            trigger="hover"
+            delay="1000"
+            state="hover-jumping"
+            style={{ width: "80%", height: "80%" }}
+          ></lord-icon>
         )}
       </div>
       <ul
