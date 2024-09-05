@@ -71,13 +71,13 @@ const ProviderBookingsPage = () => {
                   <BookingCard
                     data={item.vehicle}
                     status={item.status}
-                    user={item.user}
+                    user={item?.user}
                   />
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="grid place-items-center text-2xl  md:h-[50vh] h-[70vh] ">
+            <div className="grid place-items-center text-2xl md:h-[50vh] h-[70vh] ">
               No active bookings found
             </div>
           )}
@@ -91,7 +91,11 @@ const ProviderBookingsPage = () => {
                   to={`/recentBookingsDetails/${item._id}`}
                   key={item.vehicle._id}
                 >
-                  <CarCard data={item.vehicle} status={item.status} />
+                  <BookingCard
+                    data={item.vehicle}
+                    status={item.status}
+                    user={item?.user}
+                  />{" "}
                 </Link>
               ))}
             </div>

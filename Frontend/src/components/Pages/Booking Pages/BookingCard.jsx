@@ -1,9 +1,8 @@
-
-const BookingCard = ({ data, status,user }) => {
+const BookingCard = ({ data, status, user }) => {
   const { brand, model, images } = data;
   return (
-    <div className="group cardanime floatEffect relative z-10 w-auto min-w-60 max-w-80 lg:max-w-[340px] rounded-xl m-1.5 h-full overflow-hidden bg-gradient-to-br from-white  via-sky-50 to-sky-100 dark:bg-gradient-to-bl  dark:from-[#00293f] dark:via-blue-950 dark:to-slate-950  duration-200 hover:-translate-y-[2px] dark:hover:ring-green-400 dark:ring-1 dark:hover:ring-2 ring-white  ">
-      <div className="h-60 w-full">
+    <div className="group cardanime floatEffect relative pb-2 z-10 w-auto min-w-44 max-w- lg:max-w-[300px] rounded-xl m-1.5 h-full overflow-hidden bg-gradient-to-br from-white  via-sky-50 to-sky-100 dark:bg-gradient-to-bl  dark:from-[#00293f] dark:via-blue-950 dark:to-slate-950  duration-200 hover:-translate-y-[2px] dark:hover:ring-green-400 dark:ring-1 dark:hover:ring-2 ring-white  ">
+      <div className="h-52 w-full">
         <img
           src={images[0]}
           alt={model}
@@ -12,8 +11,8 @@ const BookingCard = ({ data, status,user }) => {
       </div>
 
       <div className="flex-col px-3 py-1 mt-1 relative">
-      <span className="absolute top-1 right-2 rounded-full text-sm px-2 ring-1 dark:bg-slate-600">
-      {status}
+        <span className="absolute top-1 right-2 bg-sky-400 text-white rounded-full text-sm px-2 dark:bg-sky-500">
+          {status}
         </span>
 
         <h3 className="font-semibold text-lg">{model}</h3>
@@ -48,13 +47,8 @@ const BookingCard = ({ data, status,user }) => {
             ))}
           </div>
         </div>
-        <div className="">
-          <div className="">
-          Renter : 
-            <span className="font-semibold mx-1 ">
-              {user.name}
-            </span>
-          </div>
+        <div>
+          Renter :<span className="font-semibold mx-1 ">{user?.name}</span>
         </div>
       </div>
     </div>
