@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   const iconsClass =
-    "shadow-md w-7 p-1 h-7 bg-slate-900 hover:scale-[1.1] mx-2 rounded-xl duration-100 ";
+    "shadow-m  p-1.5 w-8 h-8 bg-slate-900 hover:scale-[1.1] mx-2 rounded-[13px] duration-100 ";
 
   return (
     <div>
       <hr />
-      <footer className="footer footer-center md:p-10 gap-2.5 py-2.5 bg-gradient-to-b from-slate-900 to-slate-950 text-white">
+      <footer className="footer footer-center md:p-10 gap-2.5  py-2.5 bg-gradient-to-b from-slate-900 to-slate-950 text-white">
         <nav className="mt-10 md:mt-5 grid grid-flow-col md:text-lg md:gap-4 ">
           <a href="/#" className=" p-1  duration-200 hover:-translate-y-1">
             About us

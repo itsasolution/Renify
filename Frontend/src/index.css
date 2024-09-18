@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+  scroll-behavior: smooth;
+}
+
 .shado:hover {
   box-shadow: 0 0 10px black;
 }

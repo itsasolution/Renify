@@ -7,14 +7,15 @@ import "./Home.css";
 import "@mui/material/styles";
 import { Link } from "react-router-dom";
 import CarBikeCard from "../../Cards/CarBikeCard";
+import CarBikeCardMobile from "../../Cards/CarBikeCardMobile";
 export const HomePage = () => {
   return (
     <>
       <div className=" homeAnime translate-y-[-55px] bg-gradient-to-br from-sky-200 via-white to-violet-200 dark:from-violet-950 dark:via-black dark:to-purple-950 h-screen duration-300 overflow-hidden md:overflow-visible ">
-        <div className="group relative flex justify-center h-full md:flex-row items-center md:mx-5 duration-300 ">
+        <div className="group  relative flex justify-center h-full md:flex-row items-center md:mx-5 duration-300 ">
           {/* effect */}
 
-          <div className="dark:block hidden">
+          <div className="md:dark:block  hidden">
             <span className="absolute bg-gradient-to-tr from-sky-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-1000 opacity-0 group-hover:opacity-100 group-hover:scale-[17]  "></span>
             <span className="absolute bg-gradient-to-br from-sky-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-700 opacity-0 group-hover:opacity-100   group-hover:scale-[21] animate-pulse "></span>
             <span className="absolute bg-gradient-to-tl from-sky-500/80 to-cyan-300/70 shadow-sm pointer-events-none left-[48.5%] top-[40%] z-0 h-4 w-4 md:h-12 md:w-12 rounded-full duration-500 opacity-0 group-hover:opacity-100 group-hover:scale-[25]  "></span>
@@ -22,7 +23,7 @@ export const HomePage = () => {
 
           <div className=" md:w-1/2 z-10 flex flex-col px-3 h-[40%] pt-5 md:pt-0 md:h-full justify-center items-center">
             <h1 className="text-3xl  text-shado md:text-5xl font-bold text-center text-blue-900 dark:text-white mb-8">
-              Explore The Open Road: Rent Your Dream
+              Explore The Open Road: Rent Perfect Ride
               <div className="text-cyan-600 dark:text-cyan-300 group-hover:text-sky-600  stroke-1">
                 Ride with Us!
               </div>
@@ -44,10 +45,18 @@ export const HomePage = () => {
             </div>
             <Link
               to={"/vehicles/all"}
-              className="btn mt-7 md:mt-10 bg-sky-400 text-white border-none ring-2 ring-white text-lg"
+              className="text-xl mt-8  btn border-none dark:hover:ring-2 ring-white  text-white bg-gradient-to-tr via-sky-400  duration-300 from-sky-500 shadow-md hover:shadow-xl  to-sky-600"
             >
               Explore Rides
             </Link>
+            <a
+              href="#provider-register"
+              className="text-xl mt-5 btn border-none dark:hover:ring-2
+              ring-white text-white bg-gradient-to-tr via-sky-400 duration-300
+              from-sky-500 shadow-md hover:shadow-xl to-sky-600"
+            >
+              Give Your Vehicle on Rent
+            </a>
           </div>
         </div>
       </div>
@@ -55,6 +64,9 @@ export const HomePage = () => {
       <div className="grid dark:bg-slate-900/90 bg-gray-100 place-items-center rounded-lg md:p-4 p-2 gap-2 md:gap-5 grid-cols-1  md:h-auto  md:m-5  md:grid-cols-2">
         <CarBikeCard type="Bikes" />
         <CarBikeCard type="Cars" />
+
+        <CarBikeCardMobile type="Cars" />
+        <CarBikeCardMobile type="Bikes" />
       </div>
 
       <div className="dark:bg-slate-950/80 ">
@@ -67,6 +79,25 @@ export const HomePage = () => {
             See All Vehicles
           </Link>
         </div>
+      </div>
+
+      {/*  */}
+      <div className="my-10 " id="provider-register">
+        <h2 className="text-center text-3xl font-semibold mb-10">
+          Become Provider <span className="text-fuchsia-600">Join us</span>
+          <p className="flex justify-center w-full items-center text-yellow-500 dark:text-yellow-300">
+            Earn with us &nbsp;
+            {/* coins */}
+            <lord-icon
+              src="https://cdn.lordicon.com/qnwzeeae.json"
+              trigger="loop"
+              delay="1500"
+              state="in-reveal"
+              style={{ width: "50px", height: "50px" }}
+            ></lord-icon>
+          </p>
+        </h2>
+        <ProviderRegister />
       </div>
 
       {/* Info */}
@@ -88,7 +119,7 @@ export const HomePage = () => {
             Rent the Perfect Ride, Anytime, Anywhere!
           </h1>
 
-          <div className="text-base md:text-xl mt-3 md:mt-10 text-justify">
+          <div className="text-base md:text-lg mt-3 md:mt-5 text-justify">
             Isn't just a slogan; it's a promise to provide you with the freedom
             to explore without limits. Whether you're planning a quick city
             commute, a weekend getaway, or a cross-country adventure, our
@@ -115,7 +146,7 @@ export const HomePage = () => {
             ></lord-icon>
             Earn with us
           </h1>
-          <div className="text-base md:text-lg mt-3 md:mt-10 text-justify">
+          <div className="text-base md:text-lg mt-3 md:mt-5 text-justify">
             "Earn with Us" is an opportunity to turn your vehicle into a source
             of income with ease. Whether you own a car or a bike, you can
             partner with us to list your vehicle on our platform and start
@@ -132,23 +163,6 @@ export const HomePage = () => {
         </div>
       </div>
       <hr />
-      <div className="my-10 ">
-        <h2 className="text-center text-3xl font-semibold mb-10">
-          Become Provider <span className="text-fuchsia-600">Join us</span>
-          <p className="flex justify-center w-full items-center text-yellow-500 dark:text-yellow-300">
-            Earn with us &nbsp;
-            {/* coins */}
-            <lord-icon
-              src="https://cdn.lordicon.com/qnwzeeae.json"
-              trigger="loop"
-              delay="1500"
-              state="in-reveal"
-              style={{ width: "50px", height: "50px" }}
-            ></lord-icon>
-          </p>
-        </h2>
-        <ProviderRegister />
-      </div>
     </>
   );
 };

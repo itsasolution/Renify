@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const CarBikeCard = ({ type }) => {
   return (
     // <div className="group relative md:w-96 overflow-hidden text-white  dark:bg-slate-800 px-6 py-10 transition-all duration-300 rounded-lg ">
-    <div className="group relative md:w-96 overflow-hidden text-white bg-white dark:bg-slate-800  px-6 py-10 md:shadow-xl  transition-all duration-300 hover:shadow-2xl  rounded-lg ">
+    <div className="group relative md:w-96 md:block hidden overflow-hidden text-white bg-white dark:bg-slate-800  px-6 py-10 md:shadow-xl  transition-all duration-300 hover:shadow-2xl  rounded-lg ">
       {/* main bg expand */}
       <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-gradient-to-br from-sky-400/90 to-cyan-300/90 transition-all duration-700 group-hover:scale-[10]"></span>
       <span className="absolute top-10 z-2 h-20 w-20  rounded-full bg-gradient-to-r from-fuchsia-600/90 to-rose-500/90 transition-all duration-700 scale-[10] group-hover:scale-[1]"></span>
