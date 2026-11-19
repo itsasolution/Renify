@@ -48,7 +48,6 @@ export const VehicleDetails = () => {
       .post(`${url}/user/checkBooking`, { uid: user?._id, vid: id })
       .then((res) => {
         setBooking(res.data.booking);
-        // console.log(booking);
       })
       .catch((err) => {
         console.error(err);
@@ -83,7 +82,6 @@ export const VehicleDetails = () => {
         })
         .catch((err) => {
           console.error(err);
-          // toast.error(err.response?.data);
           setLoader(false);
         });
     } else {
@@ -91,10 +89,11 @@ export const VehicleDetails = () => {
     }
   };
 
+  // FIX: was axios.get — changed to axios.delete (backend route is now DELETE /cancelBooking)
   const cancel = () => {
     setLoader(true);
     axios
-      .get(`${url}/user/cancelBooking/${booking?._id}`)
+      .delete(`${url}/user/cancelBooking/${booking?._id}`)
       .then((res) => {
         if (res) {
           setBooking({});
@@ -105,7 +104,6 @@ export const VehicleDetails = () => {
       .catch((err) => {
         console.error(err);
         setLoader(false);
-        // toast.error(err?.response?.data)
       });
     setDateAndCost(undefined);
   };

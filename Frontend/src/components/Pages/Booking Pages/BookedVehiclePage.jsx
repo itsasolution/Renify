@@ -15,7 +15,8 @@ export const BookedVehiclePage = () => {
   const [image, setImage] = useState("");
   const [vehicle, setVehicle] = useState(null);
   const [loader, setLoader] = useState(false);
-  const { bookingId } = useParams(); // vehicle ID from URL params
+  const { bookingId } = useParams();
+  const navigate = useNavigate();
 
   const findBooking = async () => {
     try {
@@ -23,7 +24,6 @@ export const BookedVehiclePage = () => {
         `${url}/provider/currentBooking/${bookingId}`
       );
       if (res) {
-        console.log(res.data);
         setBooking(res.data);
         setVehicle(res.data?.vehicle);
         setImage(res.data?.vehicle.images[0]);
@@ -38,28 +38,29 @@ export const BookedVehiclePage = () => {
     findBooking();
   }, [bookingId]);
 
+  // FIX: was axios.get — changed to axios.patch (backend route is now PATCH /complete)
   const complete = () => {
     axios
-      .get(`${url}/provider/complete/${booking._id}`)
+      .patch(`${url}/provider/complete/${booking._id}`)
       .then((res) => {
         toast.success("Ride Completed!");
         setBooking(res?.data);
         navigate(`/recentBookingsDetails/${booking._id}`);
       })
       .catch((err) => {
-        toast.error("Error Complete !");
+        toast.error("Error completing ride!");
         console.error(err.message);
       });
   };
 
+  // FIX: was axios.get — changed to axios.patch (backend route is now PATCH /currentBooking/start)
   const startRide = async () => {
     setLoader(true);
     try {
-      const res = await axios.get(
+      const res = await axios.patch(
         `${url}/provider/currentBooking/start/${booking?._id}`
       );
       if (res) {
-        console.log(res.data);
         setBooking(res.data);
       }
     } catch (err) {
@@ -70,12 +71,11 @@ export const BookedVehiclePage = () => {
     }
   };
 
-  const navigate = useNavigate();
-  // Handle Booking Cancellation
+  // FIX: was axios.get — changed to axios.delete (backend route is now DELETE /cancelBooking)
   const cancel = async () => {
     setLoader(true);
     try {
-      const res = await axios.get(
+      const res = await axios.delete(
         `${url}/provider/cancelBooking/${booking._id}`
       );
       if (res) {
