@@ -1,4 +1,4 @@
-const providerModel = require("../models/provider.model")
+const providerModel = require("../models/provider.model");
 const BookingModel = require("../models/bookings.model");
 
 const bcrypt = require('bcrypt');
@@ -7,148 +7,138 @@ const bucket = require("../utils/firebase");
 
 // Function to create JWT token
 const createToken = (email) => {
-    return jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    return jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: '7d' });
+};
+
+// Helper: strip password before sending to client
+const sanitizeUser = (userDoc) => {
+    const obj = userDoc.toObject ? userDoc.toObject() : { ...userDoc };
+    delete obj.password;
+    return obj;
 };
 
 const signup = async (req, res) => {
+    const { username, email, name, address, password, mobileNumber } = req.body;
 
-    const { username, email, name, address, password, mobileNumber } = req.body
-
-    if (!username || !email || !address || !password    ) {
-        return res.status(400).send('no data received');
+    if (!username || !email || !address || !password) {
+        return res.status(400).json({ message: 'Required fields missing: username, email, address, password' });
     }
 
     try {
         const userExists = await providerModel.findOne({ username });
-        // console.log((userExists))
         if (userExists) {
             return res.status(409).json({ message: 'User already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);//salt=10
-        const userdata = await providerModel.create({ username, name, email, address, mobileNumber, password: hashedPassword })
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const userdata = await providerModel.create({ username, name, email, address, mobileNumber, password: hashedPassword });
 
-        // logging-in the user create token 
         const token = createToken(email);
-        res.cookie('token', token, { httpOnly: true, secure: true });
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' });
 
-        res.status(200).json({ message: "Registration successful!", userdata: userdata });
+        res.status(201).json({ message: "Registration successful!", userdata: sanitizeUser(userdata) });
     } catch (err) {
-        res.status(400).json({ error: err })
+        res.status(500).json({ error: err.message });
     }
-}
+};
 
 const login = async (req, res) => {
-
-
     const { credential, password } = req.body;
 
     if (!credential || !password) {
-        return res.status(400).send('Username and password are required');
+        return res.status(400).json({ message: 'Username and password are required' });
     }
     try {
         const removeSpaces = (str) => str.replace(/\s+/g, '');
         const SearchCredential = removeSpaces(credential);
 
         let user = await providerModel.findOne({
-            $or:
-                [
-                    { username: SearchCredential },
-                    { email: new RegExp(`^${SearchCredential}$`, 'i') }
-                ]
+            $or: [
+                { username: SearchCredential },
+                { email: new RegExp(`^${SearchCredential}$`, 'i') }
+            ]
         }).populate('vehicles');
 
         if (!user) {
-            return res.status(401).send('Invalid username/email or password');
+            return res.status(401).json({ message: 'Invalid username/email or password' });
         }
-
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).send('Invalid username or password');
+            return res.status(401).json({ message: 'Invalid username or password' });
         }
 
         const token = createToken(user.email);
-        const cookie = res.cookie('token', token, { httpOnly: true, secure: true });
-        // console.log("cookie:", cookie)
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' });
 
-        res.status(200).json({ message: 'Login successful', userdata: user });
+        res.status(200).json({ message: 'Login successful', userdata: sanitizeUser(user) });
     }
     catch (error) {
-        res.status(500).json({ error: error })
+        res.status(500).json({ error: error.message });
     }
-}
+};
 
 const myVehicles = async (req, res) => {
     if (!req.body.uid)
-        res.status(401).send("User ID Needed")
+        return res.status(400).json({ message: "User ID Needed" });
 
     try {
         const provider = await providerModel.findById(req.body.uid).populate("vehicles");
         if (provider)
-            res.status(200).json({ vehicles: provider.vehicles })
-        else {
-            res.send("provider Not found")
-
-        }
+            res.status(200).json({ vehicles: provider.vehicles });
+        else
+            res.status(404).json({ message: "Provider not found" });
     } catch (err) {
-        res.send({ err: err.message })
+        res.status(500).json({ error: err.message });
     }
-
-}
-
+};
 
 
 const DeleteUser = async (req, res) => {
     if (!req.params.uid)
-        return res.status(400).json({ err: "user id missing" })
+        return res.status(400).json({ err: "user id missing" });
 
-    const user = await providerModel.findOne({ _id: req.params.uid })
+    const user = await providerModel.findOne({ _id: req.params.uid });
     if (!user) {
-        return res.status(404).send("User Not Found")
+        return res.status(404).json({ message: "User Not Found" });
     }
 
     try {
-        await providerModel.deleteOne({ _id: req.params.uid })
-        res.status(200).send("User deleted successfully");
+        await providerModel.deleteOne({ _id: req.params.uid });
+        res.status(200).json({ message: "User deleted successfully" });
 
     } catch (err) {
-        res.status(500).send(err)
+        res.status(500).json({ error: err.message });
     }
+};
 
-}
 
 // delete files from firebase
 async function deleteImage(publicUrl) {
-    // Extract the file path from the public URL
     const filePath = publicUrl.split(`https://storage.googleapis.com/${bucket.name}/`)[1];
-
-    // Delete the file
     await bucket.file(filePath).delete();
-
 }
 
-// in user route file multer setup 
+// in user route file multer setup
 const updateUser = async (req, res) => {
-
     let publicUrl;
-    let update = { ...req.body }
-    if (!req.params.uid)
-        return res.status(400).json({ err: "user id missing" })
+    let update = { ...req.body };
 
+    if (!req.params.uid)
+        return res.status(400).json({ err: "user id missing" });
 
     const user = await providerModel.findById(req.params.uid);
     if (!user) {
-        return res.status(404).send('User not found');
+        return res.status(404).json({ message: 'User not found' });
     }
-
 
     // deleting previous avatar
     if (user.avatar && req.file) {
         await deleteImage(user.avatar).catch(err => {
-            console.error("err: ", err)
-        })
+            console.error("err: ", err);
+        });
     }
+
     const uploadFile = async () => {
         const fileName = `Renify/Avatars/${Date.now()}-${req.file.originalname}`;
 
@@ -172,32 +162,26 @@ const updateUser = async (req, res) => {
 
             blobStream.end(req.file.buffer);
         });
-    }
+    };
 
     if (req.file)
-        await uploadFile(req.file);
+        await uploadFile();
 
     try {
-
-        // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;
-        // console.log(update)
 
-        const user = await providerModel.findByIdAndUpdate(req.params.uid, update, { new: true }); // new return updated user details
+        const updatedUser = await providerModel.findByIdAndUpdate(req.params.uid, update, { new: true });
+        await updatedUser.save();
 
-        await user.save();
-
-        res.status(200).json({ user }); // always use that fu***ng  json to send objs
+        res.status(200).json({ user: sanitizeUser(updatedUser) });
     }
     catch (err) {
-        res.status(300).send(err);
+        res.status(500).json({ error: err.message });
     }
-
-}
-
+};
 
 
-// BOOKING PArt
+// BOOKING PART
 // fetching active booking of currently available vehicle PROVIDER BOOKING PAGE
 const currentBooking = async (req, res) => {
     try {
@@ -208,19 +192,19 @@ const currentBooking = async (req, res) => {
                 { status: "Booked" },
                 { status: "Ongoing" }
             ]
-        }).populate('user vehicle'); // Populate vehicle and provider details if needed
+        }).populate('user vehicle');
 
         if (!booking) {
-            return res.status(404).json({ msg: 'No booking found for this user and vehicle' });
+            return res.status(404).json({ message: 'No booking found for this user and vehicle' });
         }
 
-        res.json(booking);
+        res.status(200).json(booking);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send({ message: err.message });
+        res.status(500).json({ message: err.message });
     }
-}
+};
 
 module.exports = {
     login, signup, myVehicles, updateUser, DeleteUser, currentBooking
-}
+};

@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const { findvehicle, addReview, paginate, filterVehicle, updateVehicle, deleteVehicle,getAllVehicles } = require("../Controllers/vehicle.controller");
-const {  recentBooking } = require('../Controllers/booking.controller');
+const { findvehicle, addReview, paginate, filterVehicle, updateVehicle, deleteVehicle, getAllVehicles } = require("../Controllers/vehicle.controller");
+const { recentBooking } = require('../Controllers/booking.controller');
+const { verifyToken } = require('../middleware/auth');
 
+// --- Public routes ---
+router.get("/", paginate, filterVehicle);
+router.get("/getAllVehicles", getAllVehicles);
+router.get("/findvehicle/:vid", findvehicle);
+router.get("/recentBooking/:bookingId", recentBooking);
 
-router.get("/", paginate, filterVehicle)
-router.get("/getAllVehicles", getAllVehicles)
+// --- Protected routes ---
+router.post("/addreview/:vid", verifyToken, addReview);
 
-router.get("/findvehicle/:vid", findvehicle)
-router.post("/addreview/:vid", addReview)
-
-// BOOKING Vehicles
-router.post("/update/:id", updateVehicle,)
-router.delete("/:id", deleteVehicle,)
-router.get("/recentBooking/:bookingId", recentBooking)
-
+// FIX: was POST for update — changed to PATCH (partial update semantics)
+router.patch("/update/:id", verifyToken, updateVehicle);
+router.delete("/:id", verifyToken, deleteVehicle);
 
 module.exports = router;

@@ -3,30 +3,34 @@ const { signup, login, myVehicles, updateUser, DeleteUser, currentBooking } = re
 const upload = require('../utils/multer');
 const { findProviderBooking, startRide, completeRide } = require('../Controllers/booking.controller');
 const { cancelBooking } = require('../Controllers/user.controller');
+const { verifyToken } = require('../middleware/auth');
 const router = express.Router();
 
-router.post('/sign-up', signup)
-
-router.post("/login", login)
-
-// logout
+// --- Auth Routes (public) ---
+router.post('/sign-up', signup);
+router.post("/login", login);
 router.get("/logout", async (req, res) => {
-    res.clearCookie("token")
+    res.clearCookie("token");
     res.status(200).json({ message: 'Logged out successfully' });
-})
+});
 
+// --- Provider Profile (protected) ---
 router.route('/id/:uid')
-    .delete(DeleteUser)// cant send headers so use params
-    .patch(upload.single('avatar'), updateUser)// update user/ middleware for file
+    .delete(verifyToken, DeleteUser)
+    .patch(verifyToken, upload.single('avatar'), updateUser);
 
+// --- Vehicles (protected) ---
+router.post("/my-vehicles", verifyToken, myVehicles);
 
-router.post("/my-vehicles", myVehicles)
-router.get("/find-bookings/:providerId", findProviderBooking)
-router.get('/currentBooking/:bookingId', currentBooking)
-router.get('/complete/:bookingId', completeRide)
-router.get('/currentBooking/start/:bookingId', startRide)
-router.get("/cancelBooking/:bookingId", cancelBooking)
+// --- Bookings (protected) ---
+router.get("/find-bookings/:providerId", verifyToken, findProviderBooking);
+router.get('/currentBooking/:bookingId', verifyToken, currentBooking);
 
+// FIX: was GET — changed to PATCH (mutates booking status)
+router.patch('/complete/:bookingId', verifyToken, completeRide);
+router.patch('/currentBooking/start/:bookingId', verifyToken, startRide);
 
+// FIX: was GET — changed to DELETE
+router.delete("/cancelBooking/:bookingId", verifyToken, cancelBooking);
 
 module.exports = router;
