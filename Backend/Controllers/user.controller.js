@@ -12,14 +12,21 @@ const removeSpaces = (str) => str.replace(/\s+/g, '');
 
 // Function to create JWT token
 const createToken = (email) => {
-    return jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    return jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: '7d' });
+};
+
+// Helper: strip password from user object before sending to client
+const sanitizeUser = (userDoc) => {
+    const obj = userDoc.toObject ? userDoc.toObject() : { ...userDoc };
+    delete obj.password;
+    return obj;
 };
 
 const signup = async (req, res) => {
     const { username, email, name, password } = req.body;
 
     if (!username || !email || !name || !password) {
-        return res.status(400).send('All fields are required');
+        return res.status(400).json({ message: 'All fields are required' });
     }
 
     try {
@@ -32,20 +39,20 @@ const signup = async (req, res) => {
         const userdata = await userModel.create({ username, name, email, password: hashedPassword });
 
         const token = createToken(email);
-        res.cookie("token", token, { httpOnly: true, secure: true });
+        res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' });
 
-        res.status(200).json({ message: "Registration successful!", userdata });
+        res.status(201).json({ message: "Registration successful!", userdata: sanitizeUser(userdata) });
 
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-}
+};
 
 const login = async (req, res) => {
     const { credential, password } = req.body;
 
     if (!credential || !password) {
-        return res.status(400).send('Username/email and password are required');
+        return res.status(400).json({ message: 'Username/email and password are required' });
     }
 
     try {
@@ -55,73 +62,68 @@ const login = async (req, res) => {
         if (!user) {
             user = await userModel.findOne({ email: new RegExp(`^${SearchCredential}$`, 'i') }).populate('myRides');
             if (!user) {
-                return res.status(401).send('Invalid username/email or password');
+                return res.status(401).json({ message: 'Invalid username/email or password' });
             }
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).send('Invalid username/email or password');
+            return res.status(401).json({ message: 'Invalid username/email or password' });
         }
 
         const token = createToken(user.email);
-        res.cookie('token', token, { httpOnly: true, secure: true });
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' });
 
-        res.status(200).json({ message: 'Login successful', userdata: user });
+        res.status(200).json({ message: 'Login successful', userdata: sanitizeUser(user) });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 const DeleteUser = async (req, res) => {
     if (!req.params.uid)
-        return res.status(400).json({ err: "user id missing" })
+        return res.status(400).json({ err: "user id missing" });
 
-    const user = await userModel.findOne({ _id: req.params.uid })
+    const user = await userModel.findOne({ _id: req.params.uid });
     if (!user) {
-        return res.status(404).send("User Not Found")
+        return res.status(404).json({ message: "User Not Found" });
     }
 
     try {
-        await userModel.deleteOne({ _id: req.params.uid })
-        res.status(200).send("User deleted successfully");
+        await userModel.deleteOne({ _id: req.params.uid });
+        res.status(200).json({ message: "User deleted successfully" });
 
     } catch (err) {
-        res.status(500).send(err)
+        res.status(500).json({ error: err.message });
     }
-
-}
+};
 
 
 // delete files from firebase
 async function deleteImage(publicUrl) {
-    // Extract the file path from the public URL
     const filePath = publicUrl.split(`https://storage.googleapis.com/${bucket.name}/`)[1];
-
-    // Delete the file
     await bucket.file(filePath).delete();
 }
 
 
-// in user route file multer setup 
+// in user route file multer setup
 const updateUser = async (req, res) => {
 
     if (!req.params.uid)
-        return res.status(400).json({ err: "user id missing" })
+        return res.status(400).json({ err: "user id missing" });
 
     const user = await userModel.findById(req.params.uid);
     if (!user) {
-        return res.status(404).send('User not found');
+        return res.status(404).json({ message: 'User not found' });
     }
 
-
     let publicUrl;
-    let update = { ...req.body }
+    let update = { ...req.body };
 
     if (user.avatar && req.file) {
         await deleteImage(user.avatar).catch(err => {
-            console.log("err: ", err)
-        })
+            console.log("err: ", err);
+        });
     }
 
     const uploadFile = async () => {
@@ -147,27 +149,23 @@ const updateUser = async (req, res) => {
 
             blobStream.end(req.file.buffer);
         });
-    }
+    };
 
     try {
         if (req.file) {
             await uploadFile();
         }
 
-        // req.body contains data in form of obj {name:"Bhalu", address:"HOD cabin"}
         if (publicUrl) update["avatar"] = publicUrl;
-        // console.log(update)
 
-        const user = await userModel.findByIdAndUpdate(req.params.uid, update, { new: true }); // new return updated user details
-        await user.save();
+        const updatedUser = await userModel.findByIdAndUpdate(req.params.uid, update, { new: true });
 
-        res.status(200).json({ user }); // always use that fu***ng  json to send objs
+        res.status(200).json({ user: sanitizeUser(updatedUser) });
     }
     catch (err) {
-        res.status(300).send(err);
+        res.status(500).json({ error: err.message });
     }
-
-}
+};
 
 
 // BOOKING SECTION
@@ -178,19 +176,17 @@ const bookVehicle = async (req, res) => {
     try {
         const vehicle = await vehiclesModel.findById(id);
         if (!vehicle) {
-            return res.status(404).send("Vehicle not found");
+            return res.status(404).json({ message: "Vehicle not found" });
         }
 
         if (vehicle.availability === false)
-            return res.send("Vehicle Not Available");
-
+            return res.status(409).json({ message: "Vehicle Not Available" });
 
         const booking = await BookingModel.create({
             user: userId,
             vehicle: id,
             provider: vehicle.providerId,
             bookingDate, startDate, endDate, journeyTime, cost, passCode
-
         });
 
         vehicle.bookings.push(booking._id);
@@ -199,53 +195,46 @@ const bookVehicle = async (req, res) => {
 
         const user = await userModel.findById(userId);
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(404).json({ message: "User not found" });
         }
         user.myRides.push(booking._id);
         await user.save();
 
         booking.provider = vehicle.providerId;
-        await booking.save()
+        await booking.save();
 
         res.status(201).json({ booking });
     } catch (err) {
-        res.status(500).send({ err, message: err.message });
+        res.status(500).json({ error: err.message });
     }
 };
 
 
-
-
-
-
-
-
-
 const myrides = async (req, res) => {
     if (!req.params.uid)
-        return res.status(400).json({ err: "user id missing" })
+        return res.status(400).json({ err: "user id missing" });
 
     try {
         const user = await userModel.findOne({ _id: req.params.uid })
             .populate({
-                path: 'myRides',   // Populates the 'myRides' field which references bookings
+                path: 'myRides',
                 populate: {
-                    path: 'vehicle', // Populates the 'vehicle' field inside each booking
+                    path: 'vehicle',
                     model: 'Vehicle'
                 }
             });
 
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(404).json({ message: "User not found" });
         }
         const bookings = user.myRides;
-        return res.status(200).json(bookings);// arrays
+        return res.status(200).json(bookings);
 
     } catch (err) {
         console.error("Error fetching user with bookings and vehicles:", err);
-        return res.status(500).send({ err: err.message });
+        return res.status(500).json({ error: err.message });
     }
-}
+};
 
 // FindBooking User for current vehicle
 const checkUserBooking = async (req, res) => {
@@ -257,33 +246,31 @@ const checkUserBooking = async (req, res) => {
             vehicle: vid,
             status: { $in: ['Ongoing', 'Booked'] }
         }).populate("provider");
+
         if (!booking) {
-            res.status(404).send("No bookings found");
+            return res.status(404).json({ message: "No bookings found" });
         }
-        else
-            res.status(200).json({ booking });
+        res.status(200).json({ booking });
 
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
 
-
 const cancelBooking = async (req, res) => {
     if (!req.params.bookingId) {
-        res.status(401).send("Booing id missing")
+        return res.status(400).json({ message: "Booking id missing" });
     }
     try {
         const booking = await BookingModel.findByIdAndDelete(req.params.bookingId);
 
-
         if (!booking) {
-            return res.status(404).send("Booking not found");
+            return res.status(404).json({ message: "Booking not found" });
         }
 
         // Remove booking from user's myRides
-        const user = await userModel.findById(booking.user);// userId
+        const user = await userModel.findById(booking.user);
         if (user) {
             user.myRides.pull(booking._id);
             await user.save();
@@ -297,9 +284,9 @@ const cancelBooking = async (req, res) => {
             await vehicle.save();
         }
 
-        res.status(200).send("Booking cancelled");
+        res.status(200).json({ message: "Booking cancelled" });
     } catch (err) {
-        res.status(500).send({ err, message: err.message });
+        res.status(500).json({ error: err.message });
     }
 };
 
@@ -307,4 +294,4 @@ const cancelBooking = async (req, res) => {
 
 module.exports = {
     login, signup, DeleteUser, updateUser, myrides, checkUserBooking, cancelBooking, bookVehicle
-}
+};
